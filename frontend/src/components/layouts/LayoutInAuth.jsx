@@ -5,7 +5,7 @@ import { Footer } from "../subcomponents/Footer";
 export const LayoutInAuth = ({ children }) => {
   return (
     <>
-      <div className="h-screen">
+      <div className="h-screen flex-col flex">
         <Header color={"bg-white"} contenido={""} />
         {children}
       </div>
