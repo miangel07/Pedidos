@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('domiciliarios', function (Blueprint $table) {
             $table->id();
             $table->string('licencia');
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('user_id')->constrained('users')->onDelete('set null');
             $table->enum('disponibilidad',["disponible","no disponible"]);
             $table->timestamps();
         });
