@@ -68,7 +68,7 @@ const Sidebar = () => {
         },
         {
           title: 'Reporte de novedades',
-          link: '#reporte-novedades',
+          link: '/novedades',
           subItems: [
             { title: 'Reportar problemas', link: '#reportar-problemas' },
             { title: 'Seguimiento de pedidos', link: '#seguimiento-pedidos' }
