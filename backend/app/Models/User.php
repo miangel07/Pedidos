@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use App\Models\reporte_incidencia;
 
 class User extends Authenticatable
 {
@@ -45,4 +46,12 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    // relaciones en modelos
+
+    public function reportes() {
+        return $this->hasMany(reporte_incidencia::class);
+    }
+
+
 }

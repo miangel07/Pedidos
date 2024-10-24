@@ -3,10 +3,8 @@
 namespace App\Http\Controllers;
 
 
-use Illuminate\Http\Request;
-
 use App\Models\Domiciliario;
-use App\Models\actividade;
+use Illuminate\Http\Request;
 
 
 class DomiciliarioController extends Controller
@@ -26,7 +24,8 @@ class DomiciliarioController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request) {
+    public function store(Request $request)
+    {
 
 //        $this->validate ($request,[
 //            'licencia' => 'required',
@@ -43,7 +42,7 @@ class DomiciliarioController extends Controller
         return response()->json([
             "data" => "Domiciliario creado con exito",
             "request" => $request
-        ],201);
+        ], 201);
 
     }
 
@@ -74,9 +73,29 @@ class DomiciliarioController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $domiciliario)
-    {
-        //
+    public function update(Request $request, $domiciliario) {
+        try {
+            $datos = $request->except('_token', '_method');
+            $dataDomiciliarioFind = Domiciliario::find($domiciliario);
+
+            if (!$datos['licencia'] && !$datos['user_id']) {
+                $dataDomiciliarioFind->disponibilidad = $datos['disponibilidad'];
+                $dataDomiciliarioFind->save();
+                return response()->json([
+                    "data" => "Domiciliario actualizado con exito",
+                    "request" => $datos
+                ]);
+            }
+
+            $dataDomiciliarioFind->update($datos);
+            return response()->json([
+                "data" => "Domiciliario actualizado con exito",
+                "request" => $datos
+            ]);
+
+        } catch (\Exception $exception) {
+            return response()->json(["error" => $exception->getMessage()], 500);
+        }
     }
 
     /**
