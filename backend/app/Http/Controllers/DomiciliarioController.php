@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\domiciliario;
+
 use Illuminate\Http\Request;
+
+use App\Models\Domiciliario;
+use App\Models\actividade;
+
 
 class DomiciliarioController extends Controller
 {
@@ -12,21 +16,41 @@ class DomiciliarioController extends Controller
      */
     public function index()
     {
-        //
+
+        return Domiciliario::getDomiciliario();
+        //return Domiciliario::getDomiciliario();
+
+
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request) {
+
+//        $this->validate ($request,[
+//            'licencia' => 'required',
+//            'user_id' => 'required',
+//            'disponibilidad' => 'required',
+//        ]);
+
+        Domiciliario::create([
+            'licencia' => $request->licencia,
+            'user_id' => $request->user_id,
+            'disponibilidad' => $request->disponibilidad,
+        ]);
+
+        return response()->json([
+            "data" => "Domiciliario creado con exito",
+            "request" => $request
+        ],201);
+
     }
 
     /**
      * Show the form for creating a new resource.
      */
     public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
     {
         //
     }
@@ -50,7 +74,7 @@ class DomiciliarioController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, domiciliario $domiciliario)
+    public function update(Request $request, $domiciliario)
     {
         //
     }
