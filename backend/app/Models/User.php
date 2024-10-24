@@ -19,10 +19,17 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
-        'email',
+        'nombre',
+        'TipoUsuario',
+        'correo',
+        'telefono',
+        'estado',
         'password',
     ];
+    public static function getUsuario()
+    {
+        return User::all();
+    }
 
     /**
      * The attributes that should be hidden for serialization.
