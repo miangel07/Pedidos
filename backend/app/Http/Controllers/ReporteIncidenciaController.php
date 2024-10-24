@@ -10,9 +10,8 @@ class ReporteIncidenciaController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-        //
+    public function index() {
+        return reporte_incidencia::getIncidencias();
     }
 
     /**
