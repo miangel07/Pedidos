@@ -25,8 +25,8 @@ const Sidebar = () => {
       icon: Users,
       module: 'usuarios',
       submenu: [
-        { title: 'Administrar usuarios', href: '#usuarios-crud' },
-        { title: 'Recuperación de contraseña', href: '#recuperacion-contrasena' }
+        { title: 'Administrar usuarios', link: '#usuarios-crud' },
+        { title: 'Recuperación de contraseña', link: '#recuperacion-contrasena' }
       ]
     },
     {
@@ -36,19 +36,19 @@ const Sidebar = () => {
       submenu: [
         {
           title: 'Creación de solicitudes',
-          href: '#creacion-solicitudes',
+          link: '#creacion-solicitudes',
           subItems: [
-            { title: 'Punto de recogida y entrega', href: '#punto-recogida' },
-            { title: 'Horario de entrega', href: '#horario-entrega' },
-            { title: 'Instrucciones adicionales', href: '#instrucciones-adicionales' }
+            { title: 'Punto de recogida y entrega', link: '#punto-recogida' },
+            { title: 'Horario de entrega', link: '#horario-entrega' },
+            { title: 'Instrucciones adicionales', link: '#instrucciones-adicionales' }
           ]
         },
         {
           title: 'Asignación automática',
-          href: '#asignacion-automatica',
+          link: '#asignacion-automatica',
           subItems: [
-            { title: 'Asignación cercana', href: '#asignacion-cercano' },
-            { title: 'Reasignación automática', href: '#reasignacion-automatica' }
+            { title: 'Asignación cercana', link: '#asignacion-cercano' },
+            { title: 'Reasignación automática', link: '#reasignacion-automatica' }
           ]
         }
       ]
@@ -60,18 +60,18 @@ const Sidebar = () => {
       submenu: [
         {
           title: 'Gestión de disponibilidad',
-          href: '#gestion-disponibilidad',
+          link: '#gestion-disponibilidad',
           subItems: [
-            { title: 'Actualizar estado', href: '#actualizar-estado' },
-            { title: 'Marcar inactivo', href: '#marcar-inactivo' }
+            { title: 'Actualizar estado', link: '#actualizar-estado' },
+            { title: 'Marcar inactivo', link: '#marcar-inactivo' }
           ]
         },
         {
           title: 'Reporte de novedades',
-          href: '#reporte-novedades',
+          link: '#reporte-novedades',
           subItems: [
-            { title: 'Reportar problemas', href: '#reportar-problemas' },
-            { title: 'Seguimiento de pedidos', href: '#seguimiento-pedidos' }
+            { title: 'Reportar problemas', link: '#reportar-problemas' },
+            { title: 'Seguimiento de pedidos', link: '#seguimiento-pedidos' }
           ]
         }
       ]
@@ -83,16 +83,16 @@ const Sidebar = () => {
       submenu: [
         {
           title: 'Reportes de solicitudes',
-          href: '#reportes-solicitudes',
+          link: '#reportes-solicitudes',
           subItems: [
-            { title: 'Solicitudes históricas', href: '#solicitudes-historicas' }
+            { title: 'Solicitudes históricas', link: '#solicitudes-historicas' }
           ]
         },
         {
           title: 'Reportes de domiciliarios',
-          href: '#reportes-domiciliarios',
+          link: '#reportes-domiciliarios',
           subItems: [
-            { title: 'Rendir cuentas', href: '#rendir-cuentas' }
+            { title: 'Rendir cuentas', link: '#rendir-cuentas' }
           ]
         }
       ]
@@ -104,10 +104,10 @@ const Sidebar = () => {
       submenu: [
         {
           title: 'Configuración general',
-          href: '#configuracion-general',
+          link: '#configuracion-general',
           subItems: [
-            { title: 'Modificar permisos', href: '#modificar-permisos' },
-            { title: 'Ajustes de notificaciones', href: '#ajustes-notificaciones' }
+            { title: 'Modificar permisos', link: '#modificar-permisos' },
+            { title: 'Ajustes de notificaciones', link: '#ajustes-notificaciones' }
           ]
         }
       ]
@@ -138,7 +138,7 @@ const Sidebar = () => {
             {item.submenu.map((submenuItem, index) => (
               <div key={index} className="px-4 py-2">
                 <Link
-                  to={submenuItem.href}
+                  to={submenuItem.link}
                   className="text-gray-400 hover:text-white text-sm block py-1"
                 >
                   {submenuItem.title}
@@ -148,7 +148,7 @@ const Sidebar = () => {
                     {submenuItem.subItems.map((subItem, subIndex) => (
                       <Link
                         key={subIndex}
-                        to={subItem.href}
+                        to={subItem.link}
                         className="text-gray-500 hover:text-gray-300 text-xs block py-1"
                       >
                         {subItem.title}
