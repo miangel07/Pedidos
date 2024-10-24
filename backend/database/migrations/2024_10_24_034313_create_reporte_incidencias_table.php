@@ -16,6 +16,7 @@ return new class extends Migration
             /* (entrega fallida, producto dañado, accidente, etc. */
             $table->enum('tipo_incidencia',["entrega","fallida","producto dañado","accidente","otros"]);
             $table->string("descripcion");
+            $table->enum('estado',['pendiente','resuelto']);
             $table->datetime("fecha_incidencia");
             $table->foreignId('user_id')->constrained();
             $table->foreignId('solicitud_id')->constrained();

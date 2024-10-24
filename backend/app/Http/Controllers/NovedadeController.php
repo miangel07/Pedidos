@@ -12,7 +12,7 @@ class NovedadeController extends Controller
      */
     public function index()
     {
-        //
+        return novedade::getNovedades();
     }
 
     /**
