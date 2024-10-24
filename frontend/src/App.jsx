@@ -1,14 +1,22 @@
+import { AppRouter } from "./router/Router";
+
+// alertar
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
-
   return (
     <>
-  <h1 className="text-3xl font-bold ">
-      Hello world!
-    </h1>
-      
+      <ToastContainer
+        position="bottom-right"
+        theme="light"
+        pauseOnHover
+        draggable
+        autoClose={2000}
+      />
+      <AppRouter />
     </>
-  )
+  );
 }
 
-export default App
+export default App;
