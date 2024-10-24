@@ -17,7 +17,7 @@ class reporte_incidencia extends Model
 
         // nombre usuario, rol_usuario ,id solicitud, tipo incidencia, fecha, descripcion,
 
-        $incidencia = reporte_incidencia::select('users.nombre' , 'users.TipoUsuario','tipo_incidencia', 'descripcion', 'fecha_incidencia')
+        $incidencia = reporte_incidencia::select('reporte_incidencias.id','users.nombre' , 'users.TipoUsuario','tipo_incidencia', 'descripcion', 'fecha_incidencia','reporte_incidencias.estado')
             ->join('users', 'users.id', '=', 'reporte_incidencias.user_id')
             ->get();
 

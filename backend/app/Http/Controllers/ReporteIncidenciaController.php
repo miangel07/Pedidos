@@ -49,9 +49,9 @@ class ReporteIncidenciaController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, reporte_incidencia $reporte_incidencia)
+    public function update(Request $request,  $reporte_incidencia)
     {
-        //
+        return $reporte_incidencia;
     }
 
     /**
