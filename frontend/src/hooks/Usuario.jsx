@@ -28,7 +28,7 @@ export const useUserMutation = () => {
     };
     useEffect(() => {
         optenerUsuarios();
-    }, [])
+    }, [usuario])
 
     return {
         login,

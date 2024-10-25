@@ -2,16 +2,31 @@ import React, { useEffect } from 'react'
 import { useForm } from 'react-hook-form';
 import InputNext from '../Nextui/InputNext';
 import { Select } from '../subcomponents/Select';
-const UsuarioFormulario = ({ data }) => {
+import { axiosCliente } from '../../service/axios';
+import { toast } from "react-toastify";
+const UsuarioFormulario = ({ data, closeModal }) => {
     const { register, handleSubmit, reset, formState: { errors } } = useForm();
-    console.log("data", data)
-    const onsubmit = (data) => {
-        console.log("onsubmit", data)
+    
+    const onsubmit = async (data) => {
+        const response = await axiosCliente.post("usuario", data)
+        if (response.status === 201) {
+            toast.success(`${response.data.data}`)
+            reset()
+            closeModal()
+        }
+
     }
     const handleEditar = (data) => {
         console.log("onsubmit", data)
     }
+
     useEffect(() => {
+        reset({
+            nombre: data?.nombre,
+            TipoUsuario: data?.TipoUsuario,
+            correo: data?.correo,
+            telefono: data?.telefono,
+        })
 
 
     }, [data])
@@ -63,21 +78,28 @@ const UsuarioFormulario = ({ data }) => {
                     type={"tel"}
                     className="border border-gray-300 rounded p-2 w-full focus:outline-none focus:ring focus:ring-blue-400"
                 />
-                <InputNext
-                    errors={errors}
-                    name={"password"}
-                    register={register}
-                    id={"password"}
-                    placeholder={"Ingrese la contraseña"}
-                    type={"password"}
-                    className="border border-gray-300 rounded p-2 w-full focus:outline-none focus:ring focus:ring-blue-400"
-                />
+                {
+                    !data && (
+                        <>
+                            <InputNext
+                                errors={errors}
+                                name={"password"}
+                                register={register}
+                                id={"password"}
+                                placeholder={"Ingrese la contraseña"}
+                                type={"password"}
+                                className="border border-gray-300 rounded p-2 w-full focus:outline-none focus:ring focus:ring-blue-400"
+                            />
+                        </>
+                    )
+                }
+
 
                 <button
                     type="submit"
                     className="w-full bg-blue-600 text-white font-semibold py-2 rounded hover:bg-blue-700 transition duration-200"
                 >
-                    Guardar
+                    {data ? "Editar" : "Guardar"}
                 </button>
             </form>
         </div>

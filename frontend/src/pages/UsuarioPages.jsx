@@ -38,6 +38,7 @@ const UsuarioPages = () => {
                     <Modals visible={isOpen} title={dataUsuario ? "Editar Usuario" : "Registrar Usuario"} closeModal={closeModal} >
                         <UsuarioFormulario
                             data={dataUsuario}
+                            closeModal={setIsOpen}
                         />
                     </Modals>
                 )
