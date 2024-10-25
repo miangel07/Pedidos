@@ -25,7 +25,7 @@ const Sidebar = () => {
       icon: Users,
       module: 'usuarios',
       submenu: [
-        { title: 'Administrar usuarios', link: '#usuarios-crud' },
+        { title: 'Administrar usuarios', link: '/usuario' },
         { title: 'Recuperación de contraseña', link: '#recuperacion-contrasena' }
       ]
     },
@@ -173,15 +173,15 @@ const Sidebar = () => {
         {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
       </button>
 
-      
+
       <div
         onClick={toggleSidebar}
         className={`fixed inset-0 bg-black bg-opacity-50 transition-opacity lg:hidden
           ${isOpen ? 'opacity-100 z-30' : 'opacity-0 pointer-events-none'}`}
       />
 
-     
-      <aside 
+
+      <aside
         className={`fixed top-0 left-0 h-full w-64 bg-gray-800 transform transition-transform duration-300 ease-in-out 
           overflow-y-auto lg:translate-x-0 lg:static lg:h-screen z-40
           ${isOpen ? 'translate-x-0' : '-translate-x-full'}`}

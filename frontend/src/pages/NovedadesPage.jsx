@@ -1,7 +1,7 @@
 import { Button, Chip } from "@nextui-org/react";
 import { Layout } from "../components/layouts/Layout";
 import { Table } from "../components/Nextui/Table";
-import { Modal } from "../components/subcomponents/Modal";
+
 /* import { CambiarEstadoDomiciliario } from "../components/subcomponents/EstadoDomiciliario"; */
 import { toast } from "react-toastify";
 
@@ -56,11 +56,11 @@ export const NovedadesPage = () => {
     ...fila,
     acciones: (
       <>
-        <Modal
+        {/*  <Modals
           buttonModal={"fasd"}
           componente={<>hola como estas</>}
           tittleModal={"Detalle de la novedada"}
-        />
+        /> */}
       </>
     ),
   }));
@@ -103,35 +103,34 @@ export const NovedadesPage = () => {
               cambiarTable
                 ? newDataNovedades
                 : incidencias.map((fila) => ({
-                    ...fila,
-                    estado: (
-                      <>
-                        <div>
-                          <Chip
-                            className="w-10"
-                            color={`${
-                              fila.estado === "pendiente" ? "danger" : "success"
+                  ...fila,
+                  estado: (
+                    <>
+                      <div>
+                        <Chip
+                          className="w-10"
+                          color={`${fila.estado === "pendiente" ? "danger" : "success"
                             }`}
-                          >
-                            {" "}
-                            {fila.estado}
-                          </Chip>
-                        </div>
-                      </>
-                    ),
-
-                    acciones: (
-                      <>
-                        <Button
-                          onClick={() =>
-                            handleResolverIncidencias(fila.id, fila)
-                          }
                         >
-                          resolver
-                        </Button>
-                      </>
-                    ),
-                  }))
+                          {" "}
+                          {fila.estado}
+                        </Chip>
+                      </div>
+                    </>
+                  ),
+
+                  acciones: (
+                    <>
+                      <Button
+                        onClick={() =>
+                          handleResolverIncidencias(fila.id, fila)
+                        }
+                      >
+                        resolver
+                      </Button>
+                    </>
+                  ),
+                }))
             }
           />
         </div>

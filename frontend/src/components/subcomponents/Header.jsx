@@ -9,16 +9,8 @@ export const Header = ({ contenido }) => {
         aria-label="Global"
       >
         <div className="flex lg:flex-1">
-          {/*   <figure className="h-full w-24 ">
-            <LazyLoadImage
-              src={V.logoTic}
-              className="h-full w-full cursor-pointer"
-              effect="opacity"
-              alt="logo-sena"
-            />
-          </figure> */}
           <div className="flex justify-center items-center ml-3 font-bold text-2xl text-green-600 tracking-wide">
-            Runwaydomicilios
+            Orders
           </div>
         </div>
         {contenido}
