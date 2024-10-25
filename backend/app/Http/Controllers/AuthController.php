@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Tymon\JWTAuth\Facades\JWTAuth;
+
 class AuthController extends Controller
 {
     public function login(Request $request)
@@ -21,5 +22,12 @@ class AuthController extends Controller
         JWTAuth::invalidate(JWTAuth::getToken());
 
         return response()->json(['message' => 'Sesion cerrada con exito']);
+    }
+    public function getUser()
+    {
+        
+            $user = JWTAuth::parseToken()->authenticate();
+            return response()->json($user); 
+       
     }
 }

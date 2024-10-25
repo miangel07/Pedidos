@@ -32,3 +32,4 @@ Route::get('/novedades',[NovedadeController::class,'index']);
 Route::post('/usuario', [UserController::class, 'createUsurio']);
 Route::post('/auth', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout']);
+Route::get('/info', [AuthController::class, 'getUser']);
