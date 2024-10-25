@@ -2,16 +2,17 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class reporte_incidencia extends Model
 {
+    use HasFactory;
     public $timestamps = false;
     protected $table = 'reporte_incidencias';
-    protected $fillable = ['tipo_incidencia', 'descripcion', 'fecha_incidencia', 'user_id', 'solicitud_id'];
+    protected $fillable = ['tipo_incidencia','estado' ,'descripcion', 'fecha_incidencia', 'user_id', 'solicitud_id'];
 
     // reporte de incidencias
-
     public static function getIncidencias()
     {
 

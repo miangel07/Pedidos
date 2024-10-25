@@ -27,8 +27,10 @@ Route::put('/incidencias/{id}/', [ReporteIncidenciaController::class, 'update'])
 
 // novedades
 Route::get('/novedades',[NovedadeController::class,'index']);
+Route::post('/novedades',[NovedadeController::class,'store']);
+Route::get('/novedades/{id}',[NovedadeController::class,'show']);
 
-//usuarios y login 
+//usuarios y login
 Route::post('/usuario', [UserController::class, 'createUsurio']);
 Route::post('/auth', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout']);
