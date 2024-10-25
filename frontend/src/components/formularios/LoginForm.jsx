@@ -5,27 +5,28 @@ import { useUserMutation } from "../../hooks/Usuario";
 import { useNavigate } from "react-router-dom";
 export const LoginForm = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
-  const { succes, error, login, isError } = useUserMutation();
+  const {  error, login, isError } = useUserMutation();
   const navigate = useNavigate();
-  const submit = (data) => {
+  const submit = async (data) => {
     console.log("data", data);
     try {
 
-      login(data)
-      if (succes) {
+      const success = await login(data); 
+
+      if (success) {
         console.log("Login exitoso");
-        navigate("/home")
+        navigate("/home");
       }
 
     } catch (error) {
-      console.log( error);
+      console.log(error);
     }
-    
+
   };
   console.log(error);
   return (
     <form className="flex gap-5 flex-col" onSubmit={handleSubmit(submit)}>
-    
+
       {isError && <p className="text-red-600">{error}</p>}
       <div className="flex flex-col gap-5">
         <InputNext id={"correo"} errors={errors} name={"correo"} placeholder={"Ingrese el correo"} variants={"underlined"} register={register} type={"email"} />

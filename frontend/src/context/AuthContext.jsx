@@ -4,20 +4,27 @@ import { axiosCliente } from "../service/axios";
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-    const [authData, setAuthData] = useState([])
+    const [authData, setAuthData] = useState(null);
+
+    const token = localStorage.getItem("token");
     const InfoUser = async () => {
-        const response = await axiosCliente.get("info",
-            {
-                headers: {
-                    'Authorization': `Bearer ${localStorage.getItem("token")}`,
-                }
+
+        if (!token) {
+            setAuthData(null);
+            return;
+        }
+
+        const response = await axiosCliente.get("info", {
+            headers: {
+                'Authorization': `Bearer ${token}`,
             }
-        )
+        });
         setAuthData(response.data);
-    }
+    };
     useEffect(() => {
-        InfoUser()
-    }, []);
+        InfoUser();
+    }, [token])
+
     return (
         <AuthContext.Provider value={{ authData }}>
             {children}
