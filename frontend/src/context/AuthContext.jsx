@@ -5,8 +5,11 @@ export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
     const [authData, setAuthData] = useState(null);
+    const [token, setToken] = useState(
+        localStorage.getItem('token') || null
+    );
 
-    const token = localStorage.getItem("token");
+
     const InfoUser = async () => {
 
         if (!token) {
@@ -22,6 +25,7 @@ export const AuthProvider = ({ children }) => {
         setAuthData(response.data);
     };
     useEffect(() => {
+
         InfoUser();
     }, [token])
 

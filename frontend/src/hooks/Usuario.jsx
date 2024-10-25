@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { axiosCliente } from "../service/axios";
 
 export const useUserMutation = () => {
     const [error, setError] = useState(null);
-
+    const [usuario, setUsuario] = useState([]);
     const [isError, setisError] = useState(false);
 
     const login = async (data) => {
@@ -18,10 +18,22 @@ export const useUserMutation = () => {
             return false;
         }
     };
+    const optenerUsuarios = async () => {
+        try {
+            const response = await axiosCliente.get("usuario");
+            setUsuario(response.data);
+        } catch (error) {
+            console.error(error.response);
+        }
+    };
+    useEffect(() => {
+        optenerUsuarios();
+    }, [])
 
     return {
         login,
         error,
-        isError
+        isError,
+        usuario
     };
 };
