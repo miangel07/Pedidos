@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class UserController extends Controller
 {
@@ -11,4 +12,23 @@ class UserController extends Controller
     {
         return User::getDomiciliario();
     }
+    public function createUsurio(Request $request)
+    {
+    
+        User::create(
+            [
+                'nombre' => $request->nombre,
+                'TipoUsuario' => $request->TipoUsuario,
+                'correo' => $request->correo,
+                'telefono' => $request->telefono,
+                'password' => bcrypt($request->password),
+                'estado' => $request->estado,
+               
+            ]
+        );
+        return response()->json([
+            "data" => "Usuario creado con exito",
+            "request" => $request
+        ], 201);
+    }  
 }

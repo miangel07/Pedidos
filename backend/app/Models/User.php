@@ -7,8 +7,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use App\Models\reporte_incidencia;
+use Tymon\JWTAuth\Contracts\JWTSubject;
+class User extends Authenticatable implements JWTSubject
 
-class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
@@ -26,6 +27,16 @@ class User extends Authenticatable
         'estado',
         'password',
     ];
+    public function getJWTIdentifier()
+    {
+        return $this->getKey(); 
+    }
+    
+
+    public function getJWTCustomClaims()
+    {
+        return [];
+    }
     public static function getUsuario()
     {
         return User::all();

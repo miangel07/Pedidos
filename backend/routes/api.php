@@ -1,6 +1,6 @@
 <?php
 
-
+use App\Http\Controllers\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DomiciliarioController;
 use App\Http\Controllers\ReporteIncidenciaController;
 use App\Http\Controllers\NovedadeController;
-
+use App\Http\Controllers\UserController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -27,3 +27,9 @@ Route::put('/incidencias/{id}/', [ReporteIncidenciaController::class, 'update'])
 
 // novedades
 Route::get('/novedades',[NovedadeController::class,'index']);
+
+//usuarios y login 
+Route::post('/usuario', [UserController::class, 'createUsurio']);
+Route::post('/auth', [AuthController::class, 'login']);
+Route::post('/logout', [AuthController::class, 'logout']);
+Route::get('/info', [AuthController::class, 'getUser']);
