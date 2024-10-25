@@ -16,20 +16,21 @@ Route::get('/user', function (Request $request) {
 
 
 Route::post('/domiciliario', [DomiciliarioController::class, 'store']);
-Route::get('/domiciliario',[DomiciliarioController::class,'index']);
+Route::get('/domiciliario', [DomiciliarioController::class, 'index']);
 Route::put('/domiciliario/{id}/', [DomiciliarioController::class, 'update']);
 
 
 //reportes de incidencias
-Route::get('/incidencias',[ReporteIncidenciaController::class,'index']);
+Route::get('/incidencias', [ReporteIncidenciaController::class, 'index']);
 Route::put('/incidencias/{id}/', [ReporteIncidenciaController::class, 'update']);
 
 
 // novedades
-Route::get('/novedades',[NovedadeController::class,'index']);
+Route::get('/novedades', [NovedadeController::class, 'index']);
 
 //usuarios y login 
 Route::post('/usuario', [UserController::class, 'createUsurio']);
+Route::get('/usuario', [UserController::class, 'index']);
 Route::post('/auth', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout']);
 Route::get('/info', [AuthController::class, 'getUser']);

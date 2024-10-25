@@ -10,11 +10,11 @@ class UserController extends Controller
 {
     public function index()
     {
-        return User::getDomiciliario();
+        return User::getUsuario();
     }
     public function createUsurio(Request $request)
     {
-    
+
         User::create(
             [
                 'nombre' => $request->nombre,
@@ -22,13 +22,11 @@ class UserController extends Controller
                 'correo' => $request->correo,
                 'telefono' => $request->telefono,
                 'password' => bcrypt($request->password),
-                'estado' => $request->estado,
-               
             ]
         );
         return response()->json([
             "data" => "Usuario creado con exito",
             "request" => $request
         ], 201);
-    }  
+    }
 }
