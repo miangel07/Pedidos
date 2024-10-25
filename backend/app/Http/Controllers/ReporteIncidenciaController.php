@@ -10,7 +10,8 @@ class ReporteIncidenciaController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index() {
+    public function index()
+    {
         return reporte_incidencia::getIncidencias();
     }
 
@@ -49,9 +50,26 @@ class ReporteIncidenciaController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request,  $reporte_incidencia)
+    public function update(Request $request, $reporte_incidencia)
     {
-        return $reporte_incidencia;
+        try {
+            $datos = $request->except(['_token', '_method']);
+
+            $buscarReporte = reporte_incidencia::find($reporte_incidencia);
+
+            if (!$datos['descripcion']) {
+                $buscarReporte->estado = $datos['estado'];
+                $buscarReporte->save();
+                return response()->json(['mensaje' => 'Incidencia actualizada 1'], 200);
+            }
+
+            $buscarReporte->estado = $datos['estado'];
+            $buscarReporte->descripcion = $datos['descripcion'];
+            $buscarReporte->save();
+            return response()->json(['mensaje' => 'Incidencia actualizada 2'], 200);
+        } catch (\Exception $exception) {
+            return $exception->getMessage();
+        }
     }
 
     /**
