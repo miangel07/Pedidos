@@ -16,12 +16,14 @@ class ReporteIncidenciaFactory extends Factory
      */
     public function definition(): array
     {
+        // 'tipo_incidencia', 'descripcion', 'fecha_incidencia', 'user_id', 'solicitud_id'
         return [
-            'tipo_incidencia' => $this->faker->randomElement(['disponible', 'no disponible']),
+            'tipo_incidencia' => $this->faker->randomElement(['entrega', 'fallida']),
             'descripcion'=> $this->faker->sentence(),
+            'estado'=> $this->faker->randomElement(['pendiente', 'resuelto']),
             'fecha_incidencia' => $this->faker->date(),
             'user_id' => $this->faker->numberBetween(1,10),
-            'solicitud_id ' => $this->faker->numberBetween(1,1),
+            'solicitud_id ' => $this->faker->numberBetween(1,10),
         ];
     }
 }
