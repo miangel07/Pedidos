@@ -14,9 +14,13 @@ export const useIncidenciasQuery = () => {
     }
   };
 
+  const refreshDataIncidencias = async () => {
+    await obtenerIncidencias();
+  };
+
   useEffect(() => {
     obtenerIncidencias();
   }, []);
 
-  return { incidencias };
+  return { incidencias, refreshDataIncidencias };
 };
