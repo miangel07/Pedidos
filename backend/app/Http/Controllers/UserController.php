@@ -29,4 +29,42 @@ class UserController extends Controller
             "request" => $request
         ], 201);
     }
+    public function updateUsuario(Request $request, $id)
+    {
+        try {
+            $datos = $request->except('_token', '_method');
+            $usuario = User::find($id);
+            $usuario->fill($datos);
+            $usuario->save();
+            return response()->json([
+                "mensaje" => "Usuario actualizado",
+                "datos" => $datos
+            ], 200);
+        } catch (\Exception $e) {
+            Log::error('Error al actualizar el usuario: ' . $e->getMessage());
+            return response()->json([
+                "error" => "Hubo un error al actualizar el usuario",
+                "datos" => $datos
+            ], 500);
+        }
+    }
+    public function updateEstado(Request $request, $id)
+    {
+        try {
+            $datos = $request->except('_token', '_method');
+            $usuario = User::find($id);
+            $usuario->estado =$request->estado;
+            $usuario->save();
+            return response()->json([
+                "mensaje" => "Estado Actualizado con exito",
+            ], 200);
+            
+        } catch (\Exception $e) {
+            Log::error('Error al actualizar el usuario: ' . $e->getMessage());
+            return response()->json([
+                "error" => "Hubo un error al actualizar el usuario",
+                "datos" => $datos
+            ], 500);
+        }
+    }
 }
