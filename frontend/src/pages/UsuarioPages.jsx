@@ -6,9 +6,11 @@ import Modals from "../components/subcomponents/Modal";
 import { Chip } from "@nextui-org/react";
 import UsuarioFormulario from '../components/formularios/UsuarioFormulario';
 import ButtonNext from '../components/Nextui/ButtonNext';
+import { toast } from 'react-toastify';
+import { axiosCliente } from '../service/axios';
 
 const UsuarioPages = () => {
-    const { usuario, refress } = useUserMutation();
+    const { usuario } = useUserMutation();
     const [isOpen, setIsOpen] = useState(false);
     const [dataUsuario, setDataUsuario] = useState(null);
 
@@ -27,6 +29,16 @@ const UsuarioPages = () => {
         setDataUsuario(data);
       
     };
+    const handleEstado = async (data) => {
+        try {
+            const estadoUser= data.estado =="activo"?"  inactivo":"activo"
+            const response = await axiosCliente.put(`usuarioEstado/${data.id}`,{estado:estadoUser});
+            toast.success(`${response.data.mensaje}`)
+        } catch (error) {
+            console.error(error.message)
+        }
+        
+    }
     const closeModal = () => {
         setDataUsuario(null);
         setIsOpen(false);
@@ -80,9 +92,10 @@ const UsuarioPages = () => {
                                 <Chip
                                     size="small"
                                     variant="outline-danger"
-                                    className="bg-danger text-white"
+                                    className={`${filas.estado === "inactivo" ? "bg-danger" : "bg-warning"} text-white cursor-pointer`}
+                                    onClick={() =>handleEstado(filas)}
                                 >
-                                    Eliminar
+                                    {filas=="activo"?"Desactivar":"Activar"}
                                 </Chip>
                             </div>
                         ),
