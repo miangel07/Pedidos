@@ -13,7 +13,7 @@ export const useUserMutation = () => {
             localStorage.setItem("token", response.data.token);
             return true
         } catch (error) {
-            setError(error.response?.data?.error || "Error en el login");
+       
             setisError(true);
             return false;
         }
@@ -26,13 +26,17 @@ export const useUserMutation = () => {
             console.error(error.response);
         }
     };
+    const refress = async () => {
+        await optenerUsuarios();
+      };
     useEffect(() => {
         optenerUsuarios();
-    }, [usuario])
+    }, [])
 
     return {
         login,
         error,
+        refress,
         isError,
         usuario
     };

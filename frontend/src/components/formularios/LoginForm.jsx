@@ -23,11 +23,11 @@ export const LoginForm = () => {
     }
 
   };
-  console.log(error);
+  
   return (
     <form className="flex gap-5 flex-col" onSubmit={handleSubmit(submit)}>
 
-      {isError && <p className="text-red-600">{error}</p>}
+    {/*   {isError && <p className="text-red-600">{error}</p>} */}
       <div className="flex flex-col gap-5">
         <InputNext id={"correo"} errors={errors} name={"correo"} placeholder={"Ingrese el correo"} variants={"underlined"} register={register} type={"email"} />
         <InputNext id={"pasword"} errors={errors} name={"password"} placeholder={"Ingrese la contraseña"} variants={"underlined"} register={register} type={"password"} />

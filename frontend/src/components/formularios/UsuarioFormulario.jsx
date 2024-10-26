@@ -4,8 +4,10 @@ import InputNext from '../Nextui/InputNext';
 import { Select } from '../subcomponents/Select';
 import { axiosCliente } from '../../service/axios';
 import { toast } from "react-toastify";
+import { useUserMutation } from '../../hooks/Usuario';
 const UsuarioFormulario = ({ data, closeModal }) => {
     const { register, handleSubmit, reset, formState: { errors } } = useForm();
+    const {  refress } = useUserMutation();
     
     const onsubmit = async (data) => {
         const response = await axiosCliente.post("usuario", data)
@@ -13,6 +15,7 @@ const UsuarioFormulario = ({ data, closeModal }) => {
             toast.success(`${response.data.data}`)
             reset()
             closeModal()
+            refress()
         }
 
     }

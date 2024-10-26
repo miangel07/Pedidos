@@ -8,7 +8,7 @@ import UsuarioFormulario from '../components/formularios/UsuarioFormulario';
 import ButtonNext from '../components/Nextui/ButtonNext';
 
 const UsuarioPages = () => {
-    const { usuario } = useUserMutation();
+    const { usuario, refress } = useUserMutation();
     const [isOpen, setIsOpen] = useState(false);
     const [dataUsuario, setDataUsuario] = useState(null);
 
@@ -25,6 +25,7 @@ const UsuarioPages = () => {
     const handleEdit = (data) => {
         setIsOpen(true);
         setDataUsuario(data);
+      
     };
     const closeModal = () => {
         setDataUsuario(null);
