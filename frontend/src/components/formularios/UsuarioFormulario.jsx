@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form';
 import InputNext from '../Nextui/InputNext';
 import { Select } from '../subcomponents/Select';
@@ -7,8 +7,10 @@ import { toast } from "react-toastify";
 import { useUserMutation } from '../../hooks/Usuario';
 
 const UsuarioFormulario = ({ data, closeModal }) => {
-    const { register, handleSubmit, reset, formState: { errors } } = useForm();
+    const { register, handleSubmit, reset, watch, formState: { errors } } = useForm();
     const { refress } = useUserMutation();
+    const [isNegocio, setIsNegocio] = useState(false);
+    const [isDomiciliario, setDomiciliario] = useState(false);
 
 
 
@@ -24,6 +26,7 @@ const UsuarioFormulario = ({ data, closeModal }) => {
         }
 
     }
+
     const handleEditar = async (dataform) => {
         const response = await axiosCliente.put(`usuario/${data.id}`, dataform)
         if (response && response.status == 200) {
@@ -35,6 +38,7 @@ const UsuarioFormulario = ({ data, closeModal }) => {
         }
     }
 
+    const tipousuario = watch("TipoUsuario")
     useEffect(() => {
         reset({
             nombre: data?.nombre,
@@ -43,14 +47,26 @@ const UsuarioFormulario = ({ data, closeModal }) => {
             telefono: data?.telefono,
         })
 
-
-    }, [data])
+        if (tipousuario === "negocio") {
+            setIsNegocio(true)
+            setDomiciliario(false)
+        }
+        if (tipousuario === "domiciliario") {
+            setDomiciliario(true)
+            setIsNegocio(false)
+        }
+        if (tipousuario === "administrador" || tipousuario === "particular") {
+            setDomiciliario(false)
+            setIsNegocio(false)
+        }
+    }, [data, tipousuario])
     const opciones = [
         { value: 'administrador', text: 'Administrador' },
         { value: 'negocio', text: 'Negocio' },
         { value: 'particular', text: 'Particular' },
         { value: 'domiciliario', text: 'Domiciliario' }
     ];
+
     return (
         <div className="p-6 bg-white rounded-lg shadow-md">
             <form onSubmit={handleSubmit(data ? handleEditar : onsubmit)} className="space-y-4">
@@ -64,15 +80,21 @@ const UsuarioFormulario = ({ data, closeModal }) => {
                     type={"text"}
                     className="border border-gray-300 rounded p-2 w-full focus:outline-none focus:ring focus:ring-blue-400"
                 />
-                <Select
-                    label={"Tipo de Usuario"}
-                    name={"TipoUsuario"}
-                    placeholder={"Seleccione el tipo de usuario"}
-                    register={register}
-                    options={opciones}
-                    valueKey="value"
-                    textKey="text"
-                />
+                {
+                    !data && (
+                        <Select
+                        label={"Tipo de Usuario"}
+                        name={"TipoUsuario"}
+                        placeholder={"Seleccione el tipo de usuario"}
+                        register={register}
+                        options={opciones}
+                        valueKey="value"
+                        textKey="text"
+                    />
+
+                    )
+                }
+             
 
                 <InputNext
                     errors={errors}
@@ -106,6 +128,53 @@ const UsuarioFormulario = ({ data, closeModal }) => {
                                 className="border border-gray-300 rounded p-2 w-full focus:outline-none focus:ring focus:ring-blue-400"
                             />
                         </>
+                    )
+                }
+                {
+                    isNegocio && (
+                        <>
+                            <h1 className="text-2xl font-medium text-center text-black mb-4">
+                                Información Para Ingresar un Negocio
+                            </h1>
+                            <InputNext
+                                errors={errors}
+                                name={"banner"}
+                                register={register}
+                                id={"banner"}
+                                placeholder={"Ingrese el banner"}
+                                type={"text"}
+                                className="border border-gray-300 rounded p-2 w-full focus:outline-none focus:ring focus:ring-blue-400"
+                            />
+                            <InputNext
+                                errors={errors}
+                                name={"direccion"}
+                                register={register}
+                                id={"direccion"}
+                                placeholder={"Ingrese la dirección"}
+                                type={"text"}
+                                className="border border-gray-300 rounded p-2 w-full focus:outline-none focus:ring focus:ring-blue-400"
+                            />
+                        </>
+                    )
+                }
+                {
+                    isDomiciliario && (
+                        <>
+                            <h1 className="text-2xl font-medium text-center text-black mb-4">
+                                Información Para Ingresar un Domiciliario
+                            </h1>
+                            <InputNext
+                                errors={errors}
+                                name={"licencia"}
+                                register={register}
+                                id={"licencia"}
+                                placeholder={"Ingrese el numero de la licencia"}
+                                type={"number"}
+                                className="border border-gray-300 rounded p-2 w-full focus:outline-none focus:ring focus:ring-blue-400"
+                            />
+                         
+                        </>
+
                     )
                 }
 
