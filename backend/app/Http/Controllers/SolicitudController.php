@@ -6,6 +6,7 @@ use App\Models\Domiciliario;
 use App\Models\solicitud;
 use Illuminate\Http\Request;
 
+
 class SolicitudController extends Controller
 {
 
@@ -22,9 +23,32 @@ class SolicitudController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+
+        /*  protected $fillable = ['direccion_recogida','direccion_entrega','user_id','domiciliario_id','estado','fecha']; */
+        try {
+            $datos = $request->except(['_token', '_method']);
+            $domiciliario = Domiciliario::where('disponibilidad', 'disponible')->get();
+            $domiciliarioSeleccionado = $domiciliario->random();
+            if ($domiciliario->count() == 0) {
+                return response()->json([
+                    "mensaje" => "Lo siento no hay domiciliarios disponibles",
+                ], 400);
+            }
+            solicitud::create([
+                'direccion_recogida' => $datos['direccion_recogida'], 
+                'direccion_entrega' => $datos['direccion_entrega'],
+                'user_id' => $datos['user_id'],
+                'domiciliario_id' => $domiciliarioSeleccionado->id,
+                'fecha' => $datos['fecha'],
+            ]);
+            return response()->json([
+                "mensaje" => "Solicitud creada con exito",
+            ], 201);
+        } catch (\Throwable $th) {
+            return $th->getMessage();
+        }
     }
 
     /**
@@ -82,7 +106,7 @@ class SolicitudController extends Controller
                 $solicitudIdFind->estado = $datos['estado'];
                 $solicitudIdFind->domiciliario_id = $idDomiciliario;
                 $solicitudIdFind->save();
-                
+
                 $this->mensaje = "Solicitud Reprogramada";
 
 
@@ -98,8 +122,6 @@ class SolicitudController extends Controller
             return response()->json([
                 "mensaje" => "Solicitud" . " " . $datos['estado']
             ], 200);
-
-
         } catch (\Exception $exception) {
             return $exception->getMessage();
         }

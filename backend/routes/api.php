@@ -51,3 +51,4 @@ Route::get('/reportes/novedades', [ReportController::class, 'getReporteNovedades
 
 
 Route::put('/solicitud/{id}', [SolicitudController::class, 'update']);
+Route::post('/solicitud', [SolicitudController::class, 'create']);

@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained();
             $table->foreignId('domiciliario_id')->constrained();
             $table->enum('estado',["pendiente", "asignado", "en curso", "completado", 
-            "reprogramado", "cancelado"]);
+            "reprogramado", "cancelado"])->default("pendiente");
             $table->datetime('fecha');
             $table->timestamps();
         });
