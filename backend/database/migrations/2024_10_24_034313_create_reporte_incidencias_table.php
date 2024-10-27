@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('reporte_incidencias', function (Blueprint $table) {
             $table->id();
             /* (entrega fallida, producto dañado, accidente, etc. */
-            $table->enum('tipo_incidencia',["entrega","fallida","producto dañado","accidente","otros"]);
+            $table->enum('tipo_incidencia',["entrega_fallida","producto dañado","accidente","otros"]);
             $table->string("descripcion");
             $table->enum('estado',['pendiente','resuelto']);
             $table->datetime("fecha_incidencia");

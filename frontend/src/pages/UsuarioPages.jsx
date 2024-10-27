@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Layout } from '../components/layouts/Layout';
 import { useUserMutation } from '../hooks/Usuario';
 import { Table } from "../components/Nextui/Table";
@@ -8,11 +8,13 @@ import UsuarioFormulario from '../components/formularios/UsuarioFormulario';
 import ButtonNext from '../components/Nextui/ButtonNext';
 import { toast } from 'react-toastify';
 import { axiosCliente } from '../service/axios';
-
+import { AuthContext } from "../context/AuthContext";
 const UsuarioPages = () => {
-    const { usuario } = useUserMutation();
+    const { usuario, refress } = useUserMutation();
     const [isOpen, setIsOpen] = useState(false);
     const [dataUsuario, setDataUsuario] = useState(null);
+    const { authData } = useContext(AuthContext);
+  console.log(authData)
 
     const columnas = [
         "id",
@@ -24,20 +26,24 @@ const UsuarioPages = () => {
         "acciones"
     ];
 
-    const handleEdit = (data) => {
+    const handleEdit = async (data) => {
+
         setIsOpen(true);
         setDataUsuario(data);
-      
+
     };
     const handleEstado = async (data) => {
         try {
-            const estadoUser= data.estado =="activo"?"  inactivo":"activo"
-            const response = await axiosCliente.put(`usuarioEstado/${data.id}`,{estado:estadoUser});
-            toast.success(`${response.data.mensaje}`)
+            const estadoUser = data.estado === "activo" ? "inactivo" : "activo";
+            const response = await axiosCliente.put(`usuarioEstado/${data.id}`, { estado: estadoUser });
+            if (response.status === 200) {
+                await refress()
+                toast.success(`${response.data.mensaje}`)
+            }
         } catch (error) {
             console.error(error.message)
         }
-        
+
     }
     const closeModal = () => {
         setDataUsuario(null);
@@ -93,9 +99,9 @@ const UsuarioPages = () => {
                                     size="small"
                                     variant="outline-danger"
                                     className={`${filas.estado === "inactivo" ? "bg-danger" : "bg-warning"} text-white cursor-pointer`}
-                                    onClick={() =>handleEstado(filas)}
+                                    onClick={() => handleEstado(filas)}
                                 >
-                                    {filas=="activo"?"Desactivar":"Activar"}
+                                    {filas == "activo" ? "Desactivar" : "Activar"}
                                 </Chip>
                             </div>
                         ),
