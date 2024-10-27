@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use App\Models\reporte_incidencia;
 use Tymon\JWTAuth\Contracts\JWTSubject;
+
 class User extends Authenticatable implements JWTSubject
 
 {
@@ -28,9 +29,9 @@ class User extends Authenticatable implements JWTSubject
     ];
     public function getJWTIdentifier()
     {
-        return $this->getKey(); 
+        return $this->getKey();
     }
-    
+
 
     public function getJWTCustomClaims()
     {
@@ -39,6 +40,10 @@ class User extends Authenticatable implements JWTSubject
     public static function getUsuario()
     {
         return User::all();
+    }
+    public function domiciliario()
+    {
+        return $this->hasOne(Domiciliario::class);
     }
 
     /**
@@ -66,9 +71,8 @@ class User extends Authenticatable implements JWTSubject
 
     // relaciones en modelos
 
-    public function reportes() {
+    public function reportes()
+    {
         return $this->hasMany(reporte_incidencia::class);
     }
-
-
 }

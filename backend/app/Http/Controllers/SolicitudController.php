@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Domiciliario;
 use App\Models\solicitud;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 
@@ -29,20 +30,29 @@ class SolicitudController extends Controller
         /*  protected $fillable = ['direccion_recogida','direccion_entrega','user_id','domiciliario_id','estado','fecha']; */
         try {
             $datos = $request->except(['_token', '_method']);
-            $domiciliario = Domiciliario::where('disponibilidad', 'disponible')->get();
-            $domiciliarioSeleccionado = $domiciliario->random();
-            if ($domiciliario->count() == 0) {
-                return response()->json([
-                    "mensaje" => "Lo siento no hay domiciliarios disponibles",
-                ], 400);
-            }
+
+            $domiciliariosDisponibles = Domiciliario::where('disponibilidad', 'disponible')
+                ->whereHas('user', function ($query) {
+                    $query->where('estado', 'activo');
+                })
+                ->get();
+
+                
+                if ($domiciliariosDisponibles->isEmpty()) {
+                    return response()->json([
+                        "mensaje" => "Lo siento no hay domiciliarios disponibles",
+                    ], 400);
+                }
+                $domiciliarioSeleccionado = $domiciliariosDisponibles->random();
+
             solicitud::create([
-                'direccion_recogida' => $datos['direccion_recogida'], 
+                'direccion_recogida' => $datos['direccion_recogida'],
                 'direccion_entrega' => $datos['direccion_entrega'],
                 'user_id' => $datos['user_id'],
                 'domiciliario_id' => $domiciliarioSeleccionado->id,
                 'fecha' => $datos['fecha'],
             ]);
+
             return response()->json([
                 "mensaje" => "Solicitud creada con exito",
             ], 201);
