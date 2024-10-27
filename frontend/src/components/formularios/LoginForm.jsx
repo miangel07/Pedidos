@@ -1,33 +1,41 @@
 
 import InputNext from "../Nextui/InputNext";
 import { useForm } from 'react-hook-form';
-import { useUserMutation } from "../../hooks/Usuario";
+import { toast } from 'react-toastify';
 import { useNavigate } from "react-router-dom";
+import { axiosCliente } from "../../service/axios";
+import { useState } from "react";
 export const LoginForm = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
-  const {  error, login, isError } = useUserMutation();
+  const [ErrorMessage, setErrorMessage] = useState(null)
   const navigate = useNavigate();
+  console.log(ErrorMessage)
   const submit = async (data) => {
-    console.log("data", data);
+
     try {
+      const response = await axiosCliente.post("auth", data);
 
-      const success = await login(data); 
 
-      if (success) {
-        console.log("Login exitoso");
+      if (response.status == 200) {
+        localStorage.setItem("token", response.data.token);
         navigate("/home");
       }
 
+
     } catch (error) {
-      console.log(error);
+      if (error.response.status == 401) {
+        toast.error(`${error.response.data.error}`);
+        setErrorMessage(error.response.data.error);
+
+      }
     }
 
   };
-  
+
   return (
     <form className="flex gap-5 flex-col" onSubmit={handleSubmit(submit)}>
 
-    {/*   {isError && <p className="text-red-600">{error}</p>} */}
+      {ErrorMessage && <p className="text-red-600">{ErrorMessage}</p>}
       <div className="flex flex-col gap-5">
         <InputNext id={"correo"} errors={errors} name={"correo"} placeholder={"Ingrese el correo"} variants={"underlined"} register={register} type={"email"} />
         <InputNext id={"pasword"} errors={errors} name={"password"} placeholder={"Ingrese la contraseña"} variants={"underlined"} register={register} type={"password"} />

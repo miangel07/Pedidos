@@ -10,7 +10,7 @@ import { toast } from 'react-toastify';
 import { axiosCliente } from '../service/axios';
 
 const UsuarioPages = () => {
-    const { usuario } = useUserMutation();
+    const { usuario ,refress} = useUserMutation();
     const [isOpen, setIsOpen] = useState(false);
     const [dataUsuario, setDataUsuario] = useState(null);
 
@@ -24,7 +24,8 @@ const UsuarioPages = () => {
         "acciones"
     ];
 
-    const handleEdit = (data) => {
+    const handleEdit =async (data) => {
+        await refress()
         setIsOpen(true);
         setDataUsuario(data);
       
