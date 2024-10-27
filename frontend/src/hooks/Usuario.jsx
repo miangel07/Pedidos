@@ -12,7 +12,7 @@ export const useUserMutation = () => {
             console.error(error.response);
         }
     };
-    
+
     const refress = async () => {
         await optenerUsuarios();
       };

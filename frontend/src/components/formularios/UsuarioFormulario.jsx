@@ -14,22 +14,24 @@ const UsuarioFormulario = ({ data, closeModal }) => {
 
     const onsubmit = async (data) => {
         const response = await axiosCliente.post("usuario", data)
-        if (response.status === 201) {
+
+        if (response.status == 201) {
             await refress()
             toast.success(`${response.data.data}`)
             reset()
             closeModal()
+
         }
 
     }
     const handleEditar = async (dataform) => {
         const response = await axiosCliente.put(`usuario/${data.id}`, dataform)
-        console.log(response)
-        if (response &&response.status == 200) {
+        if (response && response.status == 200) {
             await refress()
             toast.success(`${response.data.mensaje}`)
             reset()
-            closeModal()    
+            closeModal()
+
         }
     }
 

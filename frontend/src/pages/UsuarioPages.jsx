@@ -10,7 +10,7 @@ import { toast } from 'react-toastify';
 import { axiosCliente } from '../service/axios';
 
 const UsuarioPages = () => {
-    const { usuario ,refress} = useUserMutation();
+    const { usuario, refress } = useUserMutation();
     const [isOpen, setIsOpen] = useState(false);
     const [dataUsuario, setDataUsuario] = useState(null);
 
@@ -24,21 +24,24 @@ const UsuarioPages = () => {
         "acciones"
     ];
 
-    const handleEdit =async (data) => {
-        await refress()
+    const handleEdit = async (data) => {
+
         setIsOpen(true);
         setDataUsuario(data);
-      
+
     };
     const handleEstado = async (data) => {
         try {
-            const estadoUser= data.estado =="activo"?"  inactivo":"activo"
-            const response = await axiosCliente.put(`usuarioEstado/${data.id}`,{estado:estadoUser});
-            toast.success(`${response.data.mensaje}`)
+            const estadoUser = data.estado === "activo" ? "inactivo" : "activo";
+            const response = await axiosCliente.put(`usuarioEstado/${data.id}`, { estado: estadoUser });
+            if (response.status === 200) {
+                await refress()
+                toast.success(`${response.data.mensaje}`)
+            }
         } catch (error) {
             console.error(error.message)
         }
-        
+
     }
     const closeModal = () => {
         setDataUsuario(null);
@@ -94,9 +97,9 @@ const UsuarioPages = () => {
                                     size="small"
                                     variant="outline-danger"
                                     className={`${filas.estado === "inactivo" ? "bg-danger" : "bg-warning"} text-white cursor-pointer`}
-                                    onClick={() =>handleEstado(filas)}
+                                    onClick={() => handleEstado(filas)}
                                 >
-                                    {filas=="activo"?"Desactivar":"Activar"}
+                                    {filas == "activo" ? "Desactivar" : "Activar"}
                                 </Chip>
                             </div>
                         ),
