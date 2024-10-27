@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Layout } from '../components/layouts/Layout';
 import { useUserMutation } from '../hooks/Usuario';
 import { Table } from "../components/Nextui/Table";
@@ -8,11 +8,13 @@ import UsuarioFormulario from '../components/formularios/UsuarioFormulario';
 import ButtonNext from '../components/Nextui/ButtonNext';
 import { toast } from 'react-toastify';
 import { axiosCliente } from '../service/axios';
-
+import { AuthContext } from "../context/AuthContext";
 const UsuarioPages = () => {
     const { usuario, refress } = useUserMutation();
     const [isOpen, setIsOpen] = useState(false);
     const [dataUsuario, setDataUsuario] = useState(null);
+    const { authData } = useContext(AuthContext);
+  console.log(authData)
 
     const columnas = [
         "id",
