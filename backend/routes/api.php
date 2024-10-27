@@ -10,6 +10,7 @@ use App\Http\Controllers\ReporteIncidenciaController;
 use App\Http\Controllers\NovedadeController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\SolicitudController;
 
 
 Route::get('/user', function (Request $request) {
@@ -41,6 +42,12 @@ Route::post('/auth', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout']);
 Route::get('/info', [AuthController::class, 'getUser']);
 
-// reportes 
+// reportes
 Route::get('/reportes/incidencias', [ReportController::class, 'getReporteIncidencias']);
 Route::get('/reportes/novedades', [ReportController::class, 'getReporteNovedades']);
+
+
+// solicitudes
+
+
+Route::put('/solicitud/{id}', [SolicitudController::class, 'update']);

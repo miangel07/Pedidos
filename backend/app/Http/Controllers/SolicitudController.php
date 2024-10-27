@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Domiciliario;
 use App\Models\solicitud;
 use Illuminate\Http\Request;
 
 class SolicitudController extends Controller
 {
+
+    private string $mensaje;
+
     /**
      * Display a listing of the resource.
      */
@@ -50,16 +54,54 @@ class SolicitudController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, solicitud $solicitud)
+    public function update(Request $request, $solicitud)
     {
-        //
-    }
+        try {
+            //return $solicitud;
+            $datos = $request->except(['_token', '_method']);
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(solicitud $solicitud)
-    {
-        //
+
+            $solicitudIdFind = solicitud::find($solicitud);
+
+
+            if (strtolower($datos['estado']) === 'cancelado') {
+                $solicitudIdFind->estado = 'cancelado';
+                $solicitudIdFind->save();
+                $this->mensaje = "Solicitud Cancelada";
+
+
+                return response()->json(["mensaje" => $this->mensaje], 200);
+            }
+
+            if (strtolower($datos['estado']) === 'asignado' || strtolower($datos['estado']) === 'reprogramado') {
+
+                $datosDomiciliario = Domiciliario::where("disponibilidad", "disponible")->get();
+
+                $idDomiciliario = $datosDomiciliario[count($datosDomiciliario) - 1]['id'];
+
+                $solicitudIdFind->estado = $datos['estado'];
+                $solicitudIdFind->domiciliario_id = $idDomiciliario;
+                $solicitudIdFind->save();
+                
+                $this->mensaje = "Solicitud Reprogramada";
+
+
+                return response()->json([
+                    "mensaje" => $this->mensaje
+                ], 200);
+            }
+
+            $solicitudIdFind->estado = $datos['estado'];
+            $solicitudIdFind->domiciliario_id = $datos['domiciliario'];
+            $solicitudIdFind->save();
+
+            return response()->json([
+                "mensaje" => "Solicitud" . " " . $datos['estado']
+            ], 200);
+
+
+        } catch (\Exception $exception) {
+            return $exception->getMessage();
+        }
     }
 }

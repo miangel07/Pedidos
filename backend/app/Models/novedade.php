@@ -19,7 +19,7 @@ class novedade extends Model {
 
     public static function getNovedades()
     {
-        return novedade::select('descripcion', 'estado', 'fecha_reporte', 'domiciliario_id', 'solicitud_id')->orderBy('fecha_reporte', 'desc')->get();
+        return novedade::select('id','descripcion', 'estado', 'fecha_reporte', 'domiciliario_id', 'solicitud_id')->orderBy('fecha_reporte', 'desc')->get();
     }
 
 
