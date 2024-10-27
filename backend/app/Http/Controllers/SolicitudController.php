@@ -37,7 +37,6 @@ class SolicitudController extends Controller
                 })
                 ->get();
 
-                
                 if ($domiciliariosDisponibles->isEmpty()) {
                     return response()->json([
                         "mensaje" => "Lo siento no hay domiciliarios disponibles",
