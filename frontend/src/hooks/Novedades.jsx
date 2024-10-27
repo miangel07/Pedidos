@@ -21,3 +21,22 @@ export const useNovedadesQuery = () => {
     novedades,
   };
 };
+
+export const useNovedadesIDQuery = () => {
+  const [novedadesID, setNovedades] = useState([]);
+  const obtenerNovedades = async (id) => {
+    try {
+      const response = await axiosCliente.get(`novedades/${id}`);
+      console.log(response.data);
+
+      setNovedades(response.data);
+    } catch (error) {
+      console.error(error.response);
+    }
+  };
+
+  return {
+    obtenerNovedades,
+    novedadesID,
+  };
+};
