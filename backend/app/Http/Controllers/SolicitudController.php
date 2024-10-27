@@ -16,9 +16,8 @@ class SolicitudController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-        //
+    public function index() {
+        return solicitud::getSolicitudes();
     }
 
     /**
@@ -71,9 +70,8 @@ class SolicitudController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(solicitud $solicitud)
-    {
-        //
+    public function show($solicitud) {
+        return solicitud::find($solicitud);
     }
 
     /**

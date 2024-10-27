@@ -27,7 +27,6 @@ export const useNovedadesIDQuery = () => {
   const obtenerNovedades = async (id) => {
     try {
       const response = await axiosCliente.get(`novedades/${id}`);
-      console.log(response.data);
 
       setNovedades(response.data);
     } catch (error) {

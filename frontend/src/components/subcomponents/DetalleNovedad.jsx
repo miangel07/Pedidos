@@ -6,45 +6,11 @@ import { useUserMutation } from "../../hooks/Usuario";
 import { axiosCliente } from "../../service/axios";
 import { useNavigate } from "react-router-dom";
 
-export const ContenidoNovedad = ({ novedadesID }) => {
-  const { usuario } = useUserMutation();
-  const { register, handleSubmit, reset } = useForm();
-
-  // navegacion
-  const navigate = useNavigate();
-
+export const ContenidoNovedad = ({ novedadesID, solicitud }) => {
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     return date.toLocaleString("es-ES");
   };
-
-  const handleSubmitDataSolicitud = async (data) => {
-    const preparaData = {
-      estado: data.estado,
-      domiciliario: data.user_id,
-    };
-
-    try {
-      const response = await axiosCliente.put(
-        `solicitud/${novedadesID.solicitud.id}`,
-        preparaData
-      );
-
-      if (response.data) {
-        alert(response.data.mensaje)
-        navigate("/home");
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  useEffect(() => {
-    reset({
-      estado: novedadesID.solicitud?.estado,
-    });
-  }, [reset, novedadesID]);
-
   return (
     <div className="p-6 space-y-6">
       {/* Información de la Novedad */}
@@ -73,8 +39,57 @@ export const ContenidoNovedad = ({ novedadesID }) => {
           </div>
         </div>
       </div>
-
       {/* Información de la Solicitud */}
+
+      <FormEditSolicitud novedadesID={novedadesID.solicitud} />
+    </div>
+  );
+};
+
+export const FormEditSolicitud = ({ novedadesID }) => {
+  const { usuario } = useUserMutation();
+  const { register, handleSubmit, reset } = useForm();
+
+  // navegacion
+  const navigate = useNavigate();
+
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return date.toLocaleString("es-ES");
+  };
+
+  const handleSubmitDataSolicitud = async (data) => {
+    const preparaData = {
+      estado: data.estado,
+      domiciliario: data.user_id,
+    };
+
+    try {
+      const response = await axiosCliente.put(
+        `solicitud/${novedadesID.id}`,
+        preparaData
+      );
+
+      if (response.data) {
+        alert(response.data.mensaje);
+        navigate("/home");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    if (novedadesID) {
+      reset({
+        estado: novedadesID.estado,
+        user_id: novedadesID.user_id,
+      });
+    }
+  }, [reset, novedadesID]);
+
+  return (
+    <>
       <form action="" onSubmit={handleSubmit(handleSubmitDataSolicitud)}>
         <div className="bg-gray-50 p-4 rounded-lg">
           <h3 className="font-semibold text-lg mb-3">
@@ -106,18 +121,20 @@ export const ContenidoNovedad = ({ novedadesID }) => {
             <div>
               <p className="text-sm text-gray-500">Dirección de Recogida</p>
               <p className="font-medium">
-                {novedadesID.solicitud?.direccion_recogida}
+                {novedadesID?.direccion_recogida || "Dirección no disponible"}
               </p>
             </div>
             <div>
               <p className="text-sm text-gray-500">Dirección de Entrega</p>
               <p className="font-medium">
-                {novedadesID.solicitud?.direccion_entrega}
+                {novedadesID?.direccion_entrega || "Dirección no disponible"}
               </p>
             </div>
             <div>
               <p className="text-sm text-gray-500">ID Usuario</p>
-              <p className="font-medium">{novedadesID.solicitud?.user_id}</p>
+              <p className="font-medium">
+                {novedadesID && novedadesID.nombre_usuario}
+              </p>
             </div>
             <div>
               <Select
@@ -137,13 +154,17 @@ export const ContenidoNovedad = ({ novedadesID }) => {
             <div>
               <p className="text-sm text-gray-500">Fecha Creación</p>
               <p className="font-medium">
-                {formatDate(novedadesID.solicitud?.created_at)}
+                {novedadesID?.created_at
+                  ? formatDate(novedadesID.created_at)
+                  : "Fecha no disponible"}
               </p>
             </div>
             <div>
               <p className="text-sm text-gray-500">Última Actualización</p>
               <p className="font-medium">
-                {formatDate(novedadesID.solicitud?.updated_at)}
+                {novedadesID?.created_at
+                  ? formatDate(novedadesID.updated_at)
+                  : "Fecha no disponible"}
               </p>
             </div>
           </div>
@@ -152,6 +173,6 @@ export const ContenidoNovedad = ({ novedadesID }) => {
           <Button color="danger" type="submit" variant="flat"></Button>
         </div>
       </form>
-    </div>
+    </>
   );
 };
