@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import { useUserMutation } from "../../hooks/Usuario";
 import { axiosCliente } from "../../service/axios";
 import { useNavigate } from "react-router-dom";
+import {useDomiciliariosQuery} from "../../hooks/Domiciliarios.jsx";
 
 export const ContenidoNovedad = ({ novedadesID, solicitud }) => {
   const formatDate = (dateString) => {
@@ -47,7 +48,9 @@ export const ContenidoNovedad = ({ novedadesID, solicitud }) => {
 };
 
 export const FormEditSolicitud = ({ novedadesID }) => {
+
   const { usuario } = useUserMutation();
+  const { domiciliariosData } = useDomiciliariosQuery();
   const { register, handleSubmit, reset } = useForm();
 
   // navegacion
@@ -61,18 +64,21 @@ export const FormEditSolicitud = ({ novedadesID }) => {
   const handleSubmitDataSolicitud = async (data) => {
     const preparaData = {
       estado: data.estado,
-      domiciliario: data.user_id,
+      domiciliario: data.domiciliario,
     };
+
+    console.log(preparaData)
 
     try {
       const response = await axiosCliente.put(
         `solicitud/${novedadesID.id}`,
         preparaData
       );
+      console.log(response)
 
       if (response.data) {
         alert(response.data.mensaje);
-        navigate("/home");
+       // navigate("/home");
       }
     } catch (error) {
       console.log(error);
@@ -83,7 +89,7 @@ export const FormEditSolicitud = ({ novedadesID }) => {
     if (novedadesID) {
       reset({
         estado: novedadesID.estado,
-        user_id: novedadesID.user_id,
+        domiciliario: novedadesID.domiciliario_id,
       });
     }
   }, [reset, novedadesID]);
@@ -138,12 +144,11 @@ export const FormEditSolicitud = ({ novedadesID }) => {
             </div>
             <div>
               <Select
-                options={usuario.filter(
+                options={domiciliariosData.filter(
                   (user) =>
-                    user.TipoUsuario.trim().toLowerCase() === "domiciliario" &&
-                    user.estado === "activo"
+                      user.disponibilidad === "disponible"
                 )}
-                name="user_id"
+                name="domiciliario"
                 placeholder={"Seleccione una nuevo domiciliario"}
                 valueKey="id"
                 textKey="nombre"
