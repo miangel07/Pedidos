@@ -2,13 +2,18 @@ import { useForm } from "react-hook-form";
 import { Select } from "../subcomponents/Select";
 import { Button, Textarea } from "@nextui-org/react";
 import { AuthContext } from "../../context/AuthContext";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { axiosCliente } from "../../service/axios";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { useQuerySolicitudes } from "../../hooks/Solicitud.jsx";
+
 
 export const ReportarNovedadForm = () => {
   const { register, handleSubmit, reset } = useForm();
+
+  const { solicitudData } = useQuerySolicitudes()
+
 
   // datos del usuario logueado
   const { authData } = useContext(AuthContext);
@@ -37,21 +42,28 @@ export const ReportarNovedadForm = () => {
     }
   };
 
+  useEffect(() => {
+    console.log(authData)
+  }, [authData]);
+
   return (
     <>
-      <div className="">
+      <div className="flex gap-16 flex-col px-8">
+
+        <div> hola como estas</div>
+
         <form
           action=""
           onSubmit={handleSubmit(handleOnSumbitNovedad)}
-          className="flex flex-col gap-4"
+          className="flex flex-col gap-4 border p-10"
         >
           <div className="flex flex-col">
             <Select
-              options={[{ name: "1" }, { name: "2" }, { name: "3" }]}
+              options={solicitudData.filter((solicitud) => solicitud.estado === "pendiente")}
               name="solicitud_id"
               placeholder={"Seleccione una solicitud"}
-              valueKey="name"
-              textKey="name"
+              valueKey="id"
+              textKey="direccion_recogida"
               register={register}
               label={"Solicitud"}
             />
