@@ -8,8 +8,9 @@ import { useUserMutation } from '../../hooks/Usuario';
 
 const UsuarioFormulario = ({ data, closeModal }) => {
     const { register, handleSubmit, reset, watch, formState: { errors } } = useForm();
-    const { refress } = useUserMutation();
+
     const [isNegocio, setIsNegocio] = useState(false);
+    const {refress}=useUserMutation()
     const [isDomiciliario, setDomiciliario] = useState(false);
 
 
@@ -18,10 +19,11 @@ const UsuarioFormulario = ({ data, closeModal }) => {
         const response = await axiosCliente.post("usuario", data)
 
         if (response.status == 201) {
-            await refress()
+          
             toast.success(`${response.data.data}`)
             reset()
             closeModal()
+            await refress()
 
         }
 
@@ -30,10 +32,12 @@ const UsuarioFormulario = ({ data, closeModal }) => {
     const handleEditar = async (dataform) => {
         const response = await axiosCliente.put(`usuario/${data.id}`, dataform)
         if (response && response.status == 200) {
-            await refress()
+            
             toast.success(`${response.data.mensaje}`)
             reset()
             closeModal()
+            await refress()
+            
 
         }
     }
