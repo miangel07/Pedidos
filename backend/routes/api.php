@@ -43,7 +43,8 @@ Route::get('/info', [AuthController::class, 'getUser']);
 
 // reportes
 Route::get('/reportes/incidencias', [ReportController::class, 'getReporteIncidencias']);
-Route::get('/reportes/novedades', [ReportController::class, 'getReporteNovedades']);
+Route::get('/reportes/novedades', [ReportController::class, 'getReporteEficienciaDomiciliarios']);
+
 
 
 // solicitudes

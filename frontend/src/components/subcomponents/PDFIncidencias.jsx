@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Button  from "../Nextui/ButtonNext.jsx"
+import Button from "../Nextui/ButtonNext.jsx"
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import { axiosCliente } from '../../service/axios.js'
@@ -13,7 +13,7 @@ const PDFIncidencias = () => {
       
       // Obtener datos del endpoint
       const response = await axiosCliente.get('reportes/incidencias');
-      const data = response.data.data; // Accedemos a data porque así viene estructurada la respuesta
+      const data = response.data.data;
 
       // Crear nueva instancia de jsPDF
       const doc = new jsPDF();
@@ -23,39 +23,50 @@ const PDFIncidencias = () => {
       doc.text('Reporte de Incidencias', 14, 22);
       
       // Configurar las columnas y filas para la tabla
-      const tableColumn = ['Fecha', 'Tipo', 'Descripción', 'Usuario', 'Estado'];
+      const tableColumn = [
+        'Fecha Inicio Incidencia', 
+        'Fecha Fin Inicidencia',  
+        'Tipo de Incidencia', 
+        'Descripción', 
+        'Usuario', 
+        'Estado', 
+        'Tiempo de Resolución'
+      ];
       const tableRows = [];
 
       // Procesar los datos para la tabla
       data.forEach(item => {
-        const formattedDate = new Date(item.fecha_incidencia).toLocaleString();
         const ticketData = [
-          formattedDate,
+          item.fecha_incidencia,
+          item.fecha_actualizacion,
           item.tipo_incidencia,
           item.descripcion,
           item.nombre,
-          item.estado
+          item.estado,
+          item.tiempo_entrega
         ];
         tableRows.push(ticketData);
       });
 
-      // Generar la tabla
+      // Generar la tabla con columnas ajustadas
       doc.autoTable({
         head: [tableColumn],
         body: tableRows,
         startY: 30,
         styles: {
-          fontSize: 10,
+          fontSize: 8,  // Reducido para acomodar más columnas
           cellPadding: 2,
           overflow: 'linebreak',
           halign: 'left'
         },
         columnStyles: {
-          0: { cellWidth: 40 },
-          1: { cellWidth: 30 },
-          2: { cellWidth: 50 },
-          3: { cellWidth: 35 },
-          4: { cellWidth: 25 }
+          0: { cellWidth: 25 },  // Fecha Incidencia
+          1: { cellWidth: 25 },  // Fecha Actualización
+          2: { cellWidth: 25 },  // Tipo
+          3: { cellWidth: 35 },  // Descripción
+          4: { cellWidth: 25 },  // Usuario
+          5: { cellWidth: 20 },  // Estado
+          6: { cellWidth: 25 }   // Tiempo de Resolución
         }
       });
 
@@ -63,7 +74,6 @@ const PDFIncidencias = () => {
       doc.save('reporte-incidencias.pdf');
     } catch (error) {
       console.error('Error al generar el PDF:', error);
-      // Aquí podrías agregar alguna notificación de error al usuario
     } finally {
       setLoading(false);
     }
@@ -71,7 +81,7 @@ const PDFIncidencias = () => {
 
   return (
     <Button 
-      onClick={generatePDF}
+      onClick={generatePDF} 
       className="bg-blue-600 text-white"
       disabled={loading}
     >

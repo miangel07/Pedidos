@@ -11,65 +11,77 @@ const PDFNovedades = () => {
     try {
       setLoading(true);
       
-      // Obtener datos del endpoint
+      // Obtener datos de eficiencia de domiciliarios
       const response = await axiosCliente.get('reportes/novedades');
-      const data = response.data.data;
+      const eficienciaData = response.data.data;
 
       // Crear nueva instancia de jsPDF
       const doc = new jsPDF();
 
-      // Configurar el título
+      // Título principal
       doc.setFontSize(20);
-      doc.text('Reporte de Novedades', 14, 22);
-      
-      // Configurar las columnas y filas para la tabla
-      const tableColumn = [
-        'Fecha', 
-        'Usuario', 
-        'Descripción', 
-        'Estado', 
-        'Dir. Recogida', 
-        'Dir. Entrega'
+      doc.text('Reporte de Eficiencia de Domiciliarios', 14, 15);
+
+      // Configurar columnas para la tabla de eficiencia
+      const eficienciaColumns = [
+        'Domiciliario',
+        'Total Solicitudes',
+        'Exitosas',
+        'Novedades',
+        'Tiempo Prom.(h)',
+        '% Éxito',
+        '% Disp.',
+        'Puntuación'
       ];
-      const tableRows = [];
 
-      // Procesar los datos para la tabla
-      data.forEach(item => {
-        const formattedDate = new Date(item.fecha_reporte).toLocaleString();
-        const ticketData = [
-          formattedDate,
-          item.nombre,
-          item.descripcion,
-          item.estado,
-          item.direccion_recogida,
-          item.direccion_entrega
-        ];
-        tableRows.push(ticketData);
-      });
+      // Procesar datos de eficiencia
+      const eficienciaRows = eficienciaData.map(item => [
+        item.nombre_domiciliario,
+        item.total_solicitudes,
+        item.entregas_exitosas,
+        item.total_novedades,
+        item.tiempo_promedio_horas,
+        `${item.porcentaje_exito}%`,
+        `${item.porcentaje_disponibilidad}%`,
+        item.score_eficiencia
+      ]);
 
-      // Generar la tabla
+      // Generar tabla de eficiencia
       doc.autoTable({
-        head: [tableColumn],
-        body: tableRows,
+        head: [eficienciaColumns],
+        body: eficienciaRows,
         startY: 30,
         styles: {
-          fontSize: 9,
-          cellPadding: 2,
-          overflow: 'linebreak',
-          halign: 'left'
+          fontSize: 8,
+          cellPadding: 2
         },
         columnStyles: {
-          0: { cellWidth: 35 }, // Fecha
-          1: { cellWidth: 30 }, // Usuario
-          2: { cellWidth: 35 }, // Descripción
-          3: { cellWidth: 25 }, // Estado
-          4: { cellWidth: 35 }, // Dir. Recogida
-          5: { cellWidth: 35 }  // Dir. Entrega
+          0: { cellWidth: 40 },
+          1: { cellWidth: 20 },
+          2: { cellWidth: 20 },
+          3: { cellWidth: 20 },
+          4: { cellWidth: 25 },
+          5: { cellWidth: 20 },
+          6: { cellWidth: 20 },
+          7: { cellWidth: 20 }
         }
       });
 
+      // Agregar pie de página con fecha de generación
+      const pageCount = doc.internal.getNumberOfPages();
+      for(let i = 1; i <= pageCount; i++) {
+        doc.setPage(i);
+        doc.setFontSize(8);
+        doc.text(
+          `Generado el ${new Date().toLocaleString()} - Página ${i} de ${pageCount}`,
+          doc.internal.pageSize.width / 2,
+          doc.internal.pageSize.height - 10,
+          { align: 'center' }
+        );
+      }
+
       // Guardar el PDF
-      doc.save('reporte-novedades.pdf');
+      doc.save('reporte-eficiencia-domiciliarios.pdf');
     } catch (error) {
       console.error('Error al generar el PDF:', error);
     } finally {
@@ -83,7 +95,7 @@ const PDFNovedades = () => {
       className="bg-blue-600 text-white"
       disabled={loading}
     >
-      {loading ? 'Generando PDF...' : 'Generar PDF'}
+      {loading ? 'Generando PDF...' : 'Generar Reporte de Eficiencia'}
     </Button>
   );
 };
