@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Database\Seeder;
 use App\Models\Domiciliario;
 use App\Models\reporte_incidencia;
+use App\Models\solicitud;
 
 class DatabaseSeeder extends Seeder
 {
@@ -17,6 +18,7 @@ class DatabaseSeeder extends Seeder
     {
          User::factory(10)->create();
          Domiciliario::factory(10)->create();
+         solicitud::factory(10)->create();
          //reporte_incidencia::factory(10)->create();
 
     }
