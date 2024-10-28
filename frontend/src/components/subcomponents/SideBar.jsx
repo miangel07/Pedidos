@@ -21,97 +21,110 @@ const Sidebar = () => {
 
   const menuItems = [
     {
-      title: 'Usuarios',
+      title: "Usuarios",
       icon: Users,
-      module: 'usuarios',
+      module: "usuarios",
       submenu: [
-        { title: 'Administrar usuarios', link: '/usuario' },
-        { title: 'Recuperación de contraseña', link: '#recuperacion-contrasena' }
-      ]
+        { title: "Administrar usuarios", link: "/usuario" },
+        {
+          title: "Recuperación de contraseña",
+          link: "#recuperacion-contrasena",
+        },
+      ],
     },
     {
-      title: 'Solicitudes de Domicilio',
+      title: "Solicitudes de Domicilio",
       icon: Home,
-      module: 'solicitudes',
+      module: "solicitudes",
       submenu: [
         {
-          title: 'Creación de solicitudes',
-          link: '#creacion-solicitudes',
+          title: "Creación de solicitudes",
+          link: "#creacion-solicitudes",
           subItems: [
-            { title: 'Punto de recogida y entrega', link: '#punto-recogida' },
-            { title: 'Horario de entrega', link: '#horario-entrega' },
-            { title: 'Instrucciones adicionales', link: '#instrucciones-adicionales' }
-          ]
+            { title: "Solicitudes de domicilios", link: "/solicitudes" },
+            { title: "Horario de entrega", link: "/solicitudes" },
+            {
+              title: "Instrucciones adicionales",
+              link: "#instrucciones-adicionales",
+            },
+          ],
         },
         {
-          title: 'Asignación automática',
-          link: '#asignacion-automatica',
+          title: "Reportar novedades e incidencias",
+          link: "/reportarnovedad",
           subItems: [
-            { title: 'Asignación cercana', link: '#asignacion-cercano' },
-            { title: 'Reasignación automática', link: '#reasignacion-automatica' }
-          ]
-        }
-      ]
+            { title: "Novedades", link: "/novedades" },
+            {
+              title: "Reasignación automática",
+              link: "#reasignacion-automatica",
+            },
+          ],
+        },
+      ],
     },
     {
-      title: 'Gestión de Domiciliarios',
+      title: "Gestión de Domiciliarios",
       icon: Truck,
-      module: 'domiciliarios',
+      module: "domiciliarios",
       submenu: [
         {
-          title: 'Gestión de disponibilidad',
-          link: '#gestion-disponibilidad',
+          title: "Gestión de disponibilidad",
+          link: "#gestion-disponibilidad",
           subItems: [
-            { title: 'Actualizar estado', link: '#actualizar-estado' },
-            { title: 'Marcar inactivo', link: '#marcar-inactivo' }
-          ]
+            { title: "Actualizar estado", link: "#actualizar-estado" },
+            { title: "Marcar inactivo", link: "#marcar-inactivo" },
+          ],
         },
         {
-          title: 'Reporte de novedades',
-          link: '/novedades',
+          title: "Reporte de novedades",
+          link: "/novedades",
           subItems: [
-            { title: 'Reportar problemas', link: '#reportar-problemas' },
-            { title: 'Seguimiento de pedidos', link: '#seguimiento-pedidos' }
-          ]
-        }
-      ]
+            { title: "Reportar problemas", link: "#reportar-problemas" },
+            { title: "Seguimiento de pedidos", link: "#seguimiento-pedidos" },
+          ],
+        },
+      ],
     },
     {
-      title: 'Reportes',
+      title: "Reportes",
       icon: BarChart,
-      module: 'reportes',
+      module: "reportes",
       submenu: [
         {
-          title: 'Reportes de solicitudes',
-          link: '#reportes-solicitudes',
+          title: "Reportes de solicitudes",
+          link: "#reportes-solicitudes",
           subItems: [
-            { title: 'Solicitudes históricas', link: '#solicitudes-historicas' }
-          ]
+            {
+              title: "Solicitudes históricas",
+              link: "#solicitudes-historicas",
+            },
+          ],
         },
         {
-          title: 'Reportes de domiciliarios',
-          link: '#reportes-domiciliarios',
-          subItems: [
-            { title: 'Rendir cuentas', link: '#rendir-cuentas' }
-          ]
-        }
-      ]
+          title: "Reportes de domiciliarios",
+          link: "#reportes-domiciliarios",
+          subItems: [{ title: "Rendir cuentas", link: "#rendir-cuentas" }],
+        },
+      ],
     },
     {
-      title: 'Administración Central',
+      title: "Administración Central",
       icon: Settings,
-      module: 'configuracion',
+      module: "configuracion",
       submenu: [
         {
-          title: 'Configuración general',
-          link: '#configuracion-general',
+          title: "Configuración general",
+          link: "#configuracion-general",
           subItems: [
-            { title: 'Modificar permisos', link: '#modificar-permisos' },
-            { title: 'Ajustes de notificaciones', link: '#ajustes-notificaciones' }
-          ]
-        }
-      ]
-    }
+            { title: "Modificar permisos", link: "#modificar-permisos" },
+            {
+              title: "Ajustes de notificaciones",
+              link: "#ajustes-notificaciones",
+            },
+          ],
+        },
+      ],
+    },
   ];
 
   const MenuItem = ({ item }) => {
