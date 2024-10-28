@@ -54,6 +54,7 @@ Route::put('/solicitud/{id}', [SolicitudController::class, 'update']);
 Route::post('/solicitud', [SolicitudController::class, 'create']);
 Route::get('/solicitud', [SolicitudController::class, 'index']);
 Route::get('/solicitud/{id}', [SolicitudController::class, 'show']);
+Route::get('/solicitudUser/{id}', [SolicitudController::class, 'store']);
 
 
 

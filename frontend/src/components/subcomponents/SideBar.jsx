@@ -21,11 +21,12 @@ const Sidebar = () => {
   const toggleSidebar = () => setIsOpen(!isOpen);
   const toggleModule = (module) => setOpenModule(openModule === module ? null : module);
   const navigate = useNavigate();
-const HandleExit=()=>{
 
-  localStorage.removeItem('token');
-  navigate("/")
-}
+  const HandleExit = () => {
+    localStorage.removeItem('token');
+    navigate("/");
+  }
+
   const menuItems = [
     {
       title: "Inicio",
@@ -51,14 +52,13 @@ const HandleExit=()=>{
       module: "solicitudes",
       submenu: [
         {
-          title: "Creación de solicitudes",
-          link: "#creacion-solicitudes",
+          title: "Crear solicitud",
+          link: "/creacion-solicitudes",
         },
         {
           title: "Listar Solicitudes",
-          link: "#creacion-solicitudes",
+          link: "/solicitudesId",
         },
-              
       ],
     },
     {
@@ -69,7 +69,6 @@ const HandleExit=()=>{
         {
           title: "Gestión de disponibilidad",
           link: "#gestion-disponibilidad",
-         
         },
         {
           title: "Reporte de novedades",
@@ -83,7 +82,6 @@ const HandleExit=()=>{
           title: "Listar Solicitud - Domiciliario",
           link: "#creacion-solicitudes",
         },
-       
       ],
     },
     {
@@ -105,7 +103,7 @@ const HandleExit=()=>{
       title: "Salir",
       icon: LogOut,
       module: "configuracion",
-      onClick:HandleExit,
+      onClick: HandleExit,
     },
   ];
 
@@ -124,7 +122,7 @@ const HandleExit=()=>{
           }}
           className="flex justify-between items-center p-3 text-gray-300 hover:bg-gray-700 hover:text-white transition-colors duration-200 cursor-pointer"
         >
-          <div className="flex items-center gap-3"onClick={item.onClick} >
+          <div className="flex items-center gap-3" onClick={item.onClick}>
             <Icon className="w-5 h-5" />
             <span className="text-sm font-medium">{item.title}</span>
           </div>
@@ -132,7 +130,7 @@ const HandleExit=()=>{
             isActive ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />
           )}
         </Link>
-    
+
         {isActive && item.submenu && (
           <div className="bg-gray-900 overflow-hidden transition-all duration-200">
             {item.submenu.map((submenuItem, index) => (
@@ -149,25 +147,22 @@ const HandleExit=()=>{
         )}
       </div>
     );
-    
   };
 
   return (
     <>
       <button
         onClick={toggleSidebar}
-        className="fixed top-4 left-4 z-50 p-2  rounded-lg bg-gray-800 text-white hover:bg-gray-700 focus:outline-none lg:hidden"
+        className="fixed top-4 left-4 z-50 p-2 rounded-lg bg-gray-800 text-white hover:bg-gray-700 focus:outline-none lg:hidden"
       >
         {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
       </button>
-
 
       <div
         onClick={toggleSidebar}
         className={`fixed inset-0 bg-black bg-opacity-50 transition-opacity lg:hidden
           ${isOpen ? 'opacity-100 z-30' : 'opacity-0 pointer-events-none'}`}
       />
-
 
       <aside
         className={`fixed top-0 left-0 h-full w-64 bg-gray-800 transform transition-transform duration-300 ease-in-out 
