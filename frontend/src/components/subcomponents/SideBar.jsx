@@ -5,12 +5,14 @@ import {
   Home,
   Truck,
   BarChart,
-  Settings,
+  LogOut,
   ChevronDown,
   ChevronUp,
+  FileText,
   Menu,
   X
 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -18,8 +20,19 @@ const Sidebar = () => {
 
   const toggleSidebar = () => setIsOpen(!isOpen);
   const toggleModule = (module) => setOpenModule(openModule === module ? null : module);
+  const navigate = useNavigate();
+const HandleExit=()=>{
 
+  localStorage.removeItem('token');
+  navigate("/")
+}
   const menuItems = [
+    {
+      title: "Inicio",
+      icon: Home,
+      link: "/home",
+      module: "home",
+    },
     {
       title: "Usuarios",
       icon: Users,
@@ -28,38 +41,24 @@ const Sidebar = () => {
         { title: "Administrar usuarios", link: "/usuario" },
         {
           title: "Recuperación de contraseña",
-          link: "#recuperacion-contrasena",
+          link: "#Cambiar-contrasena",
         },
       ],
     },
     {
       title: "Solicitudes de Domicilio",
-      icon: Home,
+      icon: FileText,
       module: "solicitudes",
       submenu: [
         {
           title: "Creación de solicitudes",
           link: "#creacion-solicitudes",
-          subItems: [
-            { title: "Solicitudes de domicilios", link: "/solicitudes" },
-            { title: "Horario de entrega", link: "/solicitudes" },
-            {
-              title: "Instrucciones adicionales",
-              link: "#instrucciones-adicionales",
-            },
-          ],
         },
         {
-          title: "Reportar novedades e incidencias",
-          link: "/reportarnovedad",
-          subItems: [
-            { title: "Novedades", link: "/novedades" },
-            {
-              title: "Reasignación automática",
-              link: "#reasignacion-automatica",
-            },
-          ],
+          title: "Listar Solicitudes",
+          link: "#creacion-solicitudes",
         },
+              
       ],
     },
     {
@@ -70,19 +69,21 @@ const Sidebar = () => {
         {
           title: "Gestión de disponibilidad",
           link: "#gestion-disponibilidad",
-          subItems: [
-            { title: "Actualizar estado", link: "#actualizar-estado" },
-            { title: "Marcar inactivo", link: "#marcar-inactivo" },
-          ],
+         
         },
         {
           title: "Reporte de novedades",
           link: "/novedades",
-          subItems: [
-            { title: "Reportar problemas", link: "#reportar-problemas" },
-            { title: "Seguimiento de pedidos", link: "#seguimiento-pedidos" },
-          ],
         },
+        {
+          title: "Reportar novedades e incidencias",
+          link: "/reportarnovedad",
+        },
+        {
+          title: "Listar Solicitud - Domiciliario",
+          link: "#creacion-solicitudes",
+        },
+       
       ],
     },
     {
@@ -91,38 +92,20 @@ const Sidebar = () => {
       module: "reportes",
       submenu: [
         {
-          title: "Reportes de solicitudes",
-          link: "#reportes-solicitudes",
-          subItems: [
-            {
-              title: "Reporte de incidencias",
-              link: "/IncidenciasReporte",
-            },
-            {
-              title: "Reporte de novedades",
-              link: "/NovedadesReporte",
-            },
-          ],
+          title: "Reporte de novedades",
+          link: "/NovedadesReporte",
+        },
+        {
+          title: "Reporte de incidencias",
+          link: "/IncidenciasReporte",
         },
       ],
     },
     {
-      title: "Administración Central",
-      icon: Settings,
+      title: "Salir",
+      icon: LogOut,
       module: "configuracion",
-      submenu: [
-        {
-          title: "Configuración general",
-          link: "#configuracion-general",
-          subItems: [
-            { title: "Modificar permisos", link: "#modificar-permisos" },
-            {
-              title: "Ajustes de notificaciones",
-              link: "#ajustes-notificaciones",
-            },
-          ],
-        },
-      ],
+      onClick:HandleExit,
     },
   ];
 
@@ -132,19 +115,24 @@ const Sidebar = () => {
 
     return (
       <div className="border-b border-gray-700 last:border-0">
-        <div
-          onClick={() => toggleModule(item.module)}
+        <Link
+          to={item.link}
+          onClick={(e) => {
+            e.preventDefault();
+            toggleModule(item.module);
+            if (item.onClick) item.onClick();
+          }}
           className="flex justify-between items-center p-3 text-gray-300 hover:bg-gray-700 hover:text-white transition-colors duration-200 cursor-pointer"
         >
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3"onClick={item.onClick} >
             <Icon className="w-5 h-5" />
             <span className="text-sm font-medium">{item.title}</span>
           </div>
           {item.submenu && (
             isActive ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />
           )}
-        </div>
-
+        </Link>
+    
         {isActive && item.submenu && (
           <div className="bg-gray-900 overflow-hidden transition-all duration-200">
             {item.submenu.map((submenuItem, index) => (
@@ -155,25 +143,13 @@ const Sidebar = () => {
                 >
                   {submenuItem.title}
                 </Link>
-                {submenuItem.subItems && (
-                  <div className="ml-4 mt-1 space-y-1">
-                    {submenuItem.subItems.map((subItem, subIndex) => (
-                      <Link
-                        key={subIndex}
-                        to={subItem.link}
-                        className="text-gray-500 hover:text-gray-300 text-xs block py-1"
-                      >
-                        {subItem.title}
-                      </Link>
-                    ))}
-                  </div>
-                )}
               </div>
             ))}
           </div>
         )}
       </div>
     );
+    
   };
 
   return (
