@@ -2,24 +2,40 @@ import { Suspense } from "react";
 import { Header } from "../subcomponents/Header";
 import { Outlet } from "react-router-dom";
 import Sidebar from "../subcomponents/SideBar";
+import { useContext, useEffect } from "react";
+import { AuthContext } from "../../context/AuthContext";
+import { CambiarEstadoDomiciliario } from "../subcomponents/EstadoDomiciliario";
 
 import { Notificaciones } from "../subcomponents/Notificaciones";
 
 export const Layout = ({ children }) => {
+  const { authData } = useContext(AuthContext);
+
+  useEffect(() => {
+    if (authData) {
+      console.log(authData.TipoUsuario);
+    }
+  }, [authData]);
+
   return (
     <div className="min-h-screen bg-gray-100">
       <Header
         contenido={
-          <Notificaciones
-            notifications={[
-              {
-                id: 1,
-                title: "Nuevo mensaje",
-                description: "Juan Pérez te ha enviado un mensaje",
-                time: "hace 5 min",
-              },
-            ]}
-          />
+          <>
+            <Notificaciones
+              notifications={[
+                {
+                  id: 1,
+                  title: "Nuevo mensaje",
+                  description: "Juan Pérez te ha enviado un mensaje",
+                  time: "hace 5 min",
+                },
+              ]}
+            />{" "}
+            {authData && String(authData.TipoUsuario) === "domiciliario" && (
+              <CambiarEstadoDomiciliario />
+            )}
+          </>
         }
       />
       <div className="flex ">
