@@ -7,14 +7,16 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
 
-class solicitud extends Model {
+class solicitud extends Model
+{
 
     use HasFactory;
     public $table = 'solicituds';
-    protected $fillable = ['direccion_recogida','direccion_entrega','user_id','domiciliario_id','estado','fecha'];
+    protected $fillable = ['direccion_recogida', 'direccion_entrega', "descripcion_Producto", 'user_id', 'domiciliario_id', 'estado', 'fecha'];
 
 
-    public  static function getSolicitudes() {
+    public  static function getSolicitudes()
+    {
 
         $data = solicitud::select(
             "solicituds.id",
@@ -25,17 +27,16 @@ class solicitud extends Model {
             'solicituds.estado',
             'fecha'
         )
-            ->join('users','users.id','=','solicituds.user_id')
-            ->join('domiciliarios','domiciliarios.id','=','solicituds.domiciliario_id')
+            ->join('users', 'users.id', '=', 'solicituds.user_id')
+            ->join('domiciliarios', 'domiciliarios.id', '=', 'solicituds.domiciliario_id')
             ->join('users as domiciliarios_users', 'domiciliarios_users.id', '=', 'domiciliarios.user_id')
-            ->orderBy('fecha','desc')->get();
+            ->orderBy('fecha', 'desc')->get();
 
         return $data;
-
     }
 
-    public function novedads(){
+    public function novedads()
+    {
         $this->hasMany(novedade::class);
     }
-
 }

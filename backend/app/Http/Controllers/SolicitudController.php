@@ -16,7 +16,8 @@ class SolicitudController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index() {
+    public function index()
+    {
         return solicitud::getSolicitudes();
     }
 
@@ -36,16 +37,17 @@ class SolicitudController extends Controller
                 })
                 ->get();
 
-                if ($domiciliariosDisponibles->isEmpty()) {
-                    return response()->json([
-                        "mensaje" => "Lo siento no hay domiciliarios disponibles",
-                    ], 400);
-                }
-                $domiciliarioSeleccionado = $domiciliariosDisponibles->random();
+            if ($domiciliariosDisponibles->isEmpty()) {
+                return response()->json([
+                    "mensaje" => "Lo siento no hay domiciliarios disponibles",
+                ], 400);
+            }
+            $domiciliarioSeleccionado = $domiciliariosDisponibles->random();
 
             solicitud::create([
                 'direccion_recogida' => $datos['direccion_recogida'],
-                'direccion_entrega' => $datos['direccion_entrega'],
+                'direccion_entrega' => $datos['direccion_recogida'],
+                'descripcion_Producto' => $datos['descripcion_Producto'],
                 'user_id' => $datos['user_id'],
                 'domiciliario_id' => $domiciliarioSeleccionado->id,
                 'fecha' => $datos['fecha'],
@@ -62,15 +64,30 @@ class SolicitudController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store($idUser)
     {
+        try {
+         
+            $results = solicitud::where('user_id', $idUser)->get();
+            if ($results->isEmpty()) {
+                return response()->json([
+                    "mensaje" => "No hay solicitudes Registradas",
+                ], 404);
+            }
+
+            return response()->json($results, 200);
+        } catch (\Throwable $th) {
+            return $th->getMessage();
+        }
+
         //
     }
 
     /**
      * Display the specified resource.
      */
-    public function show($solicitud) {
+    public function show($solicitud)
+    {
         return solicitud::find($solicitud);
     }
 
