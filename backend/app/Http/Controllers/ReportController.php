@@ -7,6 +7,8 @@ use App\Models\reporte_incidencia;
 use App\Models\User;
 use App\Models\solicitud;
 use App\Models\novedade;
+use Illuminate\Support\Facades\DB;
+
 
 class ReportController extends Controller
 {
@@ -46,6 +48,26 @@ class ReportController extends Controller
         return response()->json([
             'status' => 'success',
             'data' => $novedades
+        ], 200);
+    }
+
+
+
+
+
+    public function getGraficaReporteIncidencia()
+    {
+        $reportes = reporte_incidencia::select(
+                'reporte_incidencias.tipo_incidencia',
+                'reporte_incidencias.estado',
+                DB::raw('COUNT(*) as total')
+            )
+            ->groupBy('reporte_incidencias.tipo_incidencia', 'reporte_incidencias.estado')
+            ->get();
+
+        return response()->json([
+            'status' => 'success',
+            'data' => $reportes
         ], 200);
     }
 }

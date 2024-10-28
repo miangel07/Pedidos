@@ -95,15 +95,14 @@ const Sidebar = () => {
           link: "#reportes-solicitudes",
           subItems: [
             {
-              title: "Solicitudes históricas",
-              link: "#solicitudes-historicas",
+              title: "Reporte de incidencias",
+              link: "/IncidenciasReporte",
+            },
+            {
+              title: "Reporte de novedades",
+              link: "/NovedadesReporte",
             },
           ],
-        },
-        {
-          title: "Reportes de domiciliarios",
-          link: "#reportes-domiciliarios",
-          subItems: [{ title: "Rendir cuentas", link: "#rendir-cuentas" }],
         },
       ],
     },

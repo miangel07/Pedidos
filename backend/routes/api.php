@@ -12,7 +12,6 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SolicitudController;
 
-
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
@@ -54,3 +53,8 @@ Route::put('/solicitud/{id}', [SolicitudController::class, 'update']);
 Route::post('/solicitud', [SolicitudController::class, 'create']);
 Route::get('/solicitud', [SolicitudController::class, 'index']);
 Route::get('/solicitud/{id}', [SolicitudController::class, 'show']);
+
+
+
+// graficas
+Route::get('/grafica/incidencias', [ReportController::class, 'getGraficaReporteIncidencia']);

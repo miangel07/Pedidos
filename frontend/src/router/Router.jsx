@@ -7,6 +7,8 @@ import { NovedadesPage } from "../pages/NovedadesPage";
 import UsuarioPages from "../pages/UsuarioPages";
 import { ReportarNovedadPage } from "../pages/ReportarNovedades";
 import { SolicitudPage } from "../pages/SolicitudesPage";
+import { IncidenciasReportePage } from "../pages/InicidenciasReportePage";
+import { NovedadesReportePage } from "../pages/NovedadesReportePage";
 
 export const AppRouter = () => {
   return (
@@ -18,6 +20,10 @@ export const AppRouter = () => {
         <Route path="/usuario" element={<UsuarioPages />} />
         <Route path="/reportarnovedad" element={<ReportarNovedadPage />} />
         <Route path="/solicitudes" element={<SolicitudPage />} />
+        <Route path="/IncidenciasReporte" element={<IncidenciasReportePage />} />
+        <Route path="/NovedadesReporte" element={<NovedadesReportePage />} />
+
+
       </Routes>
     </>
   );
