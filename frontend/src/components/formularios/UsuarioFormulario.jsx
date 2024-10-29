@@ -10,7 +10,7 @@ const UsuarioFormulario = ({ data, closeModal }) => {
     const { register, handleSubmit, reset, watch, formState: { errors } } = useForm();
 
     const [isNegocio, setIsNegocio] = useState(false);
-    const {refress}=useUserMutation()
+    const {optenerUsuarios}=useUserMutation()
     const [isDomiciliario, setDomiciliario] = useState(false);
 
 
@@ -23,7 +23,7 @@ const UsuarioFormulario = ({ data, closeModal }) => {
             toast.success(`${response.data.data}`)
             reset()
             closeModal()
-            await refress()
+            await optenerUsuarios()
 
         }
 
@@ -36,7 +36,7 @@ const UsuarioFormulario = ({ data, closeModal }) => {
             toast.success(`${response.data.mensaje}`)
             reset()
             closeModal()
-            await refress()
+            await optenerUsuarios()
             
 
         }

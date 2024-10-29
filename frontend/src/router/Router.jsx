@@ -13,6 +13,7 @@ import CrearSolicitud from "../pages/CrearSolicitud";
 import ListarSolicitudIDPages from "../pages/ListarSolicitudIDPages";
 import ReportarIncidenciasPage from "../pages/ReportarIncidenciasPage";
 import { AuthContext } from "../context/AuthContext";
+import DomiciliariosPage from "../pages/DomiciliariosPage";
 
 export const AppRouter = () => {
   const { authData } = useContext(AuthContext);
@@ -24,6 +25,8 @@ export const AppRouter = () => {
 
 
       <Route path="/home" element={<ProtectedRoute allowedRoles={["administrador", "negocio", "domiciliario", "particular"]} element={<HomePage />} />} />
+
+      <Route path="//disponibilidad-domiciliarios" element={<ProtectedRoute allowedRoles={["administrador", "negocio", "domiciliario", "particular"]} element={<DomiciliariosPage/>} />} />
 
       <Route path="/novedades" element={<ProtectedRoute allowedRoles={["administrador", "negocio", "domiciliario", "particular"]} element={<NovedadesPage />} />} />
 

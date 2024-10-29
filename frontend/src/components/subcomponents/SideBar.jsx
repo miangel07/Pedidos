@@ -94,12 +94,12 @@ const Sidebar = () => {
       roles: ["administrador", "domiciliario", "particular", "negocio"],
       submenu: [
         {
-          title: "Gestión de disponibilidad",
-          link: "#gestion-disponibilidad",
+          title: "Disponibilidad de domiciliarios",
+          link: "/disponibilidad-domiciliarios",
           roles: ["administrador"]
         },
         {
-          title: "Reporte de novedades",
+          title: "Novedades e Incidencias",
           link: "/novedades",
           roles: ["administrador", "domiciliario"]
         },
