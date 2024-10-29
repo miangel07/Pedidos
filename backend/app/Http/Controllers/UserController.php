@@ -39,7 +39,6 @@ class UserController extends Controller
             Domiciliario::create([
                 'licencia' => $request->licencia,
                 'user_id' => $user->id,
-                'disponibilidad' => 'disponible'
             ]);
         }
 

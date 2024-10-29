@@ -1,6 +1,6 @@
 import { Routes, Route } from "react-router-dom";
-
-// importaciones de las paginas
+import { useContext } from "react";
+import ProtectedRoute from "../components/utils/ProtectedRoute";
 import { LoginPage } from "../pages/LoginPage";
 import { HomePage } from "../pages/HomePage";
 import { NovedadesPage } from "../pages/NovedadesPage";
@@ -11,24 +11,37 @@ import { IncidenciasReportePage } from "../pages/InicidenciasReportePage";
 import { NovedadesReportePage } from "../pages/NovedadesReportePage";
 import CrearSolicitud from "../pages/CrearSolicitud";
 import ListarSolicitudIDPages from "../pages/ListarSolicitudIDPages";
+import ReportarIncidenciasPage from "../pages/ReportarIncidenciasPage";
+import { AuthContext } from "../context/AuthContext";
 
 export const AppRouter = () => {
+  const { authData } = useContext(AuthContext);
+
   return (
-    <>
-      <Routes>
-        <Route path="/" element={<LoginPage />} />
-        <Route path="/home" element={<HomePage />} />
-        <Route path="/novedades" element={<NovedadesPage />} />
-        <Route path="/usuario" element={<UsuarioPages />} />
-        <Route path="/reportarnovedad" element={<ReportarNovedadPage />} />
-        <Route path="/solicitudes" element={<SolicitudPage />} />
-        <Route path="/solicitudesId" element={<ListarSolicitudIDPages />} />
-        <Route path="//creacion-solicitudes" element={<CrearSolicitud />} />
-        <Route path="/IncidenciasReporte" element={<IncidenciasReportePage />} />
-        <Route path="/NovedadesReporte" element={<NovedadesReportePage />} />
+    <Routes>
+      {/* Ruta pública */}
+      <Route path="/" element={<LoginPage />} />
 
 
-      </Routes>
-    </>
+      <Route path="/home" element={<ProtectedRoute allowedRoles={["administrador", "negocio", "domiciliario", "particular"]} element={<HomePage />} />} />
+
+      <Route path="/novedades" element={<ProtectedRoute allowedRoles={["administrador", "negocio", "domiciliario", "particular"]} element={<NovedadesPage />} />} />
+
+      <Route path="/usuario" element={<ProtectedRoute allowedRoles={["administrador"]} element={<UsuarioPages />} />} />
+
+      <Route path="/reportarnovedad" element={<ProtectedRoute allowedRoles={["administrador", "domiciliario"]} element={<ReportarNovedadPage />} />} />
+
+      <Route path="/solicitudes" element={<ProtectedRoute allowedRoles={["administrador", "negocio", "domiciliario", "particular"]} element={<SolicitudPage />} />} />
+
+      <Route path="/solicitudesId" element={<ProtectedRoute allowedRoles={["administrador", "negocio", "domiciliario", "particular"]} element={<ListarSolicitudIDPages />} />} />
+
+      <Route path="/IncidenciasReporte" element={<ProtectedRoute allowedRoles={["administrador"]} element={<IncidenciasReportePage />} />} />
+
+      <Route path="/NovedadesReporte" element={<ProtectedRoute allowedRoles={["administrador"]} element={<NovedadesReportePage />} />} />
+      
+      <Route path="/reportarIncidencia" element={<ProtectedRoute allowedRoles={["negocio", "administrador", "domiciliario"]} element={<ReportarIncidenciasPage />} />} />
+
+      <Route path="/creacion-solicitudes" element={<ProtectedRoute allowedRoles={["negocio", "administrador", "domiciliario"]} element={<CrearSolicitud />} />} />
+    </Routes>
   );
 };

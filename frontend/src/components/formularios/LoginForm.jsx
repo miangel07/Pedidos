@@ -4,12 +4,14 @@ import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import { useNavigate } from "react-router-dom";
 import { axiosCliente } from "../../service/axios";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { AuthContext } from "../../context/AuthContext";
 export const LoginForm = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
+  const { setToken } = useContext(AuthContext);
   const [ErrorMessage, setErrorMessage] = useState(null)
   const navigate = useNavigate();
-  console.log(ErrorMessage)
+
   const submit = async (data) => {
 
     try {
@@ -18,6 +20,7 @@ export const LoginForm = () => {
 
       if (response.status == 200) {
         localStorage.setItem("token", response.data.token);
+        setToken(response.data.token)
         navigate("/home");
       }
 
@@ -29,9 +32,7 @@ export const LoginForm = () => {
 
       }
     }
-
   };
-
   return (
     <form className="flex gap-5 flex-col" onSubmit={handleSubmit(submit)}>
 
