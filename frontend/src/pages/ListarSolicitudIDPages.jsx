@@ -4,16 +4,18 @@ import { useQuerySolicitudesId } from '../hooks/Solicitud'
 import { Table } from '../components/Nextui/Table'
 import { Eye } from 'lucide-react';
 import { Chip } from '@nextui-org/react';
+import { toast } from 'react-toastify';
 const ListarSolicitudIDPages = () => {
   const { solicitudUser } = useQuerySolicitudesId();
-  console.log(solicitudUser)
+console.log(solicitudUser)
+
   const colorEstado = {
-      pendiente: "warning",
-      asignado: "info",     
-      en_curso: "primary",  
-      completado: "success", 
-      reprogramado: "warning", 
-      cancelado: "danger",  
+    pendiente: "warning",
+    asignado: "info",
+    en_curso: "primary",
+    completado: "success",
+    reprogramado: "warning",
+    cancelado: "danger",
 
   }
   const column = ["id", "descripcion del Producto", "direccion de entrega", "direccion de recogida", "domiciliario", "estado", "fecha", "acciones"]
@@ -27,7 +29,7 @@ const ListarSolicitudIDPages = () => {
         descripcion_Producto: items.descripcion_Producto,
         direccion_entrega: items.direccion_entrega,
         direccion_recogida: items.direccion_recogida,
-        domiciliario_id: items.domiciliario_id,
+        domiciliario_nombre: items.domiciliario_nombre,
         estado: (<Chip
           className="w-10"
           color={colorEstado[items.estado]}
