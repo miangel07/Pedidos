@@ -3,63 +3,87 @@
 namespace App\Http\Controllers;
 
 use App\Models\actividade;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class ActividadeController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        try {
+            $actividades = actividade::with('user')
+                                   ->orderBy('fecha', 'desc')
+                                   ->get()
+                                   ->map(function ($actividad) {
+                                        return [
+                                            'id' => $actividad->id,
+                                            'descripcion' => $actividad->descripcion,
+                                            'fecha' => $actividad->fecha->format('Y-m-d'),
+                                            'usuario' => $actividad->user->nombre
+                                        ];
+                                   });
+
+            return response()->json([
+                'status' => 'success',
+                'data' => $actividades
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Error al obtener las actividades',
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
-    }
+        try {
+            $request->validate([
+                'user_id' => 'required|exists:users,id',
+                'descripcion' => 'required|string|max:255',
+                'fecha' => 'required|date'
+            ]);
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(actividade $actividade)
-    {
-        //
-    }
+            $user = User::find($request->user_id);
+            if (!$user) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Usuario no encontrado'
+                ], 404);
+            }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(actividade $actividade)
-    {
-        //
-    }
+            $actividad = new actividade();
+            $actividad->user_id = $request->user_id;
+            $actividad->descripcion = $request->descripcion;
+            $actividad->fecha = $request->fecha;
+            $actividad->save();
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, actividade $actividade)
-    {
-        //
-    }
+            $actividad->load('user:id,nombre');
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(actividade $actividade)
-    {
-        //
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Actividad creada exitosamente',
+                'data' => [
+                    'id' => $actividad->id,
+                    'descripcion' => $actividad->descripcion,
+                    'fecha' => $actividad->fecha->format('Y-m-d'),
+                    'usuario' => $actividad->user->nombre
+                ]
+            ], 201);
+
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Error de validación',
+                'errors' => $e->errors()
+            ], 422);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Error al crear la actividad',
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
 }

@@ -156,4 +156,44 @@ class ReportController extends Controller
             'data' => $reportes
         ], 200);
     }
+
+
+    public function getEstadisticasEntregasMensuales()
+    {
+        $estadisticas = DB::table('solicituds')
+            ->select([
+                DB::raw('DATE_FORMAT(solicituds.fecha, "%Y-%m") as mes'),
+                DB::raw('COUNT(*) as total_entregas'),
+                DB::raw('COUNT(CASE WHEN solicituds.estado = "completado" THEN 1 END) as entregas_completadas'),
+                DB::raw('COUNT(CASE WHEN solicituds.estado = "pendiente" THEN 1 END) as entregas_pendientes'),
+                DB::raw('COUNT(DISTINCT n.id) as total_novedades'),
+                DB::raw('AVG(TIMESTAMPDIFF(HOUR, solicituds.fecha, 
+                    CASE 
+                        WHEN solicituds.estado = "completado" THEN solicituds.updated_at
+                        ELSE NOW()
+                    END)) as tiempo_promedio_horas')
+            ])
+            ->leftJoin('novedades as n', 'n.solicitud_id', '=', 'solicituds.id')
+            ->groupBy(DB::raw('DATE_FORMAT(solicituds.fecha, "%Y-%m")'))
+            ->orderBy('mes', 'asc')
+            ->get()
+            ->map(function($item) {
+                return [
+                    'mes' => $item->mes,
+                    'total_entregas' => $item->total_entregas,
+                    'entregas_completadas' => $item->entregas_completadas,
+                    'entregas_pendientes' => $item->entregas_pendientes,
+                    'total_novedades' => $item->total_novedades,
+                    'tiempo_promedio_horas' => round($item->tiempo_promedio_horas ?? 0, 2),
+                    'tasa_exito' => round(($item->entregas_completadas / $item->total_entregas) * 100, 2)
+                ];
+            });
+    
+        return response()->json([
+            'status' => 'success',
+            'data' => $estadisticas
+        ], 200);
+    }
+
+
 }

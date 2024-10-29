@@ -11,6 +11,8 @@ use App\Http\Controllers\NovedadeController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SolicitudController;
+use App\Http\Controllers\ActividadeController;
+
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -60,3 +62,8 @@ Route::get('/solicitudUser/{id}', [SolicitudController::class, 'store']);
 
 // graficas
 Route::get('/grafica/incidencias', [ReportController::class, 'getGraficaReporteIncidencia']);
+Route::get('/grafica/novedades', [ReportController::class, 'getEstadisticasEntregasMensuales']);
+
+// actividades
+Route::get('/actividades', [ActividadeController::class, 'index']);
+Route::post('/actividades', [ActividadeController::class, 'store']);
