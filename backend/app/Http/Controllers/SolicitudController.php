@@ -7,6 +7,149 @@ use App\Models\solicitud;
 use App\Models\User;
 use Illuminate\Http\Request;
 
+/**
+ * @OA\Get(
+ *     path="/api/solicitudes",
+ *     summary="Obtener todas las solicitudes",
+ *     description="Retorna una lista de todas las solicitudes",
+ *     @OA\Response(
+ *         response=200,
+ *         description="Operación exitosa",
+ *         @OA\JsonContent(
+ *             type="array",
+ *             @OA\Items(
+ *                 @OA\Property(property="id", type="integer", example=1),
+ *                 @OA\Property(property="direccion_recogida", type="string", example="Calle 123"),
+ *                 @OA\Property(property="direccion_entrega", type="string", example="Calle 456"),
+ *                 @OA\Property(property="descripcion_Producto", type="string", example="Paquete pequeño"),
+ *                 @OA\Property(property="user_id", type="integer", example=1),
+ *                 @OA\Property(property="domiciliario_id", type="integer", example=1),
+ *                 @OA\Property(property="estado", type="string", example="pendiente"),
+ *                 @OA\Property(property="fecha", type="string", format="date", example="2023-04-15")
+ *             )
+ *         )
+ *     )
+ * )
+ *
+ * @OA\Post(
+ *     path="/api/solicitudes",
+ *     summary="Crear una nueva solicitud",
+ *     description="Crea una nueva solicitud en el sistema",
+ *     @OA\RequestBody(
+ *         required=true,
+ *         @OA\JsonContent(
+ *             @OA\Property(property="direccion_recogida", type="string", example="Calle 123"),
+ *             @OA\Property(property="direccion_entrega", type="string", example="Calle 456"),
+ *             @OA\Property(property="descripcion_Producto", type="string", example="Paquete pequeño"),
+ *             @OA\Property(property="user_id", type="integer", example=1),
+ *             @OA\Property(property="fecha", type="string", format="date", example="2023-04-15")
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=201,
+ *         description="Solicitud creada exitosamente",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="mensaje", type="string", example="Solicitud creada con éxito")
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=400,
+ *         description="No hay domiciliarios disponibles",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="mensaje", type="string", example="Lo siento no hay domiciliarios disponibles")
+ *         )
+ *     )
+ * )
+ *
+ * @OA\Get(
+ *     path="/api/solicitudes/{idUser}",
+ *     summary="Obtener solicitudes de un usuario",
+ *     description="Retorna una lista de todas las solicitudes de un usuario específico",
+ *     @OA\Parameter(
+ *         name="idUser",
+ *         in="path",
+ *         required=true,
+ *         @OA\Schema(type="integer")
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="Operación exitosa",
+ *         @OA\JsonContent(
+ *             type="array",
+ *             @OA\Items(
+ *                 @OA\Property(property="id", type="integer", example=1),
+ *                 @OA\Property(property="direccion_recogida", type="string", example="Calle 123"),
+ *                 @OA\Property(property="direccion_entrega", type="string", example="Calle 456"),
+ *                 @OA\Property(property="descripcion_Producto", type="string", example="Paquete pequeño"),
+ *                 @OA\Property(property="user_id", type="integer", example=1),
+ *                 @OA\Property(property="domiciliario_id", type="integer", example=1),
+ *                 @OA\Property(property="estado", type="string", example="pendiente"),
+ *                 @OA\Property(property="fecha", type="string", format="date", example="2023-04-15")
+ *             )
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=404,
+ *         description="No hay solicitudes registradas",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="mensaje", type="string", example="No hay solicitudes Registradas")
+ *         )
+ *     )
+ * )
+ *
+ * @OA\Get(
+ *     path="/api/solicitudes/{id}",
+ *     summary="Obtener una solicitud por ID",
+ *     description="Retorna los detalles de una solicitud específica",
+ *     @OA\Parameter(
+ *         name="id",
+ *         in="path",
+ *         required=true,
+ *         @OA\Schema(type="integer")
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="Operación exitosa",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="id", type="integer", example=1),
+ *             @OA\Property(property="direccion_recogida", type="string", example="Calle 123"),
+ *             @OA\Property(property="direccion_entrega", type="string", example="Calle 456"),
+ *             @OA\Property(property="descripcion_Producto", type="string", example="Paquete pequeño"),
+ *             @OA\Property(property="user_id", type="integer", example=1),
+ *             @OA\Property(property="domiciliario_id", type="integer", example=1),
+ *             @OA\Property(property="estado", type="string", example="pendiente"),
+ *             @OA\Property(property="fecha", type="string", format="date", example="2023-04-15")
+ *         )
+ *     )
+ * )
+ *
+ * @OA\Put(
+ *     path="/api/solicitudes/{id}",
+ *     summary="Actualizar una solicitud",
+ *     description="Actualiza los detalles de una solicitud existente",
+ *     @OA\Parameter(
+ *         name="id",
+ *         in="path",
+ *         required=true,
+ *         @OA\Schema(type="integer")
+ *     ),
+ *     @OA\RequestBody(
+ *         required=true,
+ *         @OA\JsonContent(
+ *             @OA\Property(property="estado", type="string", example="asignado"),
+ *             @OA\Property(property="domiciliario", type="integer", example=1)
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="Solicitud actualizada exitosamente",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="mensaje", type="string", example="Solicitud Asignada")
+ *         )
+ *     )
+ * )
+ */
+
 
 class SolicitudController extends Controller
 {
