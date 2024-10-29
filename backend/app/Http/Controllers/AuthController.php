@@ -26,9 +26,12 @@ class AuthController extends Controller
     }
     public function getUser()
     {
-        
+        try {
+            
             $user = JWTAuth::parseToken()->authenticate();
-            return response()->json($user); 
-       
+            return response()->json($user);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'No se pudo obtener el usuario'], 500);
+        }
     }
 }

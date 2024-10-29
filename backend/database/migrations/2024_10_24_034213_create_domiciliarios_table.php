@@ -15,7 +15,7 @@ return new class extends Migration {
             $table->string('licencia');
             $table->unsignedBigInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
-            $table->enum('disponibilidad', ["disponible", "no disponible"]);
+            $table->enum('disponibilidad', ["disponible", "no disponible"])->default("disponible");
             $table->timestamps();
         });
     }
