@@ -40,4 +40,8 @@ class solicitud extends Model
     {
         $this->hasMany(novedade::class);
     }
+    public function domiciliario()
+    {
+        return $this->belongsTo(Domiciliario::class, 'domiciliario_id');
+    }
 }

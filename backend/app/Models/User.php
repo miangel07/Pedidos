@@ -41,6 +41,31 @@ class User extends Authenticatable implements JWTSubject
     {
         return User::all();
     }
+    public static function getUsuarioDomiciliario()
+    {
+        
+        $results = User::where('TipoUsuario', 'domiciliario')
+            ->with('domiciliario') 
+            ->get();
+
+
+        $results = $results->map(function ($user) {
+            return [
+
+                'nombre' => $user->nombre,
+                'correo' => $user->correo,
+                'telefono' => $user->telefono,
+                'estado' => $user->estado,
+                'id' => $user->domiciliario->id ?? null, 
+                'licencia' => $user->domiciliario->licencia ?? null,
+                'disponibilidad' => $user->domiciliario->disponibilidad ?? null,
+
+            ];
+        });
+
+
+        return response()->json($results);
+    }
     public function domiciliario()
     {
         return $this->hasOne(Domiciliario::class);

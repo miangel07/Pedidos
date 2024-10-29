@@ -36,6 +36,7 @@ Route::get('/novedades/{id}', [NovedadeController::class, 'show']);
 
 //usuarios y login
 Route::post('/usuario', [UserController::class, 'createUsurio']);
+Route::get('/usuarioDomiciliario', [UserController::class, 'getDomiciliaro']);
 Route::put('/usuario/{id}', [UserController::class, 'updateUsuario']);
 Route::put('/usuarioEstado/{id}', [UserController::class, 'updateEstado']);
 Route::get('/usuario', [UserController::class, 'index']);

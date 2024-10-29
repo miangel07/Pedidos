@@ -135,6 +135,10 @@ class UserController extends Controller
     {
         return User::getUsuario();
     }
+    public function getDomiciliaro()
+    {
+        return User::getUsuarioDomiciliario();
+    }
     public function createUsurio(Request $request)
     {
 
