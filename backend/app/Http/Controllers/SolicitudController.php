@@ -67,7 +67,7 @@ class SolicitudController extends Controller
     public function store($idUser)
     {
         try {
-         
+
             $results = solicitud::where('user_id', $idUser)->get();
             if ($results->isEmpty()) {
                 return response()->json([
@@ -125,7 +125,7 @@ class SolicitudController extends Controller
 
                 $datosDomiciliario = Domiciliario::where("disponibilidad", "disponible")->get();
 
-                $idDomiciliario = $datosDomiciliario[count($datosDomiciliario) - 1]['id'];
+                $idDomiciliario = $datos['domiciliario'] || $datosDomiciliario[rand(0, count($datosDomiciliario) - 1)]['id'];
 
                 $solicitudIdFind->estado = $datos['estado'];
                 $solicitudIdFind->domiciliario_id = $idDomiciliario;
@@ -140,12 +140,13 @@ class SolicitudController extends Controller
             }
 
             $solicitudIdFind->estado = $datos['estado'];
-            $solicitudIdFind->domiciliario_id = $datos['domiciliario'];
-            $solicitudIdFind->save();
 
-            return response()->json([
-                "mensaje" => "Solicitud" . " " . $datos['estado']
-            ], 200);
+              $solicitudIdFind->domiciliario_id = $datos['domiciliario'];
+               $solicitudIdFind->save();
+
+             return response()->json([
+                   "mensaje" => "Solicitud" . " " . $datos['estado']
+               ], 200);
         } catch (\Exception $exception) {
             return $exception->getMessage();
         }

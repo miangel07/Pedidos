@@ -19,9 +19,10 @@ class solicitud extends Model
     {
 
         $data = solicitud::select(
-            "solicituds.id",
+            "solicituds.id as Id_solicitud",
             'direccion_recogida',
             'direccion_entrega',
+            'domiciliario_id',
             'users.nombre as nombre_usuario',
             'domiciliarios_users.nombre as nombre_domiciliario',
             'solicituds.estado',

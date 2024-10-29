@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Layout } from "../components/layouts/Layout";
 import { Table } from "../components/Nextui/Table";
 import { Button } from "@nextui-org/react";
@@ -18,6 +18,7 @@ export const SolicitudPage = () => {
     "id",
     "direccion_recogida",
     "direccion_entrega",
+      "id",
     "nombre usuario",
     "nombre_domiciliario",
     "estado",
@@ -33,6 +34,8 @@ export const SolicitudPage = () => {
   const closeModal = () => {
     setIsOpen(false);
   };
+
+
 
   return (
     <>
@@ -56,7 +59,7 @@ export const SolicitudPage = () => {
               ...fila,
               acciones: (
                 <>
-                  <Button onClick={() => handleShowSolicitud(fila.id)}>
+                  <Button onClick={() => handleShowSolicitud(fila.Id_solicitud)}>
                     Ver
                   </Button>
                 </>

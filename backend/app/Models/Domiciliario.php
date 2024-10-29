@@ -14,7 +14,15 @@ class Domiciliario extends Model
 
     public static function getDomiciliario()
     {
-        return Domiciliario::all();
+        return Domiciliario::select(
+            'domiciliarios.id',
+            'domiciliarios.licencia',
+            'domiciliarios.user_id',
+            'domiciliarios.disponibilidad',
+            'users.nombre'
+        )
+            ->join('users', 'users.id', '=', 'domiciliarios.user_id')
+            ->get();
     }
     public function user()
     {

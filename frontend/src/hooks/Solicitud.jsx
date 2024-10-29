@@ -32,8 +32,6 @@ export const useQuerySolicitudesId = () => {
   const obtenerSolicitudID = async (id) => {
     try {
       const response = await axiosCliente.get(`solicitud/${id}`);
-      console.log(response.data);
-
       setSolicitudID(response.data);
     } catch (error) {
       console.error(error.response);
@@ -43,7 +41,6 @@ export const useQuerySolicitudesId = () => {
   const SolicitudUserId = async () => {
     try {
       const response = await axiosCliente.get(`solicitudUser/${authData?.id}`);
-      console.log(response.data);
       setsolicitudUser(response.data);
     } catch (error) {
       console.error(error.response);
