@@ -1,0 +1,1520 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "APIs For Thrift Store",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/activities": {
+            "get": {
+                "summary": "Obtener todas las actividades",
+                "description": "Retorna una lista de todas las actividades ordenadas por fecha de manera descendente",
+                "operationId": "9ecbc369a442b17ac1990622ea1d760a",
+                "responses": {
+                    "200": {
+                        "description": "Operación exitosa",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "descripcion": {
+                                                        "type": "string",
+                                                        "example": "Actividad de prueba"
+                                                    },
+                                                    "fecha": {
+                                                        "type": "string",
+                                                        "format": "date",
+                                                        "example": "2023-04-15"
+                                                    },
+                                                    "usuario": {
+                                                        "type": "string",
+                                                        "example": "Juan Pérez"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Crear una nueva actividad",
+                "description": "Crea una nueva actividad en el sistema",
+                "operationId": "8d5bfff1edded3cb00c53b120af9297b",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "user_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "descripcion": {
+                                        "type": "string",
+                                        "example": "Actividad de prueba"
+                                    },
+                                    "fecha": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2023-04-15"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Actividad creada exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Actividad creada exitosamente"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "descripcion": {
+                                                    "type": "string",
+                                                    "example": "Actividad de prueba"
+                                                },
+                                                "fecha": {
+                                                    "type": "string",
+                                                    "format": "date",
+                                                    "example": "2023-04-15"
+                                                },
+                                                "usuario": {
+                                                    "type": "string",
+                                                    "example": "Juan Pérez"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Error de validación",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Error de validación"
+                                        },
+                                        "errors": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Usuario no encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Usuario no encontrado"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno del servidor",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Error al crear la actividad"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Mensaje de error"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/domiciliarios": {
+            "get": {
+                "summary": "Obtener todos los domiciliarios",
+                "description": "Retorna una lista de todos los domiciliarios",
+                "operationId": "564e9663fd4091dea21834765f2552c1",
+                "responses": {
+                    "200": {
+                        "description": "Operación exitosa",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "licencia": {
+                                                        "type": "string",
+                                                        "example": "ABC123"
+                                                    },
+                                                    "user_id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "disponibilidad": {
+                                                        "type": "boolean",
+                                                        "example": true
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Crear un nuevo domiciliario",
+                "description": "Crea un nuevo domiciliario en el sistema",
+                "operationId": "38d83d4410b6ac7a36a352f57a680233",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "licencia": {
+                                        "type": "string",
+                                        "example": "ABC123"
+                                    },
+                                    "user_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "disponibilidad": {
+                                        "type": "boolean",
+                                        "example": true
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Domiciliario creado exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "string",
+                                            "example": "Domiciliario creado con éxito"
+                                        },
+                                        "request": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno del servidor",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/domiciliarios/{id}": {
+            "put": {
+                "summary": "Actualizar un domiciliario",
+                "description": "Actualiza la información de un domiciliario existente",
+                "operationId": "1df6720aef67a73e1db1a81ac72ab6ac",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "licencia": {
+                                        "type": "string",
+                                        "example": "ABC123"
+                                    },
+                                    "user_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "disponibilidad": {
+                                        "type": "boolean",
+                                        "example": true
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Domiciliario actualizado exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "string",
+                                            "example": "Domiciliario actualizado con éxito"
+                                        },
+                                        "request": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno del servidor",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/novedades": {
+            "get": {
+                "summary": "Obtener todas las novedades",
+                "description": "Retorna una lista de todas las novedades",
+                "operationId": "34dbdbf51a2d31837d1cf0ddaf7bd970",
+                "responses": {
+                    "200": {
+                        "description": "Operación exitosa",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "descripcion": {
+                                                        "type": "string",
+                                                        "example": "Novedad de prueba"
+                                                    },
+                                                    "estado": {
+                                                        "type": "string",
+                                                        "example": "reportada"
+                                                    },
+                                                    "fecha_reporte": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2023-04-15T12:00:00"
+                                                    },
+                                                    "domiciliario_id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "solicitud_id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Crear una nueva novedad",
+                "description": "Crea una nueva novedad en el sistema",
+                "operationId": "e5d11a387f58571daef72a6399ba1c77",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "domiciliario_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "solicitud_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "descripcion": {
+                                        "type": "string",
+                                        "example": "Novedad de prueba"
+                                    },
+                                    "estado": {
+                                        "type": "string",
+                                        "example": "reportada"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "202": {
+                        "description": "Novedad creada exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "mensaje": {
+                                            "type": "string",
+                                            "example": "Novedad creada"
+                                        },
+                                        "request": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno del servidor",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/novedades/{id}": {
+            "get": {
+                "summary": "Obtener una novedad por ID",
+                "description": "Retorna una novedad específica por su ID",
+                "operationId": "253bb984620eb6d79d360c01b9a4efdd",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Operación exitosa",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno del servidor",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/reportes/incidencias": {
+            "get": {
+                "summary": "Obtener reporte de incidencias",
+                "description": "Retorna una lista de todas las incidencias reportadas",
+                "operationId": "acc9bfb8828757a923e57eca78b481e5",
+                "responses": {
+                    "200": {
+                        "description": "Operación exitosa",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "fecha_incidencia": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2023-04-15 12:34:56"
+                                                    },
+                                                    "fecha_actualizacion": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2023-04-15 12:35:10"
+                                                    },
+                                                    "tipo_incidencia": {
+                                                        "type": "string",
+                                                        "example": "Retraso en la entrega"
+                                                    },
+                                                    "descripcion": {
+                                                        "type": "string",
+                                                        "example": "El domiciliario llegó 2 horas tarde"
+                                                    },
+                                                    "nombre": {
+                                                        "type": "string",
+                                                        "example": "Juan Pérez"
+                                                    },
+                                                    "estado": {
+                                                        "type": "string",
+                                                        "example": "Pendiente"
+                                                    },
+                                                    "tiempo_entrega": {
+                                                        "type": "string",
+                                                        "example": "2 días y 3 horas"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/reportes/eficiencia-domiciliarios": {
+            "get": {
+                "summary": "Obtener reporte de eficiencia de domiciliarios",
+                "description": "Retorna un reporte de la eficiencia de los domiciliarios",
+                "operationId": "1f3db312a0edcc1229f2eeb55186b2fd",
+                "responses": {
+                    "200": {
+                        "description": "Operación exitosa",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "nombre_domiciliario": {
+                                                        "type": "string",
+                                                        "example": "Juan Pérez"
+                                                    },
+                                                    "total_solicitudes": {
+                                                        "type": "integer",
+                                                        "example": 100
+                                                    },
+                                                    "entregas_exitosas": {
+                                                        "type": "integer",
+                                                        "example": 90
+                                                    },
+                                                    "total_novedades": {
+                                                        "type": "integer",
+                                                        "example": 10
+                                                    },
+                                                    "tiempo_promedio_horas": {
+                                                        "type": "number",
+                                                        "format": "float",
+                                                        "example": 2.5
+                                                    },
+                                                    "porcentaje_exito": {
+                                                        "type": "number",
+                                                        "format": "float",
+                                                        "example": 90
+                                                    },
+                                                    "porcentaje_disponibilidad": {
+                                                        "type": "number",
+                                                        "format": "float",
+                                                        "example": 85
+                                                    },
+                                                    "score_eficiencia": {
+                                                        "type": "number",
+                                                        "format": "float",
+                                                        "example": 85
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/reportes/incidencias/grafica": {
+            "get": {
+                "summary": "Obtener gráfica de reporte de incidencias",
+                "description": "Retorna los datos para generar una gráfica de incidencias",
+                "operationId": "b26879793338db36249010a2be397aa2",
+                "responses": {
+                    "200": {
+                        "description": "Operación exitosa",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "tipo_incidencia": {
+                                                        "type": "string",
+                                                        "example": "Retraso en la entrega"
+                                                    },
+                                                    "estado": {
+                                                        "type": "string",
+                                                        "example": "Pendiente"
+                                                    },
+                                                    "total": {
+                                                        "type": "integer",
+                                                        "example": 15
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/reportes/entregas-mensuales": {
+            "get": {
+                "summary": "Obtener estadísticas de entregas mensuales",
+                "description": "Retorna las estadísticas de entregas mensuales",
+                "operationId": "6a1a8c44bb59aa16626a8bd6ef84eee8",
+                "responses": {
+                    "200": {
+                        "description": "Operación exitosa",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "mes": {
+                                                        "type": "string",
+                                                        "example": "2023-04"
+                                                    },
+                                                    "total_entregas": {
+                                                        "type": "integer",
+                                                        "example": 50
+                                                    },
+                                                    "entregas_completadas": {
+                                                        "type": "integer",
+                                                        "example": 45
+                                                    },
+                                                    "entregas_pendientes": {
+                                                        "type": "integer",
+                                                        "example": 5
+                                                    },
+                                                    "total_novedades": {
+                                                        "type": "integer",
+                                                        "example": 2
+                                                    },
+                                                    "tiempo_promedio_horas": {
+                                                        "type": "number",
+                                                        "format": "float",
+                                                        "example": 2.5
+                                                    },
+                                                    "tasa_exito": {
+                                                        "type": "number",
+                                                        "format": "float",
+                                                        "example": 90
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/incidencias": {
+            "get": {
+                "summary": "Obtener todas las incidencias",
+                "description": "Retorna una lista de todas las incidencias",
+                "operationId": "10ec53c213d075c596e460d95151f897",
+                "responses": {
+                    "200": {
+                        "description": "Operación exitosa",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "descripcion": {
+                                                        "type": "string",
+                                                        "example": "Incidencia de prueba"
+                                                    },
+                                                    "estado": {
+                                                        "type": "string",
+                                                        "example": "reportada"
+                                                    },
+                                                    "domiciliario_id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/incidencias/{id}": {
+            "put": {
+                "summary": "Actualizar una incidencia",
+                "description": "Actualiza una incidencia existente",
+                "operationId": "fdc4c9f632a1e8bad9f92fd995e948a1",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "estado": {
+                                        "type": "string",
+                                        "example": "en progreso"
+                                    },
+                                    "descripcion": {
+                                        "type": "string",
+                                        "example": "Incidencia actualizada"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Incidencia actualizada exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "mensaje": {
+                                            "type": "string",
+                                            "example": "Incidencia actualizada"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno del servidor",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/solicitudes": {
+            "get": {
+                "summary": "Obtener todas las solicitudes",
+                "description": "Retorna una lista de todas las solicitudes",
+                "operationId": "12d3ebf2520dcf0bfcf9ac62d20197ae",
+                "responses": {
+                    "200": {
+                        "description": "Operación exitosa",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer",
+                                                "example": 1
+                                            },
+                                            "direccion_recogida": {
+                                                "type": "string",
+                                                "example": "Calle 123"
+                                            },
+                                            "direccion_entrega": {
+                                                "type": "string",
+                                                "example": "Calle 456"
+                                            },
+                                            "descripcion_Producto": {
+                                                "type": "string",
+                                                "example": "Paquete pequeño"
+                                            },
+                                            "user_id": {
+                                                "type": "integer",
+                                                "example": 1
+                                            },
+                                            "domiciliario_id": {
+                                                "type": "integer",
+                                                "example": 1
+                                            },
+                                            "estado": {
+                                                "type": "string",
+                                                "example": "pendiente"
+                                            },
+                                            "fecha": {
+                                                "type": "string",
+                                                "format": "date",
+                                                "example": "2023-04-15"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Crear una nueva solicitud",
+                "description": "Crea una nueva solicitud en el sistema",
+                "operationId": "8d26666e160f86af0e0e26d70343b67f",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "direccion_recogida": {
+                                        "type": "string",
+                                        "example": "Calle 123"
+                                    },
+                                    "direccion_entrega": {
+                                        "type": "string",
+                                        "example": "Calle 456"
+                                    },
+                                    "descripcion_Producto": {
+                                        "type": "string",
+                                        "example": "Paquete pequeño"
+                                    },
+                                    "user_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "fecha": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2023-04-15"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Solicitud creada exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "mensaje": {
+                                            "type": "string",
+                                            "example": "Solicitud creada con éxito"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "No hay domiciliarios disponibles",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "mensaje": {
+                                            "type": "string",
+                                            "example": "Lo siento no hay domiciliarios disponibles"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/solicitudes/{idUser}": {
+            "get": {
+                "summary": "Obtener solicitudes de un usuario",
+                "description": "Retorna una lista de todas las solicitudes de un usuario específico",
+                "operationId": "375356c0c07fe2f723cd2285bbf9ad14",
+                "parameters": [
+                    {
+                        "name": "idUser",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Operación exitosa",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer",
+                                                "example": 1
+                                            },
+                                            "direccion_recogida": {
+                                                "type": "string",
+                                                "example": "Calle 123"
+                                            },
+                                            "direccion_entrega": {
+                                                "type": "string",
+                                                "example": "Calle 456"
+                                            },
+                                            "descripcion_Producto": {
+                                                "type": "string",
+                                                "example": "Paquete pequeño"
+                                            },
+                                            "user_id": {
+                                                "type": "integer",
+                                                "example": 1
+                                            },
+                                            "domiciliario_id": {
+                                                "type": "integer",
+                                                "example": 1
+                                            },
+                                            "estado": {
+                                                "type": "string",
+                                                "example": "pendiente"
+                                            },
+                                            "fecha": {
+                                                "type": "string",
+                                                "format": "date",
+                                                "example": "2023-04-15"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No hay solicitudes registradas",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "mensaje": {
+                                            "type": "string",
+                                            "example": "No hay solicitudes Registradas"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/solicitudes/{id}": {
+            "get": {
+                "summary": "Obtener una solicitud por ID",
+                "description": "Retorna los detalles de una solicitud específica",
+                "operationId": "7efb24c6faac4031cd3a5362f7f80555",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Operación exitosa",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "direccion_recogida": {
+                                            "type": "string",
+                                            "example": "Calle 123"
+                                        },
+                                        "direccion_entrega": {
+                                            "type": "string",
+                                            "example": "Calle 456"
+                                        },
+                                        "descripcion_Producto": {
+                                            "type": "string",
+                                            "example": "Paquete pequeño"
+                                        },
+                                        "user_id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "domiciliario_id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "estado": {
+                                            "type": "string",
+                                            "example": "pendiente"
+                                        },
+                                        "fecha": {
+                                            "type": "string",
+                                            "format": "date",
+                                            "example": "2023-04-15"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "summary": "Actualizar una solicitud",
+                "description": "Actualiza los detalles de una solicitud existente",
+                "operationId": "32218aa2e51441a496246aee1d79f92c",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "estado": {
+                                        "type": "string",
+                                        "example": "asignado"
+                                    },
+                                    "domiciliario": {
+                                        "type": "integer",
+                                        "example": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Solicitud actualizada exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "mensaje": {
+                                            "type": "string",
+                                            "example": "Solicitud Asignada"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/users": {
+            "get": {
+                "summary": "Obtener usuarios",
+                "description": "Retorna una lista de todos los usuarios",
+                "operationId": "1ad1cf4ffbfc84b02284335bdd828008",
+                "responses": {
+                    "200": {
+                        "description": "Operación exitosa",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer",
+                                                "example": 1
+                                            },
+                                            "nombre": {
+                                                "type": "string",
+                                                "example": "Juan Pérez"
+                                            },
+                                            "TipoUsuario": {
+                                                "type": "string",
+                                                "example": "cliente"
+                                            },
+                                            "correo": {
+                                                "type": "string",
+                                                "example": "juan.perez@example.com"
+                                            },
+                                            "telefono": {
+                                                "type": "string",
+                                                "example": "123456789"
+                                            },
+                                            "estado": {
+                                                "type": "string",
+                                                "example": "activo"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Crear un usuario",
+                "description": "Crea un nuevo usuario en el sistema",
+                "operationId": "5b6e72f178a035f354aff3d8b9eeb221",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "nombre": {
+                                        "type": "string",
+                                        "example": "Juan Pérez"
+                                    },
+                                    "TipoUsuario": {
+                                        "type": "string",
+                                        "example": "cliente"
+                                    },
+                                    "correo": {
+                                        "type": "string",
+                                        "example": "juan.perez@example.com"
+                                    },
+                                    "telefono": {
+                                        "type": "string",
+                                        "example": "123456789"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "password123"
+                                    },
+                                    "banner": {
+                                        "type": "string",
+                                        "example": "https://example.com/banner.jpg"
+                                    },
+                                    "direccion": {
+                                        "type": "string",
+                                        "example": "Calle 123"
+                                    },
+                                    "licencia": {
+                                        "type": "string",
+                                        "example": "ABC123"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Usuario creado exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "string",
+                                            "example": "Usuario creado con éxito"
+                                        },
+                                        "request": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/users/{id}": {
+            "put": {
+                "summary": "Actualizar un usuario",
+                "description": "Actualiza los datos de un usuario existente",
+                "operationId": "619663f47b662de2164ec8e364e375ad",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "nombre": {
+                                        "type": "string",
+                                        "example": "Juan Pérez"
+                                    },
+                                    "TipoUsuario": {
+                                        "type": "string",
+                                        "example": "cliente"
+                                    },
+                                    "correo": {
+                                        "type": "string",
+                                        "example": "juan.perez@example.com"
+                                    },
+                                    "telefono": {
+                                        "type": "string",
+                                        "example": "123456789"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Usuario actualizado exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "mensaje": {
+                                            "type": "string",
+                                            "example": "Usuario actualizado"
+                                        },
+                                        "datos": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error al actualizar el usuario",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Hubo un error al actualizar el usuario"
+                                        },
+                                        "datos": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/users/{id}/estado": {
+            "put": {
+                "summary": "Actualizar el estado de un usuario",
+                "description": "Actualiza el estado de un usuario existente",
+                "operationId": "2e255783d76dbd9fd77a532b8b3a5b73",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "estado": {
+                                        "type": "string",
+                                        "example": "activo"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Estado de usuario actualizado exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "mensaje": {
+                                            "type": "string",
+                                            "example": "Estado Actualizado con éxito"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error al actualizar el estado del usuario",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Hubo un error al actualizar el usuario"
+                                        },
+                                        "datos": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "name": "bearerAuth",
+                "in": "header",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
+            }
+        }
+    }
+}

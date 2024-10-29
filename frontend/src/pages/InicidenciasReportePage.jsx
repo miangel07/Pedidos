@@ -2,6 +2,7 @@ import { Layout } from "../components/layouts/Layout";
 import { useContext, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import PDFIncidencias from "../components/subcomponents/PDFIncidencias";
+import EXCELActividades from "../components/subcomponents/EXCELActividades";
 import GraficaIncidencias from "../components/subcomponents/GraficaIncidencias";
 import Modals from "../components/subcomponents/Modal";
 import { ActivityForm } from "../components/formularios/ActividadesForm";
@@ -14,7 +15,7 @@ export const IncidenciasReportePage = () => {
   const closeModal = () => {
     setIsOpen(false);
   };
-  
+
   return (
     <Layout>
       {isOpen && (
@@ -38,23 +39,20 @@ export const IncidenciasReportePage = () => {
             </p>
           </div>
           
-          <Button 
-            color="primary" 
-            className="px-4 py-2"
-            onClick={() => setIsOpen(true)}
-          >
-            Registrar Actividad
-          </Button>
+          <div className="flex space-x-4">
+            <Button 
+              color="primary" 
+              className="px-4 py-2"
+              onClick={() => setIsOpen(true)}
+            >
+              Registrar Actividad
+            </Button>
+            <PDFIncidencias />
+            <EXCELActividades />
+          </div>
         </header>
 
         <div className="space-y-6">
-          {/* Sección PDF */}
-          <div className="bg-white rounded-lg shadow-sm">
-            <div className="p-4">
-              <PDFIncidencias />
-            </div>
-          </div>
-
           {/* Sección Gráfica */}
           <div className="bg-white rounded-lg shadow-sm">
             <div className="p-6">

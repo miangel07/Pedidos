@@ -7,6 +7,91 @@ use App\Models\Domiciliario;
 use Illuminate\Http\Request;
 
 
+/**
+ * @OA\Get(
+ *     path="/api/domiciliarios",
+ *     summary="Obtener todos los domiciliarios",
+ *     description="Retorna una lista de todos los domiciliarios",
+ *     @OA\Response(
+ *         response=200,
+ *         description="Operación exitosa",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="data", type="array", @OA\Items(
+ *                 @OA\Property(property="id", type="integer", example=1),
+ *                 @OA\Property(property="licencia", type="string", example="ABC123"),
+ *                 @OA\Property(property="user_id", type="integer", example=1),
+ *                 @OA\Property(property="disponibilidad", type="boolean", example=true)
+ *             ))
+ *         )
+ *     )
+ * )
+ *
+ * @OA\Post(
+ *     path="/api/domiciliarios",
+ *     summary="Crear un nuevo domiciliario",
+ *     description="Crea un nuevo domiciliario en el sistema",
+ *     @OA\RequestBody(
+ *         required=true,
+ *         @OA\JsonContent(
+ *             @OA\Property(property="licencia", type="string", example="ABC123"),
+ *             @OA\Property(property="user_id", type="integer", example=1),
+ *             @OA\Property(property="disponibilidad", type="boolean", example=true)
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=201,
+ *         description="Domiciliario creado exitosamente",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="data", type="string", example="Domiciliario creado con éxito"),
+ *             @OA\Property(property="request", type="object")
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=500,
+ *         description="Error interno del servidor",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="error", type="string")
+ *         )
+ *     )
+ * )
+ *
+ * @OA\Put(
+ *     path="/api/domiciliarios/{id}",
+ *     summary="Actualizar un domiciliario",
+ *     description="Actualiza la información de un domiciliario existente",
+ *     @OA\Parameter(
+ *         name="id",
+ *         in="path",
+ *         required=true,
+ *         @OA\Schema(type="integer")
+ *     ),
+ *     @OA\RequestBody(
+ *         required=true,
+ *         @OA\JsonContent(
+ *             @OA\Property(property="licencia", type="string", example="ABC123"),
+ *             @OA\Property(property="user_id", type="integer", example=1),
+ *             @OA\Property(property="disponibilidad", type="boolean", example=true)
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="Domiciliario actualizado exitosamente",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="data", type="string", example="Domiciliario actualizado con éxito"),
+ *             @OA\Property(property="request", type="object")
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=500,
+ *         description="Error interno del servidor",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="error", type="string")
+ *         )
+ *     )
+ * )
+ */
+
+
 class DomiciliarioController extends Controller
 {
     /**
