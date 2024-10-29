@@ -10,6 +10,92 @@ use App\Models\novedade;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 
+/**
+ * @OA\Get(
+ *     path="/api/reportes/incidencias",
+ *     summary="Obtener reporte de incidencias",
+ *     description="Retorna una lista de todas las incidencias reportadas",
+ *     @OA\Response(
+ *         response=200,
+ *         description="Operación exitosa",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="status", type="string", example="success"),
+ *             @OA\Property(property="data", type="array", @OA\Items(
+ *                 @OA\Property(property="fecha_incidencia", type="string", format="date-time", example="2023-04-15 12:34:56"),
+ *                 @OA\Property(property="fecha_actualizacion", type="string", format="date-time", example="2023-04-15 12:35:10"),
+ *                 @OA\Property(property="tipo_incidencia", type="string", example="Retraso en la entrega"),
+ *                 @OA\Property(property="descripcion", type="string", example="El domiciliario llegó 2 horas tarde"),
+ *                 @OA\Property(property="nombre", type="string", example="Juan Pérez"),
+ *                 @OA\Property(property="estado", type="string", example="Pendiente"),
+ *                 @OA\Property(property="tiempo_entrega", type="string", example="2 días y 3 horas")
+ *             ))
+ *         )
+ *     )
+ * )
+ *
+ * @OA\Get(
+ *     path="/api/reportes/eficiencia-domiciliarios",
+ *     summary="Obtener reporte de eficiencia de domiciliarios",
+ *     description="Retorna un reporte de la eficiencia de los domiciliarios",
+ *     @OA\Response(
+ *         response=200,
+ *         description="Operación exitosa",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="status", type="string", example="success"),
+ *             @OA\Property(property="data", type="array", @OA\Items(
+ *                 @OA\Property(property="nombre_domiciliario", type="string", example="Juan Pérez"),
+ *                 @OA\Property(property="total_solicitudes", type="integer", example=100),
+ *                 @OA\Property(property="entregas_exitosas", type="integer", example=90),
+ *                 @OA\Property(property="total_novedades", type="integer", example=10),
+ *                 @OA\Property(property="tiempo_promedio_horas", type="number", format="float", example=2.5),
+ *                 @OA\Property(property="porcentaje_exito", type="number", format="float", example=90.0),
+ *                 @OA\Property(property="porcentaje_disponibilidad", type="number", format="float", example=85.0),
+ *                 @OA\Property(property="score_eficiencia", type="number", format="float", example=85.0)
+ *             ))
+ *         )
+ *     )
+ * )
+ *
+ * @OA\Get(
+ *     path="/api/reportes/incidencias/grafica",
+ *     summary="Obtener gráfica de reporte de incidencias",
+ *     description="Retorna los datos para generar una gráfica de incidencias",
+ *     @OA\Response(
+ *         response=200,
+ *         description="Operación exitosa",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="status", type="string", example="success"),
+ *             @OA\Property(property="data", type="array", @OA\Items(
+ *                 @OA\Property(property="tipo_incidencia", type="string", example="Retraso en la entrega"),
+ *                 @OA\Property(property="estado", type="string", example="Pendiente"),
+ *                 @OA\Property(property="total", type="integer", example=15)
+ *             ))
+ *         )
+ *     )
+ * )
+ *
+ * @OA\Get(
+ *     path="/api/reportes/entregas-mensuales",
+ *     summary="Obtener estadísticas de entregas mensuales",
+ *     description="Retorna las estadísticas de entregas mensuales",
+ *     @OA\Response(
+ *         response=200,
+ *         description="Operación exitosa",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="status", type="string", example="success"),
+ *             @OA\Property(property="data", type="array", @OA\Items(
+ *                 @OA\Property(property="mes", type="string", example="2023-04"),
+ *                 @OA\Property(property="total_entregas", type="integer", example=50),
+ *                 @OA\Property(property="entregas_completadas", type="integer", example=45),
+ *                 @OA\Property(property="entregas_pendientes", type="integer", example=5),
+ *                 @OA\Property(property="total_novedades", type="integer", example=2),
+ *                 @OA\Property(property="tiempo_promedio_horas", type="number", format="float", example=2.5),
+ *                 @OA\Property(property="tasa_exito", type="number", format="float", example=90.0)
+ *             ))
+ *         )
+ *     )
+ * )
+ */
 
 
 class ReportController extends Controller
@@ -156,4 +242,44 @@ class ReportController extends Controller
             'data' => $reportes
         ], 200);
     }
+
+
+    public function getEstadisticasEntregasMensuales()
+    {
+        $estadisticas = DB::table('solicituds')
+            ->select([
+                DB::raw('DATE_FORMAT(solicituds.fecha, "%Y-%m") as mes'),
+                DB::raw('COUNT(*) as total_entregas'),
+                DB::raw('COUNT(CASE WHEN solicituds.estado = "completado" THEN 1 END) as entregas_completadas'),
+                DB::raw('COUNT(CASE WHEN solicituds.estado = "pendiente" THEN 1 END) as entregas_pendientes'),
+                DB::raw('COUNT(DISTINCT n.id) as total_novedades'),
+                DB::raw('AVG(TIMESTAMPDIFF(HOUR, solicituds.fecha, 
+                    CASE 
+                        WHEN solicituds.estado = "completado" THEN solicituds.updated_at
+                        ELSE NOW()
+                    END)) as tiempo_promedio_horas')
+            ])
+            ->leftJoin('novedades as n', 'n.solicitud_id', '=', 'solicituds.id')
+            ->groupBy(DB::raw('DATE_FORMAT(solicituds.fecha, "%Y-%m")'))
+            ->orderBy('mes', 'asc')
+            ->get()
+            ->map(function($item) {
+                return [
+                    'mes' => $item->mes,
+                    'total_entregas' => $item->total_entregas,
+                    'entregas_completadas' => $item->entregas_completadas,
+                    'entregas_pendientes' => $item->entregas_pendientes,
+                    'total_novedades' => $item->total_novedades,
+                    'tiempo_promedio_horas' => round($item->tiempo_promedio_horas ?? 0, 2),
+                    'tasa_exito' => round(($item->entregas_completadas / $item->total_entregas) * 100, 2)
+                ];
+            });
+    
+        return response()->json([
+            'status' => 'success',
+            'data' => $estadisticas
+        ], 200);
+    }
+
+
 }

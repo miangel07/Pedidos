@@ -7,6 +7,83 @@ use App\Models\novedade;
 use App\Models\solicitud;
 use Illuminate\Http\Request;
 
+/**
+ * @OA\Get(
+ *     path="/api/novedades",
+ *     summary="Obtener todas las novedades",
+ *     description="Retorna una lista de todas las novedades",
+ *     @OA\Response(
+ *         response=200,
+ *         description="Operación exitosa",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="data", type="array", @OA\Items(
+ *                 @OA\Property(property="id", type="integer", example=1),
+ *                 @OA\Property(property="descripcion", type="string", example="Novedad de prueba"),
+ *                 @OA\Property(property="estado", type="string", example="reportada"),
+ *                 @OA\Property(property="fecha_reporte", type="string", format="date-time", example="2023-04-15T12:00:00"),
+ *                 @OA\Property(property="domiciliario_id", type="integer", example=1),
+ *                 @OA\Property(property="solicitud_id", type="integer", example=1)
+ *             ))
+ *         )
+ *     )
+ * )
+ *
+ * @OA\Post(
+ *     path="/api/novedades",
+ *     summary="Crear una nueva novedad",
+ *     description="Crea una nueva novedad en el sistema",
+ *     @OA\RequestBody(
+ *         required=true,
+ *         @OA\JsonContent(
+ *             @OA\Property(property="domiciliario_id", type="integer", example=1),
+ *             @OA\Property(property="solicitud_id", type="integer", example=1),
+ *             @OA\Property(property="descripcion", type="string", example="Novedad de prueba"),
+ *             @OA\Property(property="estado", type="string", example="reportada")
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=202,
+ *         description="Novedad creada exitosamente",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="mensaje", type="string", example="Novedad creada"),
+ *             @OA\Property(property="request", type="object")
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=500,
+ *         description="Error interno del servidor",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="error", type="string")
+ *         )
+ *     )
+ * )
+ *
+ * @OA\Get(
+ *     path="/api/novedades/{id}",
+ *     summary="Obtener una novedad por ID",
+ *     description="Retorna una novedad específica por su ID",
+ *     @OA\Parameter(
+ *         name="id",
+ *         in="path",
+ *         required=true,
+ *         @OA\Schema(type="integer")
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="Operación exitosa",
+ *         @OA\JsonContent()
+ *     ),
+ *     @OA\Response(
+ *         response=500,
+ *         description="Error interno del servidor",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="error", type="string")
+ *         )
+ *     )
+ * )
+ */
+
+
 class NovedadeController extends Controller
 {
     /**
