@@ -84,3 +84,25 @@ export const useMutationSolicitud = () => {
         cambiarEstadoSolicitud
     }
 }
+
+
+
+export  const useSolicitudQueryIDUser = () => {
+    const [solicitudByUser, setSolicitudByUser] = useState([])
+    const obtenerSolicitudesDeUsuario = async (id) =>{
+        try {
+
+            const response = await axiosCliente.get(`solicitudUser/${id}`);
+            setSolicitudByUser(response.data);
+
+        }catch(error){
+            console.error(error)
+        }
+    }
+
+    return {
+        obtenerSolicitudesDeUsuario,
+        solicitudByUser
+    }
+
+}

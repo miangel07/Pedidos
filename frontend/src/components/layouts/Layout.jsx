@@ -7,42 +7,74 @@ import {AuthContext} from "../../context/AuthContext";
 import {CambiarEstadoDomiciliario} from "../subcomponents/EstadoDomiciliario";
 import {useNotificaciones} from "../../hooks/NotificacionesDomiciliarios.jsx";
 import {Notificaciones} from "../subcomponents/Notificaciones";
-import {Button} from "@nextui-org/react";
+import {Button, Chip} from "@nextui-org/react";
 import {useMutationSolicitud} from "../../hooks/Solicitud.jsx";
 
+import {useSolicitudQueryIDUser} from "../../hooks/Solicitud.jsx";
 
 // eslint-disable-next-line react/prop-types
 export const Layout = ({children}) => {
     const {authData} = useContext(AuthContext);
     const {getNotificaciones, notificaciones} = useNotificaciones();
 
+    // poder cambiar el estado de las solicitudes
     const {cambiarEstadoSolicitud} = useMutationSolicitud();
 
+
+    //
+    const {obtenerSolicitudesDeUsuario, solicitudByUser} = useSolicitudQueryIDUser();
 
     const formatNotifications = dataArray =>
         dataArray.map((data, index) => ({
             id_solicitud: data.solicitud_id,
             id: index,
             title: "Nuevo mensaje",
-            description: `Licencia ${data.licencia} tiene el estado ${data.estado}`,
-            time: calculateTimeSince(data.created_at),
+            description: `Licencia ${data.descripcion_Producto} tiene el estado ${data.estado}`,
+
             domiciliario: data.id
         }));
 
-    const calculateTimeSince = dateString => {
-        const createdDate = new Date(dateString);
-        const now = new Date();
-        const diffInMinutes = Math.floor((now - createdDate) / 60000);
-
-        if (diffInMinutes < 60) return `hace ${diffInMinutes} min`;
-        const diffInHours = Math.floor(diffInMinutes / 60);
-        if (diffInHours < 24) return `hace ${diffInHours} h`;
-
-        const diffInDays = Math.floor(diffInHours / 24);
-        return `hace ${diffInDays} d`;
-    };
 
     const notificacionesDomiciliarios = formatNotifications(notificaciones)
+
+
+    // notificacines para usuario domiciliarios
+
+
+    const notificacionesDomiciliariosMap = notificacionesDomiciliarios.map((fila) => ({
+        ...fila,
+        accion: <>
+            <Button color={"primary"}
+                    onClick={async () => await cambiarEstadoSolicitud(fila.id_solicitud, {
+                        estado: "en curso",
+                        domiciliario: fila.domiciliario
+                    })}>
+                Aceptar
+            </Button>
+            <Button color={"danger"}
+                    onClick={async () => await cambiarEstadoSolicitud(fila.id_solicitud, {
+                        estado: "asignado",
+                        domiciliario: fila.domiciliario
+                    })}>
+                Rechazar
+            </Button>
+
+        </>
+    }))
+
+
+    // notificaciones para usuarios normales
+    const formatNotificationsUser = dataArray =>
+        dataArray.map((data, index) => ({
+            id_solicitud: data.id,
+            id: index,
+            title: "Nuevo mensaje",
+            description: (<><p className={"font-bold"}>{data.descripcion_Producto}</p> Tú solicitud tiene el estado {<Chip
+                color={data.estado === "asignado" ? "primary" : "success"}>{data.estado}</Chip>}</>),
+            domiciliario: data.id
+        }));
+
+    const NotificacionesUser = formatNotificationsUser(solicitudByUser)
 
 
     return (
@@ -51,27 +83,8 @@ export const Layout = ({children}) => {
                 contenido={
                     <>
                         <Notificaciones
-                            onClick={() => getNotificaciones(authData.id)}
-                            notifications={notificacionesDomiciliarios.map((fila) => ({
-                                ...fila,
-                                accion: <>
-                                    <Button color={"primary"}
-                                            onClick={async () => await cambiarEstadoSolicitud(fila.id_solicitud, {
-                                                estado: "en curso",
-                                                domiciliario: fila.domiciliario
-                                            })}>
-                                        Aceptar
-                                    </Button>
-                                    <Button color={"danger"}
-                                            onClick={async () => await cambiarEstadoSolicitud(fila.id_solicitud, {
-                                                estado: "asignado",
-                                                domiciliario: fila.domiciliario
-                                            })}>
-                                        Rechazar
-                                    </Button>
-
-                                </>
-                            }))}
+                            onClick={authData?.TipoUsuario === "domiciliario" ? () => getNotificaciones(authData.id) : () => obtenerSolicitudesDeUsuario(authData.id)}
+                            notifications={authData?.TipoUsuario === "domiciliario" ? notificacionesDomiciliariosMap : NotificacionesUser}
                         />
                         {authData && String(authData.TipoUsuario) === "domiciliario" && (
                             <CambiarEstadoDomiciliario/>
