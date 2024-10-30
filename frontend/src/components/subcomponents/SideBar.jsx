@@ -31,7 +31,7 @@ const Sidebar = () => {
 
   }
 
- 
+
   const hasAccess = (roles) => {
     if (!roles || roles.length === 0) return false;
     return roles.includes(userType);
@@ -57,8 +57,8 @@ const Sidebar = () => {
       module: "usuarios",
       roles: ["administrador", "domiciliario", "particular", "negocio"],
       submenu: [
-        { 
-          title: "Administrar usuarios", 
+        {
+          title: "Administrar usuarios",
           link: "/usuario",
           roles: ["administrador"],
         },
@@ -115,8 +115,8 @@ const Sidebar = () => {
         },
         {
           title: "Listar Solicitud - Domiciliario",
-          link: "#creacion-solicitudes",
-          roles: ["administrador", "domiciliario"]
+          link: "/solicitudes-domiciliario",
+          roles: ["domiciliario"]
         },
       ],
     },
@@ -151,14 +151,14 @@ const Sidebar = () => {
   const MenuItem = ({ item }) => {
     const Icon = item.icon;
     const isActive = openModule === item.module;
-    
- 
+
+
     if (!hasAccess(item.roles)) return null;
 
 
     const filteredSubmenu = filterSubmenuItems(item.submenu);
-    
-    
+
+
     if (item.submenu && filteredSubmenu.length === 0) return null;
 
     return (
@@ -166,7 +166,7 @@ const Sidebar = () => {
         <Link
           to={item.link}
           onClick={() => {
-          
+
             if (item.onClick) {
               item.onClick();
             } else {
@@ -204,7 +204,7 @@ const Sidebar = () => {
 
   return (
     <>
-    
+
       <button
         onClick={toggleSidebar}
         className="fixed top-4 left-4 z-50 p-2 rounded-lg bg-gray-800 text-white hover:bg-gray-700 focus:outline-none lg:hidden"
@@ -212,7 +212,7 @@ const Sidebar = () => {
         {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
       </button>
 
-     
+
       <div
         onClick={toggleSidebar}
         className={`fixed inset-0 bg-black bg-opacity-50 transition-opacity lg:hidden
