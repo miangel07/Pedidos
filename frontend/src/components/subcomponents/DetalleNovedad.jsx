@@ -2,10 +2,10 @@ import { Button } from "@nextui-org/react";
 import { Select } from "./Select";
 import { useForm } from "react-hook-form";
 import { useEffect } from "react";
-import { useUserMutation } from "../../hooks/Usuario";
 import { axiosCliente } from "../../service/axios";
 import { useNavigate } from "react-router-dom";
 import {useDomiciliariosQuery} from "../../hooks/Domiciliarios.jsx";
+import {useQuerySolicitudes} from "../../hooks/Solicitud.jsx";
 
 export const ContenidoNovedad = ({ novedadesID, solicitud }) => {
   const formatDate = (dateString) => {
@@ -49,7 +49,8 @@ export const ContenidoNovedad = ({ novedadesID, solicitud }) => {
 
 export const FormEditSolicitud = ({ novedadesID }) => {
 
-  const { usuario } = useUserMutation();
+ const { refressDataSolicitudes } = useQuerySolicitudes();
+
   const { domiciliariosData } = useDomiciliariosQuery();
   const { register, handleSubmit, reset } = useForm();
 
@@ -67,8 +68,6 @@ export const FormEditSolicitud = ({ novedadesID }) => {
       domiciliario: data.domiciliario,
     };
 
-    console.log(preparaData)
-
     try {
       const response = await axiosCliente.put(
         `solicitud/${novedadesID.id}`,
@@ -77,6 +76,7 @@ export const FormEditSolicitud = ({ novedadesID }) => {
       console.log(response)
 
       if (response.data) {
+        await refressDataSolicitudes();
         alert(response.data.mensaje);
        // navigate("/home");
       }

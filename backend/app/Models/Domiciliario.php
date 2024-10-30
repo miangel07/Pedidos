@@ -28,5 +28,10 @@ class Domiciliario extends Model
     {
         return $this->belongsTo(User::class);
     }
-   
+
+    public function solicitudes()
+    {
+        return $this->hasMany(solicitud::class);
+    }
+
 }
