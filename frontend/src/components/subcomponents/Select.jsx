@@ -34,7 +34,7 @@ export const Select = ({
           })}
           className="bg-white border border-gray-300 text-gray-900 text-sm rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 block w-full p-2.5 transition-colors duration-150 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-green-500 dark:focus:border-green-500"
         >
-          <option value="">{placeholder}</option>
+          <option value="" disabled>{placeholder}</option>
           {/*  eslint-disable-next-line react/prop-types */}
           {options.map((item, index) => (
             /*  eslint-disable-next-line react/prop-types */

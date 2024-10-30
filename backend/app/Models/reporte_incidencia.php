@@ -10,7 +10,7 @@ class reporte_incidencia extends Model
     use HasFactory;
     public $timestamps = false;
     protected $table = 'reporte_incidencias';
-    protected $fillable = ['tipo_incidencia','estado' ,'descripcion', 'fecha_incidencia', 'user_id', 'solicitud_id'];
+    protected $fillable = ['tipo_incidencia', 'estado', 'descripcion', "otros", 'fecha_incidencia', 'user_id', 'solicitud_id'];
 
     // reporte de incidencias
     public static function getIncidencias()
@@ -18,12 +18,11 @@ class reporte_incidencia extends Model
 
         // nombre usuario, rol_usuario ,id solicitud, tipo incidencia, fecha, descripcion,
 
-        $incidencia = reporte_incidencia::select('reporte_incidencias.id','users.nombre' , 'users.TipoUsuario','tipo_incidencia', 'descripcion', 'fecha_incidencia','reporte_incidencias.estado')
+        $incidencia = reporte_incidencia::select('reporte_incidencias.id', 'users.nombre', 'users.TipoUsuario', 'tipo_incidencia', 'descripcion', 'fecha_incidencia', 'reporte_incidencias.estado')
             ->join('users', 'users.id', '=', 'reporte_incidencias.user_id')
             ->get();
 
         return $incidencia;
-
     }
 
 

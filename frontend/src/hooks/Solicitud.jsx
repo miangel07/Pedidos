@@ -57,7 +57,7 @@ export const useQuerySolicitudesId = () => {
     useEffect(
         () => {
             SolicitudUserId();
-        }, [SolicitudUserId, authData.id]
+        }, [ authData?.id]
     )
 
     return {
