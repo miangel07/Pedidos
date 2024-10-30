@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Layout } from '../components/layouts/Layout'
 import InputNext from '../components/Nextui/InputNext'
 import { useForm } from 'react-hook-form';
@@ -9,10 +9,12 @@ import { axiosCliente } from '../service/axios';
 import { AuthContext } from '../context/AuthContext';
 import { toast } from 'react-toastify';
 const ReportarIncidenciasPage = () => {
-  const { register, handleSubmit, formState: { errors }, reset } = useForm();
+  const { register, handleSubmit, formState: { errors }, watch, reset } = useForm();
   const { authData } = useContext(AuthContext);
   const [tipoIncidencia, setTipoIncidencia] = useState("")
+
   const { solicitudUser } = useQuerySolicitudesId()
+
 
   const onSubmit = async (data) => {
     try {
@@ -28,14 +30,13 @@ const ReportarIncidenciasPage = () => {
         toast.error('Hubo un error en el servidor')
       }
     }
-
-
   }
+
   const opciones = [
     { value: 'entrega_fallida', text: 'entrega fallida' },
     { value: 'producto_dañado', text: 'producto dañado' },
     { value: 'accidente', text: 'accidente' },
-    { value: 'otro', text: 'otro' },
+    { value: 'otros', text: 'otros' },
   ];
 
   return (
@@ -64,7 +65,7 @@ const ReportarIncidenciasPage = () => {
             type="text"
             id="descripcion"
             placeholder="Descripción"
-            className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-green-500"
+
           />
 
           <InputNext
@@ -74,7 +75,7 @@ const ReportarIncidenciasPage = () => {
             type="datetime-local"
             id="fecha_incidencia"
             placeholder=""
-            className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-green-500"
+
           />
 
           <Select
