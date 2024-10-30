@@ -146,8 +146,6 @@ class DomiciliarioController extends Controller
             'domiciliarios.licencia',
             'domiciliarios.user_id',
             'domiciliarios.disponibilidad',
-            'domiciliarios.created_at',
-            'domiciliarios.updated_at',
             'domiciliarios.user_id',
             'solicituds.estado',
             'solicituds.id as solicitud_id',
