@@ -63,8 +63,8 @@ const Sidebar = () => {
           roles: ["administrador"],
         },
         {
-          title: "Recuperación de contraseña",
-          link: "#Cambiar-contrasena",
+          title: "Perfil del usuario",
+          link: "/perfil",
           roles: ["administrador", "domiciliario", "particular", "negocio"]
         },
       ],

@@ -24,6 +24,7 @@ const UsuarioFormulario = ({ data, closeModal }) => {
             reset()
             closeModal()
             await optenerUsuarios()
+            return
 
         }
 

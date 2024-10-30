@@ -44,6 +44,7 @@ Route::get('/usuarioDomiciliario', [UserController::class, 'getDomiciliaro']);
 Route::put('/usuario/{id}', [UserController::class, 'updateUsuario']);
 Route::put('/usuarioEstado/{id}', [UserController::class, 'updateEstado']);
 Route::get('/usuario', [UserController::class, 'index']);
+Route::put('/cambiar-password', [AuthController::class,'cambioPassword']);
 Route::post('/auth', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout']);
 Route::get('/info', [AuthController::class, 'getUser']);

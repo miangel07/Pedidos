@@ -15,6 +15,7 @@ import ReportarIncidenciasPage from "../pages/ReportarIncidenciasPage";
 import { AuthContext } from "../context/AuthContext";
 import DomiciliariosPage from "../pages/DomiciliariosPage";
 import SolicitudDomiciliarioPages from "../pages/SolicitudDomiciliarioPages";
+import PerfilPage from "../pages/PerfilPage";
 
 export const AppRouter = () => {
   const { authData } = useContext(AuthContext);
@@ -26,6 +27,8 @@ export const AppRouter = () => {
 
 
       <Route path="/home" element={<ProtectedRoute allowedRoles={["administrador", "negocio", "domiciliario", "particular"]} element={<HomePage />} />} />
+      
+      <Route path="/perfil" element={<ProtectedRoute allowedRoles={["administrador", "negocio", "domiciliario", "particular"]} element={<PerfilPage />} />} />
 
       <Route path="/disponibilidad-domiciliarios" element={<ProtectedRoute allowedRoles={["administrador"]} element={<DomiciliariosPage/>} />} />
 
