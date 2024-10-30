@@ -175,19 +175,49 @@ class UserController extends Controller
     public function updateUsuario(Request $request, $id)
     {
         try {
+
             $datos = $request->except('_token', '_method');
+
+
             $usuario = User::find($id);
+
+            if (!$usuario) {
+                return response()->json([
+                    "error" => "Usuario no encontrado"
+                ], 404);
+            }
+
             $usuario->fill($datos);
             $usuario->save();
+
+            if ($usuario->TipoUsuario === 'negocio') {
+
+                $negocioData = $request->only(['nombre', 'banner', 'direccion']);
+                $negocio = Negocio::where('user_id', $id)->first();
+
+                if ($negocio) {
+                    $negocio->fill($negocioData);
+                    $negocio->save();
+                }
+            } elseif ($usuario->TipoUsuario === 'domiciliario') {
+
+                $domiciliarioData = $request->only(['licencia']);
+                $domiciliario = Domiciliario::where('user_id', $id)->first();
+
+                if ($domiciliario) {
+                    $domiciliario->fill($domiciliarioData);
+                    $domiciliario->save();
+                }
+            }
+
             return response()->json([
                 "mensaje" => "Usuario actualizado",
-                "datos" => $datos
             ], 200);
         } catch (\Exception $e) {
             Log::error('Error al actualizar el usuario: ' . $e->getMessage());
             return response()->json([
                 "error" => "Hubo un error al actualizar el usuario",
-                "datos" => $datos
+                "detalles" => $e->getMessage()
             ], 500);
         }
     }
