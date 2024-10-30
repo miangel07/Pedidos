@@ -18,7 +18,7 @@ export const SolicitudPage = () => {
     "id",
     "direccion_recogida",
     "direccion_entrega",
-      "id",
+    "id",
     "nombre usuario",
     "nombre_domiciliario",
     "estado",

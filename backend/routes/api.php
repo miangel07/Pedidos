@@ -12,6 +12,8 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SolicitudController;
 use App\Http\Controllers\ActividadeController;
+use App\Http\Controllers\DashboardController;
+
 
 
 Route::get('/user', function (Request $request) {
@@ -42,6 +44,7 @@ Route::get('/usuarioDomiciliario', [UserController::class, 'getDomiciliaro']);
 Route::put('/usuario/{id}', [UserController::class, 'updateUsuario']);
 Route::put('/usuarioEstado/{id}', [UserController::class, 'updateEstado']);
 Route::get('/usuario', [UserController::class, 'index']);
+Route::put('/cambiar-password', [AuthController::class,'cambioPassword']);
 Route::post('/auth', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout']);
 Route::get('/info', [AuthController::class, 'getUser']);
@@ -70,3 +73,13 @@ Route::get('/grafica/novedades', [ReportController::class, 'getEstadisticasEntre
 // actividades
 Route::get('/actividades', [ActividadeController::class, 'index']);
 Route::post('/actividades', [ActividadeController::class, 'store']);
+
+
+// graficas para el inicio
+
+    Route::get('/stats', [DashboardController::class, 'getDashboardStats']);
+    Route::get('/estado-solicitudes', [DashboardController::class, 'getEstadoSolicitudes']);
+    Route::get('/solicitudes-domiciliario', [DashboardController::class, 'getSolicitudesPorDomiciliario']);
+    Route::get('/incidencias', [DashboardController::class, 'getIncidenciasPorTipo']);
+    Route::get('/tendencia', [DashboardController::class, 'getTendenciaSolicitudes']);
+    Route::get('/rendimiento-domiciliarios', [DashboardController::class, 'getRendimientoDomiciliarios']);
