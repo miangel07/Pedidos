@@ -1,29 +1,25 @@
-import {axiosCliente} from "../service/axios.js";
+import { axiosCliente } from "../service/axios.js";
 
-import {useState, useEffect} from "react";
-
+import { useState, useEffect } from "react";
 
 export const useDomiciliariosQuery = () => {
+  const [domiciliariosData, setDomiciliariosData] = useState([]);
 
-    const [domiciliariosData, setDomiciliariosData] = useState([])
+  const obtenerDomiciliarios = async () => {
+    try {
+      const response = await axiosCliente.get("domiciliario");
 
-    const obtenerDomiciliarios = async () => {
-
-        try {
-            const response = await axiosCliente.get("domiciliario")
-
-            setDomiciliariosData(response.data)
-        } catch (e) {
-            console.error(e)
-        }
+      setDomiciliariosData(response.data);
+    } catch (e) {
+      console.error(e);
     }
+  };
 
+  useEffect(() => {
+    obtenerDomiciliarios();
+  }, []);
 
-    useEffect(() => {
-        obtenerDomiciliarios()
-    }, []);
-
-    return {
-        domiciliariosData
-    }
-}
+  return {
+    domiciliariosData,
+  };
+};

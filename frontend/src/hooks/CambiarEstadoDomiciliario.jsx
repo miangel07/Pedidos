@@ -5,7 +5,6 @@ export const useCambiarEstado = () => {
     try {
       const res = await axiosCliente.put(`domiciliario/${id}`, data);
       alert("se cambio de estado");
-      console.log(res);
     } catch (error) {
       console.error(error);
     }
