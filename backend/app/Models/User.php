@@ -42,8 +42,9 @@ class User extends Authenticatable implements JWTSubject
     }
     public static function getUsuario()
     {
-        return User::all();
+        return User::with(['domiciliario', 'negocio'])->get();
     }
+    
     public static function getUsuarioDomiciliario()
     {
 
@@ -73,7 +74,10 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->hasOne(Domiciliario::class);
     }
-
+    public function negocio()
+    {
+        return $this->hasOne(negocio::class);
+    }
     /**
      * The attributes that should be hidden for serialization.
      *
