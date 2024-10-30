@@ -33,18 +33,15 @@ export const ReportarNovedadForm = () => {
       const response = await axiosCliente.post("novedades", prepararData);
 
       if (response) {
+        console.log(response.data)
         toast.success("novedad creada con exito");
         reset();
-        navigate("/home");
+        //navigate("/home");
       }
     } catch (error) {
       console.error(error.response);
     }
   };
-
-  useEffect(() => {
-    console.log(authData)
-  }, [authData]);
 
   return (
     <>
@@ -62,14 +59,14 @@ export const ReportarNovedadForm = () => {
               options={solicitudData.filter((solicitud) => solicitud.estado === "pendiente")}
               name="solicitud_id"
               placeholder={"Seleccione una solicitud"}
-              valueKey="id"
-              textKey="direccion_recogida"
+              valueKey="Id_solicitud"
+              textKey="Id_solicitud"
               register={register}
               label={"Solicitud"}
             />
           </div>
 
-          <Textarea {...register("descripcion")} />
+          <Textarea {...register("descripcion", {required: true} )} />
 
           <Button type="submit" color="primary" variant="solid">
             Reportar Novedad

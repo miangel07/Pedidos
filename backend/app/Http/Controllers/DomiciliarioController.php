@@ -90,8 +90,6 @@ use Illuminate\Http\Request;
  *     )
  * )
  */
-
-
 class DomiciliarioController extends Controller
 {
     /**
@@ -132,33 +130,41 @@ class DomiciliarioController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Display the specified resource.
      */
-    public function show(domiciliario $domiciliario)
+    public function show($domiciliario)
     {
-        //
+        //  $dataDomciliario = Domiciliario::with('solicitudes')->find($domiciliario);
+
+
+        $idDomiciliario = Domiciliario::select("id")->where("user_id", $domiciliario)->first();
+        $id = $idDomiciliario->id;
+
+
+        $dataDomciliario = Domiciliario::select(
+            'domiciliarios.id',
+            'domiciliarios.licencia',
+            'domiciliarios.user_id',
+            'domiciliarios.disponibilidad',
+            'domiciliarios.created_at',
+            'domiciliarios.updated_at',
+            'domiciliarios.user_id',
+            'solicituds.estado',
+            'solicituds.id as solicitud_id',
+        )
+            ->join('solicituds', 'domiciliarios.id', '=', 'solicituds.domiciliario_id')
+            ->whereIn('solicituds.estado', ['pendiente', 'asignado'])
+            ->where('domiciliarios.id', $id)
+            ->orderBy('solicituds.created_at', 'desc')
+            ->limit(3)
+            ->get();
+
+
+        return $dataDomciliario;
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(domiciliario $domiciliario)
+    public function update(Request $request, $domiciliario)
     {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, $domiciliario) {
         try {
             $datos = $request->except('_token', '_method');
             $dataDomiciliarioFind = Domiciliario::find($domiciliario);
@@ -181,13 +187,5 @@ class DomiciliarioController extends Controller
         } catch (\Exception $exception) {
             return response()->json(["error" => $exception->getMessage()], 500);
         }
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(domiciliario $domiciliario)
-    {
-        //
     }
 }
