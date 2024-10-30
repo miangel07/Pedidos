@@ -22,6 +22,7 @@ Route::get('/user', function (Request $request) {
 Route::post('/domiciliario', [DomiciliarioController::class, 'store']);
 Route::get('/domiciliario', [DomiciliarioController::class, 'index']);
 Route::put('/domiciliario/{id}/', [DomiciliarioController::class, 'update']);
+Route::get('/domiciliario/{id}/', [DomiciliarioController::class, 'show']);
 
 
 //reportes de incidencias
