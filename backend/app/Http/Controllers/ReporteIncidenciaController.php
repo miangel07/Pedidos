@@ -73,9 +73,27 @@ class ReporteIncidenciaController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        try {
+            $response = reporte_incidencia::create(
+                [
+                    'tipo_incidencia' => $request->tipo_incidencia,
+                    'descripcion' => $request->descripcion,
+                    'otros' => $request->otros,
+                    'fecha_incidencia' => $request->fecha_incidencia,
+                    'user_id' => $request->user_id,
+                    'solicitud_id' => $request->solicitud_id,
+                ]
+            );
+            if ($response) {
+                return response()->json(['mensaje' => 'Incidencia creada correctamente'], 201);
+            }
+            return response()->json(['mensaje' => 'Hubo un error al crear la incidencia'], 500);
+        } catch (\Throwable $th) {
+            return response()->json(['error' => $th->getMessage()], 500);
+        }
+       
     }
 
     /**
