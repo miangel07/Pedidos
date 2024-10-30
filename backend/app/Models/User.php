@@ -31,7 +31,10 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->getKey();
     }
-
+    public function validatePassword($password)
+    {
+        return password_verify($password, $this->password);
+    }
 
     public function getJWTCustomClaims()
     {
@@ -43,9 +46,9 @@ class User extends Authenticatable implements JWTSubject
     }
     public static function getUsuarioDomiciliario()
     {
-        
+
         $results = User::where('TipoUsuario', 'domiciliario')
-            ->with('domiciliario') 
+            ->with('domiciliario')
             ->get();
 
 
@@ -56,7 +59,7 @@ class User extends Authenticatable implements JWTSubject
                 'correo' => $user->correo,
                 'telefono' => $user->telefono,
                 'estado' => $user->estado,
-                'id' => $user->domiciliario->id ?? null, 
+                'id' => $user->domiciliario->id ?? null,
                 'licencia' => $user->domiciliario->licencia ?? null,
                 'disponibilidad' => $user->domiciliario->disponibilidad ?? null,
 
