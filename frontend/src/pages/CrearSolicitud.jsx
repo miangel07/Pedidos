@@ -10,14 +10,23 @@ const CrearSolicitud = () => {
   const { register, handleSubmit, formState: { errors }, reset } = useForm();
   const { authData } = useContext(AuthContext);
   const onSubmit = async (data) => {
+try {
+  const response = await axiosCliente.post('solicitud', { ...data, user_id: authData.id })
+  console.log(response)
+  if (response.status == 201) {
+    toast.success(`${response.data.mensaje}`);
+    reset()
+  }
+  
+} catch (error) {
+  if(error.status==400){
+    toast.error(`${error.response.data.mensaje}`);
+  }
 
-    const response = await axiosCliente.post('solicitud', { ...data, user_id: authData.id })
-    console.log(response)
-    if (response.status == 201) {
-      toast.success(`${response.data.mensaje}`);
-      reset()
+  
+}
+   
 
-    }
   };
 
   return (

@@ -26,7 +26,7 @@ export const AppRouter = () => {
 
       <Route path="/home" element={<ProtectedRoute allowedRoles={["administrador", "negocio", "domiciliario", "particular"]} element={<HomePage />} />} />
 
-      <Route path="//disponibilidad-domiciliarios" element={<ProtectedRoute allowedRoles={["administrador", "negocio", "domiciliario", "particular"]} element={<DomiciliariosPage/>} />} />
+      <Route path="/disponibilidad-domiciliarios" element={<ProtectedRoute allowedRoles={["administrador", "negocio", "domiciliario", "particular"]} element={<DomiciliariosPage/>} />} />
 
       <Route path="/novedades" element={<ProtectedRoute allowedRoles={["administrador", "negocio", "domiciliario", "particular"]} element={<NovedadesPage />} />} />
 
