@@ -10,22 +10,20 @@ const UsuarioFormulario = ({ data, closeModal }) => {
     const { register, handleSubmit, reset, watch, formState: { errors } } = useForm();
 
     const [isNegocio, setIsNegocio] = useState(false);
-    const {optenerUsuarios}=useUserMutation()
+    const { optenerUsuarios } = useUserMutation()
     const [isDomiciliario, setDomiciliario] = useState(false);
 
 
 
     const onsubmit = async (data) => {
         const response = await axiosCliente.post("usuario", data)
-
-        if (response.status == 201) {
-          
-            toast.success(`${response.data.data}`)
-            reset()
-            closeModal()
-            await optenerUsuarios()
-            return
-
+        if (response.status === 201) {
+            toast.success(`${response.data.data}`);
+            reset();
+            closeModal();
+            await optenerUsuarios(); 
+            console.log("Usuarios actualizados después de la creación.");
+            return;
         }
 
     }
@@ -33,12 +31,13 @@ const UsuarioFormulario = ({ data, closeModal }) => {
     const handleEditar = async (dataform) => {
         const response = await axiosCliente.put(`usuario/${data.id}`, dataform)
         if (response && response.status == 200) {
-            
+            await optenerUsuarios()
+
             toast.success(`${response.data.mensaje}`)
             reset()
             closeModal()
-            await optenerUsuarios()
-            
+            return;
+
 
         }
     }
@@ -50,6 +49,10 @@ const UsuarioFormulario = ({ data, closeModal }) => {
             TipoUsuario: data?.TipoUsuario,
             correo: data?.correo,
             telefono: data?.telefono,
+            licencia:data?.domiciliario?.licencia,
+            banner:data?.negocio?.banner,
+            direccion:data?.negocio?.direccion,
+            
         })
 
         if (tipousuario === "negocio") {
@@ -88,18 +91,18 @@ const UsuarioFormulario = ({ data, closeModal }) => {
                 {
                     !data && (
                         <Select
-                        label={"Tipo de Usuario"}
-                        name={"TipoUsuario"}
-                        placeholder={"Seleccione el tipo de usuario"}
-                        register={register}
-                        options={opciones}
-                        valueKey="value"
-                        textKey="text"
-                    />
+                            label={"Tipo de Usuario"}
+                            name={"TipoUsuario"}
+                            placeholder={"Seleccione el tipo de usuario"}
+                            register={register}
+                            options={opciones}
+                            valueKey="value"
+                            textKey="text"
+                        />
 
                     )
                 }
-             
+
 
                 <InputNext
                     errors={errors}
@@ -177,7 +180,7 @@ const UsuarioFormulario = ({ data, closeModal }) => {
                                 type={"number"}
                                 className="border border-gray-300 rounded p-2 w-full focus:outline-none focus:ring focus:ring-blue-400"
                             />
-                         
+
                         </>
 
                     )

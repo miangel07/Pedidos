@@ -16,7 +16,7 @@ const UsuarioPages = () => {
     const [dataUsuario, setDataUsuario] = useState(null);
     const [tipoUsuarioSeleccionado, setTipoUsuarioSeleccionado] = useState(""); 
     const [usuariosFiltrados, setUsuariosFiltrados] = useState([]); 
-
+console.log(usuario)
     const columnas = [
         "id",
         "nombre",
@@ -66,8 +66,9 @@ const UsuarioPages = () => {
             {isOpen && (
                 <Modals visible={isOpen} title={dataUsuario ? "Editar Usuario" : "Registrar Usuario"} closeModal={closeModal}>
                     <UsuarioFormulario
+                    
                         data={dataUsuario}
-                        closeModal={setIsOpen}
+                        closeModal={closeModal}
                     />
                 </Modals>
             )}
