@@ -80,7 +80,6 @@ class ReporteIncidenciaController extends Controller
                 [
                     'tipo_incidencia' => $request->tipo_incidencia,
                     'descripcion' => $request->descripcion,
-                    'otros' => $request->otros,
                     'fecha_incidencia' => $request->fecha_incidencia,
                     'user_id' => $request->user_id,
                     'solicitud_id' => $request->solicitud_id,
