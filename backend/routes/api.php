@@ -13,8 +13,7 @@ use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SolicitudController;
 use App\Http\Controllers\ActividadeController;
 use App\Http\Controllers\DashboardController;
-
-
+use App\Http\Controllers\NegocioController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -83,3 +82,8 @@ Route::post('/actividades', [ActividadeController::class, 'store']);
     Route::get('/incidencias', [DashboardController::class, 'getIncidenciasPorTipo']);
     Route::get('/tendencia', [DashboardController::class, 'getTendenciaSolicitudes']);
     Route::get('/rendimiento-domiciliarios', [DashboardController::class, 'getRendimientoDomiciliarios']);
+
+//Negocios
+    Route::get('/negocios/{id}', [NegocioController::class, 'show']);
+
+
