@@ -66,17 +66,6 @@ const ReportarIncidenciasPage = ({close}) => {
             placeholder="Descripción"
 
           />
-
-          <InputNext
-            errors={errors}
-            register={register}
-            name="fecha_incidencia"
-            type="datetime-local"
-            id="fecha_incidencia"
-            placeholder=""
-
-          />
-
           <Select
             options={solicitudUser}
             register={register}
