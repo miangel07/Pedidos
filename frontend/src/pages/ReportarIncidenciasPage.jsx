@@ -8,7 +8,7 @@ import ButtonNext from '../components/Nextui/ButtonNext';
 import { axiosCliente } from '../service/axios';
 import { AuthContext } from '../context/AuthContext';
 import { toast } from 'react-toastify';
-const ReportarIncidenciasPage = () => {
+const ReportarIncidenciasPage = ({close}) => {
   const { register, handleSubmit, formState: { errors }, watch, reset } = useForm();
   const { authData } = useContext(AuthContext);
   const [tipoIncidencia, setTipoIncidencia] = useState("")
@@ -23,6 +23,7 @@ const ReportarIncidenciasPage = () => {
       if (response.status === 201) {
         toast.success(`${response.data.mensaje}`);
         reset()
+        close()
       }
     } catch (error) {
       console.error(error)
@@ -40,11 +41,9 @@ const ReportarIncidenciasPage = () => {
   ];
 
   return (
-    <Layout>
+   
       <section className="max-w-lg mx-auto p-4 bg-white shadow-md rounded-lg">
-        <h2 className="text-3xl font-bold mb-8 text-gray-800 text-center bg-gradient-to-r from-green-500 to-green-700 bg-clip-text text-transparent">
-          Reportar Incidencias
-        </h2>
+        
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <Select
             options={opciones}
@@ -94,7 +93,6 @@ const ReportarIncidenciasPage = () => {
         </form>
       </section>
 
-    </Layout>
   )
 }
 

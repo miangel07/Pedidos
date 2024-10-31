@@ -38,19 +38,15 @@ export const AppRouter = () => {
 
       <Route path="/usuario" element={<ProtectedRoute allowedRoles={["administrador"]} element={<UsuarioPages />} />} />
 
-      <Route path="/reportarnovedad" element={<ProtectedRoute allowedRoles={["administrador", "domiciliario"]} element={<ReportarNovedadPage />} />} />
+      <Route path="/reportar" element={<ProtectedRoute allowedRoles={["administrador", "domiciliario"]} element={  authData?.TipoUsuario === "domiciliario"?<ReportarNovedadPage /> :<ReportarIncidenciasPage /> } />} />
 
       <Route path="/solicitudes" element={<ProtectedRoute allowedRoles={["administrador", "negocio", "domiciliario", "particular"]} element={<SolicitudPage />} />} />
 
-      <Route path="/solicitudesId" element={<ProtectedRoute allowedRoles={["administrador", "negocio", "domiciliario", "particular"]} element={<ListarSolicitudIDPages />} />} />
+      <Route path="/creacion-solicitudes" element={<ProtectedRoute allowedRoles={["administrador", "negocio", "domiciliario", "particular"]} element={<ListarSolicitudIDPages />} />} />
 
       <Route path="/IncidenciasReporte" element={<ProtectedRoute allowedRoles={["administrador"]} element={<IncidenciasReportePage />} />} />
 
       <Route path="/NovedadesReporte" element={<ProtectedRoute allowedRoles={["administrador"]} element={<NovedadesReportePage />} />} />
-      
-      <Route path="/reportarIncidencia" element={<ProtectedRoute allowedRoles={["negocio", "administrador","domiciliario","particular"]} element={<ReportarIncidenciasPage />} />} />
-
-      <Route path="/creacion-solicitudes" element={<ProtectedRoute allowedRoles={["negocio", "administrador", "domiciliario"]} element={<CrearSolicitud />} />} />
     </Routes>
   );
 };

@@ -7,10 +7,11 @@ import { axiosCliente } from "../../service/axios";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useQuerySolicitudes } from "../../hooks/Solicitud.jsx";
+import { useNovedadesQuery } from "../../hooks/Novedades.jsx";
 
-
-export const ReportarNovedadForm = () => {
+export const ReportarNovedadForm = ({ close }) => {
   const { register, handleSubmit, reset } = useForm();
+  const { obtenerNovedades } = useNovedadesQuery()
 
   const { solicitudData } = useQuerySolicitudes()
 
@@ -18,8 +19,7 @@ export const ReportarNovedadForm = () => {
   // datos del usuario logueado
   const { authData } = useContext(AuthContext);
 
-  // navigate
-  const navigate = useNavigate();
+
 
   const handleOnSumbitNovedad = async (data) => {
     try {
@@ -31,12 +31,14 @@ export const ReportarNovedadForm = () => {
       };
 
       const response = await axiosCliente.post("novedades", prepararData);
+      console.log(response)
 
       if (response) {
         console.log(response.data)
         toast.success("novedad creada con exito");
         reset();
-        //navigate("/home");
+        await obtenerNovedades()
+        close();
       }
     } catch (error) {
       console.error(error.response);
@@ -46,9 +48,6 @@ export const ReportarNovedadForm = () => {
   return (
     <>
       <div className="flex gap-16 flex-col px-8">
-
-        <div> hola como estas</div>
-
         <form
           action=""
           onSubmit={handleSubmit(handleOnSumbitNovedad)}
@@ -66,7 +65,7 @@ export const ReportarNovedadForm = () => {
             />
           </div>
 
-          <Textarea {...register("descripcion", {required: true} )} />
+          <Textarea {...register("descripcion", { required: true })} />
 
           <Button type="submit" color="primary" variant="solid">
             Reportar Novedad
