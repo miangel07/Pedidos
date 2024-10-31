@@ -20,7 +20,7 @@ const ProtectedRoute = ({ allowedRoles, element }) => {
     const timer = setTimeout(() => {
       setTimeoutReached(true);
       setLoading(false);
-    }, 1000);
+    }, 3000);
 
     return () => clearTimeout(timer);
   }, [authData]);

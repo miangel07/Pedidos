@@ -23,6 +23,7 @@ class solicitud extends Model
             'direccion_recogida',
             'direccion_entrega',
             'domiciliario_id',
+            'descripcion_Producto',
             'users.nombre as nombre_usuario',
             'domiciliarios_users.nombre as nombre_domiciliario',
             'solicituds.estado',

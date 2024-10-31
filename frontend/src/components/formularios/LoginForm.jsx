@@ -44,7 +44,7 @@ export const LoginForm = () => {
           visible={modal}
           closeModal={() => setModal(false)}
         >
-          <UsuarioFormulario closeModal={() => setModal(false)} />
+          <UsuarioFormulario  login={true} closeModal={() => setModal(false)} />
         </Modals>
       }
       <form className="flex gap-5 flex-col" onSubmit={handleSubmit(submit)}>

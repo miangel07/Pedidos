@@ -4,9 +4,9 @@ import { ReportarNovedadForm } from "../components/formularios/ReportarNovedadFo
 export const ReportarNovedadPage = () => {
   return (
     <>
-     
+      <Layout>
         <ReportarNovedadForm />
-     
+      </Layout>
     </>
   );
 };

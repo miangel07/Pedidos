@@ -69,7 +69,7 @@ class ReporteIncidenciaController extends Controller
     {
         $incidencias = reporte_incidencia::getIncidencias();
        
-        return response()->json([ $incidencias], 200);
+        return response()->json( $incidencias, 200);
     }
 
     /**
