@@ -14,7 +14,7 @@ import { useState } from "react";
 import { useNovedadesQuery, useNovedadesIDQuery } from "../hooks/Novedades";
 import { useIncidenciasQuery } from "../hooks/Incidencias";
 import { axiosCliente } from "../service/axios";
-import { ReportarNovedadPage } from "./ReportarNovedades";
+
 import ReportarIncidenciasPage from "./ReportarIncidenciasPage";
 import { ReportarNovedadForm } from "../components/formularios/ReportarNovedadForm";
 
@@ -32,7 +32,7 @@ export const NovedadesPage = () => {
   // incidencias
   const { incidencias, refreshDataIncidencias } = useIncidenciasQuery();
   const { novedadesID, obtenerNovedades } = useNovedadesIDQuery();
-console.log(incidencias)
+  console.log(incidencias)
   // novedades
   const columnas = [
     "id",
@@ -97,6 +97,10 @@ console.log(incidencias)
     }
 
   }
+  const handleIncidencias = async () => {
+    setModal(false)
+    await refreshDataIncidencias()
+  }
 
   const handleResolverIncidencias = async (id, data) => {
     const prepararInfo = {
@@ -140,7 +144,7 @@ console.log(incidencias)
               title={`${!Novedad ? "Crear Novedad" : "Crear Incidencias"}`}
               closeModal={() => setModal(false)}
             >
-              {!Novedad ? <ReportarNovedadForm  close={()=>setModal(false)} /> : <ReportarIncidenciasPage close={()=>setModal(false)}  />}
+              {!Novedad ? <ReportarNovedadForm close={() => setModal(false)} /> : <ReportarIncidenciasPage close={handleIncidencias} />}
             </Modals>
           </>
         )}

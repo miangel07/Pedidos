@@ -6,6 +6,7 @@ import ButtonNext from '../components/Nextui/ButtonNext';
 import { axiosCliente } from '../service/axios';
 import { toast } from "react-toastify";
 import { AuthContext } from '../context/AuthContext';
+import { useQuerySolicitudesId } from '../hooks/Solicitud';
 const CrearSolicitud = ({closeModal}) => {
   const { register, handleSubmit, formState: { errors }, reset } = useForm();
   const { authData } = useContext(AuthContext);

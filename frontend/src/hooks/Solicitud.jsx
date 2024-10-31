@@ -26,7 +26,7 @@ export const useQuerySolicitudes = () => {
 
   return {
     solicitudData,
-    refressDataSolicitudes,
+    obtenerSolicitudes,
   };
 };
 

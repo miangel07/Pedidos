@@ -7,7 +7,7 @@ import CrearSolicitud from './CrearSolicitud';
 import Modals from '../components/subcomponents/Modal';
 import ButtonNext from '../components/Nextui/ButtonNext';
 const ListarSolicitudIDPages = () => {
-  const { solicitudUser } = useQuerySolicitudesId();
+  const { solicitudUser ,RefreshSolicitudUser } = useQuerySolicitudesId();
   const [estado, setEstado] = useState("");
   const [Modal, setModal] = useState(false);
   const [solicitudesFiltradas, setSolicitudesFiltradas] = useState(solicitudUser);
@@ -37,6 +37,10 @@ const ListarSolicitudIDPages = () => {
       setSolicitudesFiltradas(solicitudUser);
     }
   }, [estado, solicitudUser]);
+  const handelSolicitud = async() => {
+    setModal(false);
+   await RefreshSolicitudUser()
+  };
 
   return (
     <Layout>
@@ -44,7 +48,7 @@ const ListarSolicitudIDPages = () => {
         Modal && (
           <>
             <Modals visible={Modal} closeModal={() => setModal(false)}>
-              <CrearSolicitud closeModal={() => setModal(false)} />
+              <CrearSolicitud closeModal={handelSolicitud} />
             </Modals>
           </>
         )

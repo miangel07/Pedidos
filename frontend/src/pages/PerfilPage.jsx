@@ -1,22 +1,33 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Layout } from '../components/layouts/Layout';
 import { AuthContext } from '../context/AuthContext';
 import { Avatar, Badge, EmailIcon, InfoCard, PhoneIcon, ShieldIcon, UserIcon } from '../components/utils/CardsPerfil';
 import ButtonNext from '../components/Nextui/ButtonNext';
 import Modals from '../components/subcomponents/Modal';
-import  CambiarPasswordForm  from '../components/formularios/CambiarPassword';
+import CambiarPasswordForm from '../components/formularios/CambiarPassword';
+import { axiosCliente } from '../service/axios';
 
 
 
 const PerfilPage = () => {
     const { authData } = useContext(AuthContext);
+    const [negocio, setNegocio] = useState("");
     const [showPasswordForm, setShowPasswordForm] = useState(false);
+    const Image = async () => {
+        if (authData?.TipoUsuario === "negocio") {
+            const responde = await axiosCliente.get(`negocios/${authData?.id}`)
+            setNegocio(responde.data[0].banner)
+        }
+    }
+    useEffect(() => {
+        Image()
+    }, [])
     return (
         <Layout>
             <div className="max-w-4xl mx-auto p-6">
                 {showPasswordForm && (
                     <>
-                        <Modals visible={showPasswordForm} title={""} closeModal={()=>setShowPasswordForm(false)}>
+                        <Modals visible={showPasswordForm} title={""} closeModal={() => setShowPasswordForm(false)}>
                             <CambiarPasswordForm onClose={() => setShowPasswordForm(false)} />
                         </Modals>
                     </>
@@ -24,7 +35,7 @@ const PerfilPage = () => {
                 <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
 
                     <div className="text-center p-8 border-b border-gray-100">
-                        <Avatar letter={authData?.nombre?.charAt(0)} />
+                        <Avatar imageUrl={`http://127.0.0.1:8000${negocio}`} letter={authData?.nombre?.charAt(0)} />
                         <h1 className="mt-4 text-3xl font-bold text-gray-900">
                             {authData?.nombre}
                         </h1>
