@@ -81,8 +81,13 @@ const Sidebar = () => {
           roles: ["administrador", "domiciliario", "particular", "negocio"]
         },
         {
-          title: "Listar Solicitudes",
+          title: "Listar Solicitudes del usuario",
           link: "/solicitudesId",
+          roles: ["administrador", "domiciliario", "particular", "negocio"]
+        },
+            {
+          title: "Listar Solicitudes",
+          link: "/solicitudes",
           roles: ["administrador", "domiciliario", "particular", "negocio"]
         },
       ],

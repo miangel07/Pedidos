@@ -210,16 +210,16 @@ class SolicitudController extends Controller
     public function store($idUser)
     {
         try {
-            
+
             $results = solicitud::with(['domiciliario.user'])->where('user_id', $idUser)->get();
-            
+
             if ($results->isEmpty()) {
                 return response()->json([
                     "mensaje" => "No hay solicitudes Registradas",
                 ], 404);
             }
-    
-           
+
+
             $results = $results->map(function ($solicitud) {
                 return [
                     'id' => $solicitud->id,
@@ -228,12 +228,12 @@ class SolicitudController extends Controller
                     'descripcion_Producto' => $solicitud->descripcion_Producto,
                     'estado' => $solicitud->estado,
                     'fecha' => $solicitud->fecha,
-                    'domiciliario_nombre' => $solicitud->domiciliario->user->nombre ?? null, 
+                    'domiciliario_nombre' => $solicitud->domiciliario->user->nombre ?? null,
                     'domiciliario_id' => $solicitud->domiciliario_id,
                     'created_at' => $solicitud->created_at,
                 ];
             });
-    
+
             return response()->json($results, 200);
         } catch (\Throwable $th) {
             return response()->json(['error' => $th->getMessage()], 500);
@@ -282,7 +282,7 @@ class SolicitudController extends Controller
 
                 $datosDomiciliario = Domiciliario::where("disponibilidad", "disponible")->get();
 
-                $idDomiciliario = $datos['domiciliario'] || $datosDomiciliario[rand(0, count($datosDomiciliario) - 1)]['id'];
+                $idDomiciliario = $datosDomiciliario[rand(0, count($datosDomiciliario) - 1)]['id'];
 
                 $solicitudIdFind->estado = $datos['estado'];
                 $solicitudIdFind->domiciliario_id = $idDomiciliario;

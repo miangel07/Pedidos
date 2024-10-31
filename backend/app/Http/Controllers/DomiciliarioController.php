@@ -152,7 +152,7 @@ class DomiciliarioController extends Controller
             'solicituds.descripcion_Producto',
         )
             ->join('solicituds', 'domiciliarios.id', '=', 'solicituds.domiciliario_id')
-            ->whereIn('solicituds.estado', ['pendiente', 'asignado', 'reprogramado'])
+
             ->where('domiciliarios.id', $id)
             ->orderBy('solicituds.created_at', 'desc')
             ->limit(3)
