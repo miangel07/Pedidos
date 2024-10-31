@@ -13,4 +13,9 @@ class negocio extends Model
         'direccion',
         'user_id',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
