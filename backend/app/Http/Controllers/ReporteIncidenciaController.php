@@ -67,7 +67,9 @@ class ReporteIncidenciaController extends Controller
      */
     public function index()
     {
-        return reporte_incidencia::getIncidencias();
+        $incidencias = reporte_incidencia::getIncidencias();
+       
+        return response()->json([ $incidencias], 200);
     }
 
     /**

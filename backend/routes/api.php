@@ -27,7 +27,7 @@ Route::get('/domiciliario/{id}/', [DomiciliarioController::class, 'show']);
 
 
 //reportes de incidencias
-Route::get('/incidencias', [ReporteIncidenciaController::class, 'index']);
+Route::get('/incidencia', [ReporteIncidenciaController::class, 'index']);
 Route::put('/incidencias/{id}/', [ReporteIncidenciaController::class, 'update']);
 Route::post('/incidencias', [ReporteIncidenciaController::class, 'create']);
 
