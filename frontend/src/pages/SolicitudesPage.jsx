@@ -52,7 +52,7 @@ export const SolicitudPage = () => {
             </Modals>
           </>
         )}
-        <div className="bg-red-500">
+        <div className="">
           <Table
             columns={ColumnasSolicitud}
             data={solicitudData.map((fila) => ({

@@ -86,6 +86,10 @@ const Sidebar = () => {
           title: "Disponibilidad de domiciliarios",
           link: "/disponibilidad-domiciliarios",
           roles: ["administrador"]
+        }, {
+          title: "solicitudes",
+          link: "/solicitudes",
+          roles: ["administrador"]
         },
         {
           title: "Novedades e Incidencias",
@@ -93,9 +97,9 @@ const Sidebar = () => {
           roles: ["administrador"]
         },
         {
-          title: `Reportar ${authData?.TipoUsuario === "domiciliario"?"Novedades":"Incidencias"} `,
+          title: `Reportar ${authData?.TipoUsuario === "domiciliario" ? "Novedades" : "Incidencias"} `,
           link: "/reportar",
-          roles: [ "domiciliario", "particular", "negocio"]
+          roles: ["domiciliario", "particular", "negocio"]
         },
         {
           title: "Listar Solicitud - Domiciliario",

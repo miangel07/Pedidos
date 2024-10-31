@@ -6,7 +6,7 @@ export const useIncidenciasQuery = () => {
 
   const obtenerIncidencias = async () => {
     try {
-      const response = await axiosCliente.get("incidencias");
+      const response = await axiosCliente.get("incidencia");
 
       setIncidencias(response.data);
     } catch (error) {

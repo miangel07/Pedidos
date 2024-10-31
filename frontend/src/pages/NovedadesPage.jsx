@@ -45,16 +45,17 @@ export const NovedadesPage = () => {
   ];
 
   // incidencias
+
   const columnasIncidencias = [
     "id",
-    "nombre",
+    "nombre", 
     "TipoUsuario",
-    "tipo incidencia",
+    "tipo_incidencia",
     "descripcion",
-    "fecha incidencia",
+    "fecha_incidencia",
     "estado",
-    "acciones",
-  ];
+    "acciones"
+];
 
   const handleNovedades = () => {
     setcambiarTable(true);
@@ -171,7 +172,12 @@ export const NovedadesPage = () => {
               cambiarTable
                 ? newDataNovedades
                 : incidencias?.map((fila) => ({
-                  ...fila,
+                  id: fila.id,
+                  nombre: fila.nombre,
+                  TipoUsuario: fila.TipoUsuario,
+                  tipo_incidencia: fila.tipo_incidencia, 
+                  descripcion: fila.descripcion,
+                  fecha_incidencia: fila.fecha_incidencia,
                   estado: (
                     <>
                       <div>

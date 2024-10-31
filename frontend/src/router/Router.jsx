@@ -41,7 +41,7 @@ export const AppRouter = () => {
 
       <Route path="/reportar" element={<ProtectedRoute allowedRoles={["negocio", "domiciliario", "particular"]} element={authData?.TipoUsuario === "domiciliario" ? <ReportarNovedadPage /> : <Incidencias />} />} />
 
-      <Route path="/solicitudes" element={<ProtectedRoute allowedRoles={["administrador", "negocio", "domiciliario", "particular"]} element={<SolicitudPage />} />} />
+      <Route path="/solicitudes" element={<ProtectedRoute allowedRoles={["administrador"]} element={<SolicitudPage />} />} />
 
       <Route path="/creacion-solicitudes" element={<ProtectedRoute allowedRoles={["administrador", "negocio", "domiciliario", "particular"]} element={<ListarSolicitudIDPages />} />} />
 
