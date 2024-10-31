@@ -50,7 +50,7 @@ export const AppRouter = () => {
       
       <Route path="/reportarIncidencia" element={<ProtectedRoute allowedRoles={["negocio", "administrador","domiciliario","particular"]} element={<ReportarIncidenciasPage />} />} />
 
-      <Route path="/creacion-solicitudes" element={<ProtectedRoute allowedRoles={["negocio", "administrador", "domiciliario"]} element={<CrearSolicitud />} />} />
+      <Route path="/creacion-solicitudes" element={<ProtectedRoute allowedRoles={["negocio", "administrador", "domiciliario", "particular"]} element={<CrearSolicitud />} />} />
     </Routes>
   );
 };
