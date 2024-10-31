@@ -67,7 +67,9 @@ class ReporteIncidenciaController extends Controller
      */
     public function index()
     {
-        return reporte_incidencia::getIncidencias();
+        $incidencias = reporte_incidencia::getIncidencias();
+       
+        return response()->json([ $incidencias], 200);
     }
 
     /**
@@ -80,7 +82,7 @@ class ReporteIncidenciaController extends Controller
                 [
                     'tipo_incidencia' => $request->tipo_incidencia,
                     'descripcion' => $request->descripcion,
-                    'fecha_incidencia' => $request->fecha_incidencia,
+                    'fecha_incidencia' => now(),
                     'user_id' => $request->user_id,
                     'solicitud_id' => $request->solicitud_id,
                 ]
@@ -92,7 +94,6 @@ class ReporteIncidenciaController extends Controller
         } catch (\Throwable $th) {
             return response()->json(['error' => $th->getMessage()], 500);
         }
-       
     }
 
     /**

@@ -34,9 +34,22 @@ class NegocioController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(negocio $negocio)
+    public function show($userId)
     {
-        //
+       
+        $negocio = Negocio::where('user_id', $userId)->first();
+
+        if (!$negocio) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Negocio no encontrado.',
+            ], 404);
+        }
+
+        return response()->json([
+            
+             $negocio,
+        ], 200);
     }
 
     /**

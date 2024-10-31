@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Http\Controllers\ImageController;
 use App\Models\Domiciliario;
 use App\Models\negocio;
 use App\Models\User;
@@ -131,6 +131,12 @@ use Illuminate\Support\Facades\Log;
 
 class UserController extends Controller
 {
+    protected $imageController;
+
+    public function __construct(ImageController $imageController)
+    {
+        $this->imageController = $imageController;
+    }
     public function index()
     {
         return User::getUsuario();
@@ -139,8 +145,10 @@ class UserController extends Controller
     {
         return User::getUsuarioDomiciliario();
     }
+    
     public function createUsurio(Request $request)
     {
+        
 
         $user = User::create(
             [
@@ -151,10 +159,17 @@ class UserController extends Controller
                 'password' => bcrypt($request->password),
             ]
         );
+        
         if ($request->TipoUsuario === "negocio") {
-            negocio::create([
+            $bannerUrl = $this->imageController->uploadImage($request, 'banner');
+            if (!$bannerUrl) {
+                return response()->json([
+                    "error" => "No se pudo procesar la imagen"
+                ], 400);
+            }
+            Negocio::create([
                 'nombre' => $request->nombre,
-                'banner' => $request->banner,
+                'banner' => $bannerUrl,
                 'direccion' => $request->direccion,
                 'user_id' => $user->id,
             ]);

@@ -16,29 +16,45 @@ const UsuarioFormulario = ({ data, closeModal }) => {
 
 
     const onsubmit = async (data) => {
-        const response = await axiosCliente.post("usuario", data)
-        if (response.status === 201) {
-            toast.success(`${response.data.data}`);
-            reset();
-            closeModal();
-            await optenerUsuarios(); 
-            console.log("Usuarios actualizados después de la creación.");
-            return;
+        const formData = new FormData();
+    
+        // Agregar datos al FormData
+        formData.append('nombre', data.nombre);
+        formData.append('TipoUsuario', data.TipoUsuario);
+        formData.append('correo', data.correo);
+        formData.append('telefono', data.telefono);
+        formData.append('password', data.password);
+        formData.append('direccion', data.direccion);
+        formData.append('licencia', data.licencia);
+    
+        // Verifica si 'banner' existe y tiene elementos
+        if (data.banner && data.banner.length > 0) {
+            formData.append('banner', data.banner[0]);
         }
-
-    }
-
+    
+        try {
+            const response = await axiosCliente.post("usuario", formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
+    
+            if (response.status === 201) {
+                toast.success(`${response.data.data}`);
+                reset();
+                closeModal();
+            }
+        } catch (error) {
+            console.error('Error al insertar el usuario:', error);
+            toast.error('Error al insertar el usuario.');
+        }
+    };
     const handleEditar = async (dataform) => {
         const response = await axiosCliente.put(`usuario/${data.id}`, dataform)
         if (response && response.status == 200) {
-            await optenerUsuarios()
-
             toast.success(`${response.data.mensaje}`)
             reset()
             closeModal()
-            return;
-
-
         }
     }
 
@@ -49,10 +65,10 @@ const UsuarioFormulario = ({ data, closeModal }) => {
             TipoUsuario: data?.TipoUsuario,
             correo: data?.correo,
             telefono: data?.telefono,
-            licencia:data?.domiciliario?.licencia,
-            banner:data?.negocio?.banner,
-            direccion:data?.negocio?.direccion,
-            
+            licencia: data?.domiciliario?.licencia,
+            banner: data?.negocio?.banner,
+            direccion: data?.negocio?.direccion,
+
         })
 
         if (tipousuario === "negocio") {
@@ -150,7 +166,7 @@ const UsuarioFormulario = ({ data, closeModal }) => {
                                 register={register}
                                 id={"banner"}
                                 placeholder={"Ingrese el banner"}
-                                type={"text"}
+                                type={"file"}
                                 className="border border-gray-300 rounded p-2 w-full focus:outline-none focus:ring focus:ring-blue-400"
                             />
                             <InputNext

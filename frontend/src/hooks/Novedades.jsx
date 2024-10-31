@@ -19,6 +19,7 @@ export const useNovedadesQuery = () => {
 
   return {
     novedades,
+    obtenerNovedades
   };
 };
 

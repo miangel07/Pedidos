@@ -70,27 +70,11 @@ const Sidebar = () => {
       ],
     },
     {
-      title: "Solicitudes de Domicilio",
+      title: "Solicitudes",
       icon: FileText,
       module: "solicitudes",
+      link: "/creacion-solicitudes",
       roles: ["administrador", "domiciliario", "particular", "negocio"],
-      submenu: [
-        {
-          title: "Crear solicitud",
-          link: "/creacion-solicitudes",
-          roles: ["administrador", "domiciliario", "particular", "negocio"]
-        },
-        {
-          title: "Listar Solicitudes del usuario",
-          link: "/solicitudesId",
-          roles: ["administrador", "domiciliario", "particular", "negocio"]
-        },
-            {
-          title: "Listar Solicitudes",
-          link: "/solicitudes",
-          roles: ["administrador", "domiciliario", "particular", "negocio"]
-        },
-      ],
     },
     {
       title: "Gestión de Domicilios",
@@ -102,21 +86,20 @@ const Sidebar = () => {
           title: "Disponibilidad de domiciliarios",
           link: "/disponibilidad-domiciliarios",
           roles: ["administrador"]
+        }, {
+          title: "solicitudes",
+          link: "/solicitudes",
+          roles: ["administrador"]
         },
         {
           title: "Novedades e Incidencias",
           link: "/novedades",
-          roles: ["administrador", "domiciliario"]
+          roles: ["administrador"]
         },
         {
-          title: "Reportar novedades",
-          link: "/reportarnovedad",
-          roles: ["administrador", "domiciliario"]
-        },
-        {
-          title: "Reportar Incidencia",
-          link: "/reportarIncidencia",
-          roles: ["administrador", "domiciliario", "particular", "negocio"],
+          title: `Reportar ${authData?.TipoUsuario === "domiciliario" ? "Novedades" : "Incidencias"} `,
+          link: "/reportar",
+          roles: ["domiciliario", "particular", "negocio"]
         },
         {
           title: "Listar Solicitud - Domiciliario",

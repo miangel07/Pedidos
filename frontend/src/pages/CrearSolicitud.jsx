@@ -6,7 +6,8 @@ import ButtonNext from '../components/Nextui/ButtonNext';
 import { axiosCliente } from '../service/axios';
 import { toast } from "react-toastify";
 import { AuthContext } from '../context/AuthContext';
-const CrearSolicitud = () => {
+import { useQuerySolicitudesId } from '../hooks/Solicitud';
+const CrearSolicitud = ({closeModal}) => {
   const { register, handleSubmit, formState: { errors }, reset } = useForm();
   const { authData } = useContext(AuthContext);
   const onSubmit = async (data) => {
@@ -16,6 +17,7 @@ try {
   if (response.status == 201) {
     toast.success(`${response.data.mensaje}`);
     reset()
+    closeModal()
   }
   
 } catch (error) {
@@ -30,11 +32,9 @@ try {
   };
 
   return (
-    <Layout>
+    <>
       <h1 className="text-2xl font-bold text-center mt-8">Crear una Nueva Solicitud</h1>
       <form onSubmit={handleSubmit(onSubmit)} className="max-w-md mx-auto bg-white p-6 rounded-md shadow-md mt-8 space-y-4">
-        <h2 className="text-xl font-semibold text-center mb-4">Crear solicitud</h2>
-
         <InputNext
           name="direccion_recogida"
           placeholder="Dirección de recogida"
@@ -78,7 +78,7 @@ try {
           Enviar solicitud
         </ButtonNext>
       </form>
-    </Layout>
+    </>
   );
 };
 

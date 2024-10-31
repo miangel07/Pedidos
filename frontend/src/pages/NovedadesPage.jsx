@@ -15,8 +15,13 @@ import { useNovedadesQuery, useNovedadesIDQuery } from "../hooks/Novedades";
 import { useIncidenciasQuery } from "../hooks/Incidencias";
 import { axiosCliente } from "../service/axios";
 
+import ReportarIncidenciasPage from "./ReportarIncidenciasPage";
+import { ReportarNovedadForm } from "../components/formularios/ReportarNovedadForm";
+
 export const NovedadesPage = () => {
   const [cambiarTable, setcambiarTable] = useState(true);
+  const [Modal, setModal] = useState(false);
+  const [Novedad, setNovedad] = useState(true);
 
   //modal
   const [isOpen, setIsOpen] = useState(false);
@@ -27,7 +32,7 @@ export const NovedadesPage = () => {
   // incidencias
   const { incidencias, refreshDataIncidencias } = useIncidenciasQuery();
   const { novedadesID, obtenerNovedades } = useNovedadesIDQuery();
-
+  console.log(incidencias)
   // novedades
   const columnas = [
     "id",
@@ -40,16 +45,17 @@ export const NovedadesPage = () => {
   ];
 
   // incidencias
+
   const columnasIncidencias = [
     "id",
-    "nombre",
+    "nombre", 
     "TipoUsuario",
-    "tipo incidencia",
+    "tipo_incidencia",
     "descripcion",
-    "fecha incidencia",
+    "fecha_incidencia",
     "estado",
-    "acciones",
-  ];
+    "acciones"
+];
 
   const handleNovedades = () => {
     setcambiarTable(true);
@@ -76,6 +82,26 @@ export const NovedadesPage = () => {
       </>
     ),
   }));
+  const hadleNovedad = (estado) => {
+    try {
+      if (estado) {
+        setModal(true);
+        setNovedad(false)
+      }
+      else {
+        setModal(true);
+        setNovedad(true)
+      }
+
+    } catch (error) {
+
+    }
+
+  }
+  const handleIncidencias = async () => {
+    setModal(false)
+    await refreshDataIncidencias()
+  }
 
   const handleResolverIncidencias = async (id, data) => {
     const prepararInfo = {
@@ -112,11 +138,32 @@ export const NovedadesPage = () => {
             </Modals>
           </>
         )}
+        {Modal && (
+          <>
+            <Modals
+              visible={Modal}
+              title={`${!Novedad ? "Crear Novedad" : "Crear Incidencias"}`}
+              closeModal={() => setModal(false)}
+            >
+              {!Novedad ? <ReportarNovedadForm close={() => setModal(false)} /> : <ReportarIncidenciasPage close={handleIncidencias} />}
+            </Modals>
+          </>
+        )}
 
         <div className="h-full w-full">
-          <div className="flex justify-end gap-2">
-            <Button onClick={handleNovedades}>Novedades</Button>
-            <Button onClick={handleIncidentes}>Incidencias</Button>
+          <div className="flex justify-between gap-2">
+
+
+            <div className="flex gap-4">
+              <Button onClick={() => hadleNovedad(true)}>Crear Novedas</Button>
+              <Button onClick={() => hadleNovedad(false)}>Crear Incidencias</Button>
+            </div>
+            <div className="flex gap-4">
+              <Button onClick={handleNovedades}>Novedades</Button>
+              <Button onClick={handleIncidentes}>Incidencias</Button>
+            </div>
+
+
           </div>
 
           <Table
@@ -124,36 +171,40 @@ export const NovedadesPage = () => {
             data={
               cambiarTable
                 ? newDataNovedades
-                : incidencias.map((fila) => ({
-                    ...fila,
-                    estado: (
-                      <>
-                        <div>
-                          <Chip
-                            className="w-10"
-                            color={`${
-                              fila.estado === "pendiente" ? "danger" : "success"
+                : incidencias?.map((fila) => ({
+                  id: fila.id,
+                  nombre: fila.nombre,
+                  TipoUsuario: fila.TipoUsuario,
+                  tipo_incidencia: fila.tipo_incidencia, 
+                  descripcion: fila.descripcion,
+                  fecha_incidencia: fila.fecha_incidencia,
+                  estado: (
+                    <>
+                      <div>
+                        <Chip
+                          className="w-10"
+                          color={`${fila.estado === "pendiente" ? "danger" : "success"
                             }`}
-                          >
-                            {" "}
-                            {fila.estado}
-                          </Chip>
-                        </div>
-                      </>
-                    ),
-
-                    acciones: (
-                      <>
-                        <Button
-                          onClick={() =>
-                            handleResolverIncidencias(fila.id, fila)
-                          }
                         >
-                          resolver
-                        </Button>
-                      </>
-                    ),
-                  }))
+                          {" "}
+                          {fila.estado}
+                        </Chip>
+                      </div>
+                    </>
+                  ),
+
+                  acciones: (
+                    <>
+                      <Button
+                        onClick={() =>
+                          handleResolverIncidencias(fila.id, fila)
+                        }
+                      >
+                        resolver
+                      </Button>
+                    </>
+                  ),
+                }))
             }
           />
         </div>

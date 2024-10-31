@@ -1,14 +1,15 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, {useEffect, useState } from 'react';
 import { Layout } from '../components/layouts/Layout';
 import { useQuerySolicitudesId } from '../hooks/Solicitud';
 import { Table } from '../components/Nextui/Table';
-import { Eye } from 'lucide-react';
 import { Chip } from '@nextui-org/react';
-import { toast } from 'react-toastify';
-
+import CrearSolicitud from './CrearSolicitud';
+import Modals from '../components/subcomponents/Modal';
+import ButtonNext from '../components/Nextui/ButtonNext';
 const ListarSolicitudIDPages = () => {
-  const { solicitudUser } = useQuerySolicitudesId();
+  const { solicitudUser ,RefreshSolicitudUser } = useQuerySolicitudesId();
   const [estado, setEstado] = useState("");
+  const [Modal, setModal] = useState(false);
   const [solicitudesFiltradas, setSolicitudesFiltradas] = useState(solicitudUser);
 
 
@@ -23,26 +24,38 @@ const ListarSolicitudIDPages = () => {
   };
 
   const Estados = ["pendiente", "asignado", "en_curso", "completado", "reprogramado", "cancelado"];
-  const column = ["id", "descripcion del Producto", "direccion de entrega", "direccion de recogida", "domiciliario", "estado", "fecha", "acciones"];
+  const column = ["id", "descripcion del Producto", "direccion de entrega", "direccion de recogida", "domiciliario", "estado", "fecha"];
 
-  const handleVer = (items) => {
-    console.log(items);
-  };
 
   useEffect(() => {
     if (estado) {
-      
+
       const solicitudesFiltradas = solicitudUser.filter(item => item.estado === estado);
       setSolicitudesFiltradas(solicitudesFiltradas);
     } else {
-     
+
       setSolicitudesFiltradas(solicitudUser);
     }
-  }, [estado, solicitudUser]); 
+  }, [estado, solicitudUser]);
+  const handelSolicitud = async() => {
+    setModal(false);
+   await RefreshSolicitudUser()
+  };
 
   return (
     <Layout>
-     
+      {
+        Modal && (
+          <>
+            <Modals visible={Modal} closeModal={() => setModal(false)}>
+              <CrearSolicitud closeModal={handelSolicitud} />
+            </Modals>
+          </>
+        )
+      }
+      <div className='w-full flex justify-around gap-3'>
+
+        <ButtonNext color={"primary"} onClick={() => setModal(true)}>Nueva Solicitud</ButtonNext>
         <select
           className="bg-white border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none p-2 mb-5"
           value={estado}
@@ -55,7 +68,9 @@ const ListarSolicitudIDPages = () => {
             </option>
           ))}
         </select>
-     
+      </div>
+
+
       <Table columns={column} data={solicitudesFiltradas?.map((items) => ({
         id: items.id,
         descripcion_Producto: items.descripcion_Producto,
@@ -71,11 +86,6 @@ const ListarSolicitudIDPages = () => {
           </Chip>
         ),
         fecha: items.fecha,
-        acciones: (
-          <>
-            <Eye size={35} className='cursor-pointer' onClick={() => handleVer(items)} />
-          </>
-        ),
       }))} itemsPerPage={5} />
     </Layout>
   );

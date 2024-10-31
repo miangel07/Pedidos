@@ -14,9 +14,9 @@ const UsuarioPages = () => {
     const { usuario, refress } = useUserMutation();
     const [isOpen, setIsOpen] = useState(false);
     const [dataUsuario, setDataUsuario] = useState(null);
-    const [tipoUsuarioSeleccionado, setTipoUsuarioSeleccionado] = useState(""); 
-    const [usuariosFiltrados, setUsuariosFiltrados] = useState([]); 
-console.log(usuario)
+    const [tipoUsuarioSeleccionado, setTipoUsuarioSeleccionado] = useState("");
+    const [usuariosFiltrados, setUsuariosFiltrados] = useState([]);
+ 
     const columnas = [
         "id",
         "nombre",
@@ -27,7 +27,7 @@ console.log(usuario)
         "acciones"
     ];
 
-    const tiposDeUsuario = ["administrador", "negocio", "particular", "domiciliario"]; 
+    const tiposDeUsuario = ["administrador", "negocio", "particular", "domiciliario"];
 
     const handleEdit = async (data) => {
         setIsOpen(true);
@@ -47,9 +47,10 @@ console.log(usuario)
         }
     };
 
-    const closeModal = () => {
+    const closeModal = async () => {
         setDataUsuario(null);
         setIsOpen(false);
+        await refress()
     };
 
 
@@ -66,7 +67,7 @@ console.log(usuario)
             {isOpen && (
                 <Modals visible={isOpen} title={dataUsuario ? "Editar Usuario" : "Registrar Usuario"} closeModal={closeModal}>
                     <UsuarioFormulario
-                    
+
                         data={dataUsuario}
                         closeModal={closeModal}
                     />
