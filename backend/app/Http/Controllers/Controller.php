@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 /**
 * @OA\Info(
-* title="APIs For Thrift Store",
+* title="APIs For Orders Application",
 * version="1.0.0",
 * ),
 * @OA\SecurityScheme(
