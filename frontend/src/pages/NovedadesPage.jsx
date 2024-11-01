@@ -4,6 +4,8 @@ import { Table } from "../components/Nextui/Table";
 import Modals from "../components/subcomponents/Modal";
 import { ContenidoNovedad } from "../components/subcomponents/DetalleNovedad";
 
+import { useEffect } from "react";
+
 /* import { CambiarEstadoDomiciliario } from "../components/subcomponents/EstadoDomiciliario"; */
 import { toast } from "react-toastify";
 
@@ -123,6 +125,11 @@ export const NovedadesPage = () => {
       console.error(error.response);
     }
   };
+
+
+  useEffect (() => {
+    console.log(incidencias)
+  },[incidencias])
 
   return (
     <>

@@ -13,6 +13,7 @@ const PerfilPage = () => {
     const { authData } = useContext(AuthContext);
     const [negocio, setNegocio] = useState("");
     const [showPasswordForm, setShowPasswordForm] = useState(false);
+    console.log(negocio)
     const Image = async () => {
         if (authData?.TipoUsuario === "negocio") {
             const responde = await axiosCliente.get(`negocios/${authData?.id}`)

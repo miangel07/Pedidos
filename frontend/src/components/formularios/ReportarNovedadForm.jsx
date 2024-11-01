@@ -2,18 +2,20 @@ import { useForm } from "react-hook-form";
 import { Select } from "../subcomponents/Select";
 import { Button, Textarea } from "@nextui-org/react";
 import { AuthContext } from "../../context/AuthContext";
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { axiosCliente } from "../../service/axios";
-import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useQuerySolicitudes } from "../../hooks/Solicitud.jsx";
 import { useNovedadesQuery } from "../../hooks/Novedades.jsx";
 
+
 export const ReportarNovedadForm = ({ close }) => {
   const { register, handleSubmit, reset } = useForm();
-  const { obtenerNovedades } = useNovedadesQuery()
+  const { refresshNovedades } = useNovedadesQuery()
 
-  const { solicitudData } = useQuerySolicitudes()
+  const { solicitudData } = useQuerySolicitudes();
+
+
 
 
   // datos del usuario logueado
@@ -30,14 +32,16 @@ export const ReportarNovedadForm = ({ close }) => {
         solicitud_id: data.solicitud_id,
       };
 
+      console.log(prepararData)
       const response = await axiosCliente.post("novedades", prepararData);
       console.log(response)
+      await refresshNovedades()
 
       if (response) {
         console.log(response.data)
         toast.success("novedad creada con exito");
-        reset();
-        await obtenerNovedades()
+      /*   reset(); */
+        
         close();
       }
     } catch (error) {
@@ -55,11 +59,11 @@ export const ReportarNovedadForm = ({ close }) => {
         >
           <div className="flex flex-col">
             <Select
-              options={solicitudData.filter((solicitud) => solicitud.estado === "pendiente")}
+              options={solicitudData}
               name="solicitud_id"
               placeholder={"Seleccione una solicitud"}
               valueKey="Id_solicitud"
-              textKey="Id_solicitud"
+              textKey="descripcion_Producto"
               register={register}
               label={"Solicitud"}
             />

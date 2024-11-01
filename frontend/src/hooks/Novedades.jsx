@@ -13,12 +13,17 @@ export const useNovedadesQuery = () => {
     }
   };
 
+  const refresshNovedades = async () =>{
+    await obtenerNovedades();
+  }
+
   useEffect(() => {
     obtenerNovedades();
   }, []);
 
   return {
     novedades,
+    refresshNovedades,
     obtenerNovedades
   };
 };

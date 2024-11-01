@@ -102,7 +102,10 @@ class NovedadeController extends Controller
         try {
 
             $domiciliarioUser = Domiciliario::where('user_id', $request->domiciliario_id)->get();
-            $domiliciariosDisponibles = Domiciliario::where('disponibilidad', 'disponible')->get();
+
+
+          
+            
             $solicitud = solicitud::where('id', $request->solicitud_id)->first();
 
             foreach ($domiciliarioUser as $domiciliario) {
@@ -110,26 +113,40 @@ class NovedadeController extends Controller
                 $domiciliario->save();
             }
 
-            $idNuevoDomiciliario = $domiliciariosDisponibles[count($domiliciariosDisponibles) - 1]['id'];
+      
 
 
-            $solicitud->domiciliario_id = $idNuevoDomiciliario;
+            $domiciliariosDisponibles = Domiciliario::where('disponibilidad', 'disponible')
+            ->whereHas('user', function ($query) {
+                $query->where('estado', 'activo');
+            })
+            ->get();
+
+
+            $domiciliarioSeleccionado = $domiciliariosDisponibles->random();
+
+            $domiliciariosDisponibles = Domiciliario::where('disponibilidad', 'disponible')->get();
+            $solicitud->domiciliario_id = $domiciliarioSeleccionado->id;
             $solicitud->estado = "reprogramado";
             $solicitud->save();
 
+            
 
+            
+
+            // 'descripcion', 'estado', 'fecha_reporte', 'domiciliario_id', 'solicitud_id'
             novedade::create([
                 'descripcion' => $request->descripcion,
                 'estado' => $request->estado,
                 'fecha_reporte' => "2024-10-24 19:27:35",
-                'domiciliario_id' => $domiciliarioUser[0]['id'],
-                'solicitud_id' => $request->solicitud_id
+                'domiciliario_id' =>  $domiciliarioUser[0]->id,
+                'solicitud_id' => intval($request->solicitud_id)
             ]);
 
             return response()->json([
                 "mensaje" => "Novedad creada",
                 "request" => $request->all()
-            ], 202);
+            ], 202);   
         } catch (\Exception $e) {
             return $e->getMessage();
         }
